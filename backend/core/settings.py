@@ -37,6 +37,9 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    "rest_framework",
+    "corsheaders",
+    "rest_framework_simplejwt"
 ]
 
 MIDDLEWARE = [
@@ -76,8 +79,8 @@ DATABASES = {
     "default": {
         "ENGINE": "django.db.backends.postgresql",
         "NAME": "weddingdb",
-        "USER": "weddinguser",
-        "PASSWORD": "weddingpass",
+        "USER": "weddinguadmin",
+        "PASSWORD": "weddingpassword",
         "HOST": "localhost",
         "PORT": "5432",
     }
