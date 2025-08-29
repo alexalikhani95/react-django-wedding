@@ -4,4 +4,5 @@ from .models import Rsvp
 class RsvpSerializer(serializers.ModelSerializer):
     class Meta:
       model = Rsvp  
-      field = '__all__'
+      fields = "__all__"
+
