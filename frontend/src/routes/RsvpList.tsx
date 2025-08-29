@@ -6,7 +6,7 @@ type Rsvp = {
   attending: string;
   starter: string;
   main: string;
-  desert: string;
+  dessert: string;
   allergies: string;
   createdAt: string;
 }
@@ -30,7 +30,14 @@ export const RsvpList = () => {
     <div className="flex justify-center items-center gap-4">
       {rsvps.map((rsvp: Rsvp) => (
         <div className="border-4 border-grey-500 p-4">
-          {rsvp.name}
+          <p> Name: {rsvp.name}</p>
+          <p>Attending: {rsvp.attending}</p>
+          {rsvp.attending === 'yes' &&
+            <><p>Starter: {rsvp.starter}</p>
+            <p>Main: {rsvp.main}</p>
+            <p>Desert: {rsvp.dessert}</p>
+            <p>Allergies: {rsvp.allergies}</p></>
+          }
         </div>
       ))}
     </div>

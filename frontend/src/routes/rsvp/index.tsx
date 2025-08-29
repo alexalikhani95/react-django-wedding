@@ -1,8 +1,9 @@
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
+import { useMutation, QueryClient, useQueryClient } from "@tanstack/react-query"
 import { useForm, type SubmitHandler, Controller } from "react-hook-form"
 
-type FormInputs = {
+type Inputs = {
     attending: string
     name: string
     starter: string
@@ -36,7 +37,7 @@ const RadioCardGroup = ({
     options,
     label,
 }: {
-    name: keyof FormInputs
+    name: keyof Inputs
     control: any
     options: { value: string; label: string }[]
     label: string
@@ -78,10 +79,32 @@ const RadioCardGroup = ({
 }
 
 export const Rsvp = () => {
-    const { register, handleSubmit, control, watch } = useForm<FormInputs>()
+    const { register, handleSubmit, control, watch, reset } = useForm<Inputs>()
+    const queryClient = useQueryClient();
 
-    const onSubmit: SubmitHandler<FormInputs> = (data) => {
-        console.log("RSVP Submitted:", data)
+    const mutation = useMutation({
+        mutationFn: async (data: Inputs) => {
+            const response = await fetch("http://localhost:8000/api/rsvp/create/", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(data),
+            });
+
+            if (!response.ok) {
+                throw new Error("Failed to add Rsvp");
+            }
+        },
+        onSuccess: () => {
+            reset();
+            queryClient.invalidateQueries({ queryKey: ["rsvps"] });
+        },
+        onError: (error) => {
+            console.error("Rsvp creation error:", error);
+        },
+    });
+
+    const onSubmit: SubmitHandler<Inputs> = (data) => {
+        mutation.mutate(data)
     }
 
     const attending = watch("attending")
@@ -155,7 +178,7 @@ export const Rsvp = () => {
                     type="submit"
                     className="w-full rounded-xl bg-primary p-4 text-base font-medium transition-colors hover:bg-primary/90"
                 >
-                    Submit RSVP
+                    {mutation.isPending ? "Submitting..." : "Submit RSVP"}
                 </Button>
             </form>
         </div>
