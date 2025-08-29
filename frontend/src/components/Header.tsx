@@ -10,6 +10,9 @@ export const Header = () => {
                 <Link to="/rsvp">
                     RSVP
                 </Link>
+                <Link to="/rsvp-list">
+                    RSVP List
+                </Link>
                 <Link to="/information">
                     Information
                 </Link>
