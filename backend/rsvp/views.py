@@ -9,3 +9,6 @@ class RsvpCreate(generics.CreateAPIView):
 class RsvpList(generics.ListAPIView):
     queryset = Rsvp.objects.all()
     serializer_class = RsvpSerializer
+
+class RsvpDelete(generics.DestroyAPIView):
+    queryset = Rsvp.objects.all()
