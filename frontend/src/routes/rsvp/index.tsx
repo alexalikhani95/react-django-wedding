@@ -1,8 +1,9 @@
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
-import { useMutation, QueryClient, useQueryClient } from "@tanstack/react-query"
+import { useMutation, useQueryClient } from "@tanstack/react-query"
 import { useForm, type SubmitHandler, Controller } from "react-hook-form"
 import { toast } from "react-toastify"
+import { useState } from "react"
 
 type Inputs = {
     attending: string
@@ -80,8 +81,9 @@ const RadioCardGroup = ({
 }
 
 export const Rsvp = () => {
-    const { register, handleSubmit, control, watch, reset } = useForm<Inputs>()
-    const queryClient = useQueryClient();
+    const { register, handleSubmit, control, watch, reset, setValue } = useForm<Inputs>()
+    const queryClient = useQueryClient()
+    const [submitted, setSubmitted] = useState(false)
 
     const mutation = useMutation({
         mutationFn: async (data: Inputs) => {
@@ -89,100 +91,113 @@ export const Rsvp = () => {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify(data),
-            });
-
-            if (!response.ok) {
-                throw new Error("Failed to add Rsvp");
-            }
+            })
+            if (!response.ok) throw new Error("Failed to add Rsvp")
         },
         onSuccess: () => {
-            reset();
-            queryClient.invalidateQueries({ queryKey: ["rsvps"] });
-            toast.success("Rsvp sent!")
+            queryClient.invalidateQueries({ queryKey: ["rsvps"] })
+            reset()
+            setSubmitted(true) // hide form, show success panel
+            toast.success("RSVP sent!")
         },
-        onError: (error) => {
-            console.error("Rsvp creation error:", error);
+        onError: () => {
+            toast.error("Error sending RSVP. Please try again.")
         },
-    });
+    })
 
     const onSubmit: SubmitHandler<Inputs> = (data) => {
         mutation.mutate(data)
     }
 
     const attending = watch("attending")
-
-    // Show meals if attending is not explicitly "no"
     const showMeals = attending !== "no"
 
     return (
         <div className="mx-auto max-w-xl p-6">
             <h1 className="mb-6 text-3xl font-bold text-foreground">RSVP</h1>
 
-            <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
-                <div>
-                    <label className="mb-2 block text-sm font-medium text-foreground">
-                        Guest name
-                    </label>
-                    <Input
-                        {...register("name", { required: true })}
-                        placeholder="Enter name here"
-                        className="w-full rounded-xl border border-border bg-card p-3"
-                        inputMode="text"
-                        autoComplete="name"
-                    />
+            {/* Success panel */}
+            {submitted ? (
+                <div className="space-y-4 rounded-xl border border-border bg-card p-6 text-center">
+                    <p className="text-lg font-medium text-foreground">Thank you! 🎉</p>
+                    <p className="text-sm text-muted-foreground">
+                        Your RSVP has been submitted.
+                    </p>
+                    <Button
+                        onClick={() => setSubmitted(false)}
+                        className="w-full rounded-xl bg-primary p-3 text-primary-foreground hover:bg-primary/90"
+                    >
+                        Send another RSVP
+                    </Button>
                 </div>
-
-                <RadioCardGroup
-                    name="attending"
-                    control={control}
-                    options={ATTENDANCE}
-                    label="Are you attending?"
-                />
-
-                {showMeals && (
-                    <>
-                        <RadioCardGroup
-                            name="starter"
-                            control={control}
-                            options={STARTERS}
-                            label="Starter"
+            ) : (
+                <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
+                    <div>
+                        <label className="mb-2 block text-sm font-medium text-foreground">
+                            Guest name
+                        </label>
+                        <Input
+                            {...register("name", { required: true })}
+                            placeholder="Enter name here"
+                            className="w-full rounded-xl border border-border bg-card p-3"
+                            inputMode="text"
+                            autoComplete="name"
                         />
+                    </div>
 
-                        <RadioCardGroup
-                            name="main"
-                            control={control}
-                            options={MAINS}
-                            label="Main"
-                        />
+                    <RadioCardGroup
+                        name="attending"
+                        control={control}
+                        options={ATTENDANCE}
+                        label="Are you attending?"
+                    />
 
-                        <RadioCardGroup
-                            name="dessert"
-                            control={control}
-                            options={DESSERTS}
-                            label="Dessert"
-                        />
-
-                        <div className="flex flex-col gap-`">
-                            <label className="mb-2 text-sm font-medium text-foreground">
-                                Allergies / dietary restrictions
-                            </label>
-                            <Input
-                                {...register("allergies")}
-                                placeholder="Allergies etc"
-                                className="w-full rounded-xl border border-border bg-card p-3"
-                                inputMode="text"
+                    {showMeals && (
+                        <>
+                            <RadioCardGroup
+                                name="starter"
+                                control={control}
+                                options={STARTERS}
+                                label="Starter"
                             />
-                        </div>
-                    </>
-                )}
 
-                <Button
-                    type="submit"
-                    className="w-full rounded-xl bg-primary p-4 text-base font-medium transition-colors hover:bg-primary/90"
-                >
-                    {mutation.isPending ? "Submitting..." : "Submit RSVP"}
-                </Button>
-            </form>
+                            <RadioCardGroup
+                                name="main"
+                                control={control}
+                                options={MAINS}
+                                label="Main"
+                            />
+
+                            <RadioCardGroup
+                                name="dessert"
+                                control={control}
+                                options={DESSERTS}
+                                label="Dessert"
+                            />
+
+                            <div className="flex flex-col gap-2">
+                                <label className="mb-1 text-sm font-medium text-foreground">
+                                    Allergies / dietary restrictions
+                                </label>
+                                <Input
+                                    {...register("allergies")}
+                                    placeholder="Allergies etc"
+                                    className="w-full rounded-xl border border-border bg-card p-3"
+                                    inputMode="text"
+                                />
+                            </div>
+                        </>
+                    )}
+
+                    <Button
+                        type="submit"
+                        className="w-full rounded-xl bg-primary p-4 text-base font-medium transition-colors hover:bg-primary/90"
+                        disabled={mutation.isPending}
+                    >
+                        {mutation.isPending ? "Submitting..." : "Submit RSVP"}
+                    </Button>
+                </form>
+            )}
         </div>
     )
 }
