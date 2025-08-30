@@ -81,7 +81,7 @@ const RadioCardGroup = ({
 }
 
 export const Rsvp = () => {
-    const { register, handleSubmit, control, watch, reset, setValue } = useForm<Inputs>()
+    const { register, handleSubmit, control, watch, reset } = useForm<Inputs>()
     const queryClient = useQueryClient()
     const [submitted, setSubmitted] = useState(false)
 
