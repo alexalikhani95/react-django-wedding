@@ -8,6 +8,8 @@ import { Rsvp } from './routes/rsvp'
 import { Information } from './routes/Information.tsx'
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { RsvpList } from './routes/RsvpList.tsx'
+import { ToastContainer } from 'react-toastify';
+
 
 const queryClient = new QueryClient()
 
@@ -24,6 +26,7 @@ createRoot(document.getElementById('root')!).render(
           <Route path="/rsvp-list" element={<RsvpList />} />
           <Route path="/information" element={<Information />} />
         </Routes>
+          <ToastContainer />
       </BrowserRouter>,
     </QueryClientProvider>
   </StrictMode>,

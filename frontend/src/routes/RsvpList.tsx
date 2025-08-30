@@ -1,5 +1,6 @@
 import { Button } from "@/components/ui/button";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query"
+import { toast } from "react-toastify";
 
 type Rsvp = {
   id: number
@@ -36,7 +37,11 @@ export const RsvpList = () => {
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["rsvps"] })
+      toast.success('Deleted Rsvp!')
     },
+    onError: () => {
+      toast.error('Error deleting Rsvp!')
+    }
   })
 
   if (isLoading) return <p>Loading Rsvps...</p>

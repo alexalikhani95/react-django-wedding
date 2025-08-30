@@ -2,6 +2,7 @@ import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { useMutation, QueryClient, useQueryClient } from "@tanstack/react-query"
 import { useForm, type SubmitHandler, Controller } from "react-hook-form"
+import { toast } from "react-toastify"
 
 type Inputs = {
     attending: string
@@ -97,6 +98,7 @@ export const Rsvp = () => {
         onSuccess: () => {
             reset();
             queryClient.invalidateQueries({ queryKey: ["rsvps"] });
+            toast.success("Rsvp sent!")
         },
         onError: (error) => {
             console.error("Rsvp creation error:", error);
