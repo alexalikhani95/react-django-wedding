@@ -21,7 +21,7 @@ export const RsvpList = () => {
   const { data: rsvps, isLoading, isError } = useQuery({
     queryKey: ["rsvps"],
     queryFn: async () => {
-      const res = await fetch("http://127.0.0.1:8000/api/rsvp/list/")
+      const res = await fetch("http://localhost:8000/api/rsvp/list/")
       if (!res.ok) throw new Error("Failed to fetch RSVPs")
       return res.json()
     },
@@ -30,7 +30,7 @@ export const RsvpList = () => {
 
   const mutation = useMutation<void, Error, number>({
     mutationFn: async (id: number) => {
-      const res = await fetch(`http://127.0.0.1:8000/api/rsvp/${id}/delete/`, {
+      const res = await fetch(`http://localhost:8000/api/rsvp/${id}/delete/`, {
         method: "DELETE",
       })
       if (!res.ok) throw new Error("Failed to delete RSVP")
