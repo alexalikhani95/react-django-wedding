@@ -32,6 +32,7 @@ INSTALLED_APPS = [
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     "corsheaders.middleware.CorsMiddleware",
     'django.middleware.common.CommonMiddleware',
@@ -107,7 +108,22 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.2/howto/static-files/
 
-STATIC_URL = 'static/'
+# Tell Django the URL prefix for serving static files.
+# Keep this as "static/" so WhiteNoise serves from /static/...
+STATIC_URL = "/static/"
+
+
+# Only set the production bits when DEBUG is False (as in the Render docs)
+if not DEBUG:
+    # Where collectstatic will put files on the server
+    STATIC_ROOT = BASE_DIR / "staticfiles"
+
+    # WhiteNoise storage: compressed + hashed filenames for long-term caching
+    STORAGES = {
+        "staticfiles": {
+            "BACKEND": "whitenoise.storage.CompressedManifestStaticFilesStorage"
+        },
+    }
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field
