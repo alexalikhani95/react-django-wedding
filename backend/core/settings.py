@@ -116,5 +116,5 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 CORS_ALLOWED_ORIGINS = [
     "http://localhost:5173",
-    # prod domain to go here
+    "http://burley-wedding-app-frontend.s3-website-us-east-1.amazonaws.com",
 ]
