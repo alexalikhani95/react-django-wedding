@@ -1,6 +1,8 @@
 import { Button } from "@/components/ui/button";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query"
 import { toast } from "react-toastify";
+const API_URL = import.meta.env.VITE_API_URL;
+
 
 type Rsvp = {
   id: number
@@ -21,7 +23,7 @@ export const RsvpList = () => {
   const { data: rsvps, isLoading, isError } = useQuery({
     queryKey: ["rsvps"],
     queryFn: async () => {
-      const res = await fetch("http://localhost:8000/api/rsvp/list/")
+      const res = await fetch(`${API_URL}/api/rsvp/list/`)
       if (!res.ok) throw new Error("Failed to fetch RSVPs")
       return res.json()
     },
@@ -30,7 +32,7 @@ export const RsvpList = () => {
 
   const mutation = useMutation<void, Error, number>({
     mutationFn: async (id: number) => {
-      const res = await fetch(`http://localhost:8000/api/rsvp/${id}/delete/`, {
+      const res = await fetch(`${API_URL}/api/rsvp/${id}/delete/`, {
         method: "DELETE",
       })
       if (!res.ok) throw new Error("Failed to delete RSVP")

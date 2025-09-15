@@ -5,6 +5,8 @@ import { useForm, type SubmitHandler, Controller } from "react-hook-form"
 import { toast } from "react-toastify"
 import { useState } from "react"
 
+const API_URL = import.meta.env.VITE_API_URL;
+
 type Inputs = {
     attending: string
     name: string
@@ -87,7 +89,7 @@ export const Rsvp = () => {
 
     const mutation = useMutation({
         mutationFn: async (data: Inputs) => {
-            const response = await fetch("http://localhost:8000/api/rsvp/create/", {
+            const response = await fetch(`${API_URL}/api/rsvp/create/`, {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify(data),
