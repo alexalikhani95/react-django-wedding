@@ -3,6 +3,6 @@ from .models import Guest
 
 @admin.register(Guest)
 class GuestAdmin(admin.ModelAdmin):
-    list_display = ['name']
-    list_filter = ['attending', 'created_at']
-    search_fields = ['name']
+    list_display = ("name", "party")
+    list_filter = ("party",)
+    search_fields = ("name",)
