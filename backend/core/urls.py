@@ -8,6 +8,7 @@ def health(_request):
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/', include('rsvp.urls')),
+    path('api/', include('guests.urls')),
     path("", health),  # To not make admin crash for now when visting just http://localhost:8000/ not http://localhost:8000/rsvp etc
 
 ]
