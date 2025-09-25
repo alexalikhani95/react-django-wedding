@@ -28,7 +28,8 @@ INSTALLED_APPS = [
     "corsheaders",
     "rest_framework_simplejwt",
     "rsvp",
-    "guests"
+    "guests",
+    "tables"
 ]
 
 MIDDLEWARE = [
