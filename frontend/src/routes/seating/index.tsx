@@ -12,6 +12,7 @@ type Table = {
     id: number
     name: string
     capacity: number
+    seats: any
 }
 
 type Inputs = {
@@ -132,15 +133,41 @@ export const Seating = () => {
                 </div>
 
                 {/* tables section */}
-                <div className="flex flex-col gap-5">
-                    {tables?.map((table) => (
-                        <div key={table.id} className="p-5 rounded bg-yellow-700 w-[400px] text-center text-white gap-5 flex justify-center items-center">
-                            {table.name}
-                            <Button variant="destructive" onClick={() => deleteMutation.mutate(table.id)}>
-                                <Trash2Icon />
-                            </Button>
-                        </div>
-                    ))}
+                <div className="flex flex-col gap-10">
+                    {tables?.map((table: Table) => {
+                        const seats = table.seats
+                        return (
+                            <div className="flex items-center" key={table.id}>
+                                {/* //seat 1 */}
+                                <div className="bg-white border border-gray-200 p-3 mx-1 rounded-lg shadow-md h-[50px] relative">{seats[0].guest_id || 'guest name'}</div>
+
+                                <div className="flex flex-col">
+                                    <div className="flex">
+                                        {seats.slice(1, 5).map((seat: any) => (
+                                            <div className="bg-white border border-gray-200 p-3 mx-1 rounded-lg shadow-md h-[50px] relative">{seat.guest_id || 'guest name'}</div>
+                                        ))}
+                                    </div>
+
+                                    <div key={table.id} className="p-5 rounded bg-yellow-700 w-full h-[130px] text-center text-white gap-5 flex justify-center items-center">
+                                        {table.name}
+                                        <Button variant="destructive" onClick={() => deleteMutation.mutate(table.id)}>
+                                            <Trash2Icon />
+                                        </Button>
+                                    </div>
+
+                                    <div className="flex">
+                                        {seats.slice(6, 10).map((seat: any) => (
+                                            <div className="bg-white border border-gray-200 p-3 mx-1 rounded-lg shadow-md h-[50px] relative">{seat.guest_id || 'guest name'}</div>
+                                        ))}
+                                    </div>
+                                </div>
+
+                                {/* //end seat */}
+                                <div className="bg-white border border-gray-200 p-3 mx-1 rounded-lg shadow-md h-[50px] relative">{seats[9].guest_id || 'guest name'}</div>
+
+                            </div>
+                        )
+                    })}
                 </div>
 
             </div>
