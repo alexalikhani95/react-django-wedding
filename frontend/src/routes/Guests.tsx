@@ -4,6 +4,7 @@ import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query"
 import { useForm } from "react-hook-form"
 import { toast } from "react-toastify"
 import { Trash2Icon } from "lucide-react"
+import type { Table } from "./seating"
 
 const API_URL = import.meta.env.VITE_API_URL
 
@@ -12,6 +13,7 @@ export type Guest = {
   name: string
   party: "bride" | "groom"
   seat_number: number
+  table: Table
 }
 
 type Inputs = {

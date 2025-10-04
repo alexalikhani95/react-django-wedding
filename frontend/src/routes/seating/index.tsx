@@ -17,7 +17,7 @@ type Seat = {
     guest_id: number | null
 }
 
-type Table = {
+export type Table = {
     id: number
     name: string
     capacity: number
@@ -56,15 +56,25 @@ const SeatBox = ({
     const { isOver, setNodeRef } = useDroppable({ id: `seat-${seat.id}` })
     const guest = guests.find((g) => g.id === seat.guest_id)
 
-    return (
-        <div
-            ref={setNodeRef}
-            className={`bg-white border border-gray-200 p-3 mx-1 rounded-lg shadow-md h-[50px] relative w-[120px] flex items-center justify-center ${isOver ? "border-green-500" : ""
-                }`}
-        >
-            {guest ? guest.name : "guest name"}
-        </div>
-    )
+    if (guest) {
+        return (
+            <div
+                ref={setNodeRef}
+                className={`bg-white border border-gray-200 cursor-pointer p-3 mx-1 rounded-lg shadow-md h-[50px] relative w-[120px] flex items-center justify-center ${isOver ? "border-green-500" : ""}`}
+            >
+                {guest ? guest.name : "guest name"}
+            </div>
+        )
+    } else {
+        return (
+            <div
+                ref={setNodeRef}
+                className={`bg-gray-400 border border-dashed p-3 mx-1 rounded-lg shadow-md h-[50px] relative w-[120px] flex items-center justify-center ${isOver ? "border-dashed" : ""}`}
+            >
+                Empty
+            </div>
+        )
+    }
 }
 
 export const Seating = () => {
@@ -167,7 +177,7 @@ export const Seating = () => {
         if (!over) return
 
         const activeId = String(active.id)
-        const overId = String(over.id)    
+        const overId = String(over.id)
 
         if (!activeId.startsWith("guest-") || !overId.startsWith("seat-")) return
 
@@ -210,7 +220,7 @@ export const Seating = () => {
                     {/* Guest list */}
                     <div className="flex flex-col gap-2 pr-10">
                         {guests?.length ? (
-                            guests.filter(guest => !guest.seat_number).map((guest) => <GuestItem key={guest.id} guest={guest} />)
+                            guests.filter(guest => !guest.table).map((guest) => <GuestItem key={guest.id} guest={guest} />)
                         ) : (
                             <p>No guests</p>
                         )}
@@ -239,7 +249,7 @@ export const Seating = () => {
                                             </Button>
                                         </div>
                                         <div className="flex pt-1">
-                                            {seats.slice(6, 10).map((seat: any) => (
+                                            {seats.slice(5, 9).map((seat: any) => (
                                                 <SeatBox key={seat.id} seat={seat} guests={guests || []} />
                                             ))}
                                         </div>
