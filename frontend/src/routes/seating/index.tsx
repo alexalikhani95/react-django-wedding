@@ -5,7 +5,7 @@ import { useForm } from "react-hook-form"
 import { toast } from "react-toastify"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
-import { Trash2Icon } from "lucide-react"
+import { Trash2, Trash2Icon } from "lucide-react"
 import { DndContext, DragOverlay, useDraggable, useDroppable } from "@dnd-kit/core"
 import type { DragEndEvent, DragStartEvent } from "@dnd-kit/core"
 
@@ -49,9 +49,11 @@ const GuestItem = ({ guest }: { guest: Guest }) => {
 const SeatBox = ({
     seat,
     guests,
+    onRemoveGuest
 }: {
-    seat: any
+    seat: Seat
     guests: Guest[]
+    onRemoveGuest?: (guestId: number) => void
 }) => {
     const { isOver, setNodeRef } = useDroppable({ id: `seat-${seat.id}` })
     const guest = guests.find((g) => g.id === seat.guest_id)
@@ -62,7 +64,16 @@ const SeatBox = ({
                 ref={setNodeRef}
                 className={`bg-white border border-gray-200 cursor-pointer p-3 mx-1 rounded-lg shadow-md h-[50px] relative w-[120px] flex items-center justify-center ${isOver ? "border-green-500" : ""}`}
             >
-                {guest ? guest.name : "guest name"}
+                <p>{guest.name}</p>
+                {onRemoveGuest && (
+                    <button
+                        onClick={() => onRemoveGuest(guest.id)}
+                        className="absolute top-[-10px] right-1 p-1 bg-red-50 rounded-full hover:bg-red-100 cursor-pointer"
+                        title="Remove guest"
+                    >
+                        <Trash2 className="w-4 h-4 text-red-500" />
+                    </button>
+                )}
             </div>
         )
     } else {
@@ -137,6 +148,23 @@ export const Seating = () => {
         },
     })
 
+    const removeFromSeatMutation = useMutation<void, Error, number>({
+        mutationFn: async (guestId: number) => {
+            const res = await fetch(`${API_URL}/api/guests/${guestId}/remove-from-seat/`, {
+                method: "PATCH",
+            })
+            if (!res.ok) throw new Error("Failed to remove guest from seat")
+        },
+        onSuccess: () => {
+            queryClient.invalidateQueries({ queryKey: ["tables"] })
+            queryClient.invalidateQueries({ queryKey: ["guests"] })
+            toast.success("Removed guest from seat!")
+        },
+        onError: () => {
+            toast.error("Error removing guest from seat!")
+        },
+    })
+
     const assignSeatMutation = useMutation({
         mutationFn: async ({
             guestId,
@@ -153,7 +181,10 @@ export const Seating = () => {
             if (!res.ok) throw new Error("Failed to assign guest")
             return res.json()
         },
-        onSuccess: () => queryClient.invalidateQueries({ queryKey: ["tables"] }),
+        onSuccess: () => {
+            queryClient.invalidateQueries({ queryKey: ["tables"] })
+            queryClient.invalidateQueries({ queryKey: ["guests"] })
+        },
         onError: () => toast.error("Failed to assign guest"),
     })
 
@@ -186,9 +217,12 @@ export const Seating = () => {
         assignSeatMutation.mutate({ guestId, seatId })
     }
 
+    const handleRemoveGuest = (guestId: number) => {
+        removeFromSeatMutation.mutate(guestId)
+    }
+
     console.log('guests', guests)
     console.log('tables', tables)
-
 
     return (
         <div className="flex flex-col">
@@ -232,11 +266,20 @@ export const Seating = () => {
                             const seats = table.seats
                             return (
                                 <div className="flex items-center" key={table.id}>
-                                    <SeatBox seat={seats[0]} guests={guests || []} />
+                                    <SeatBox
+                                        seat={seats[0]}
+                                        guests={guests || []}
+                                        onRemoveGuest={handleRemoveGuest}
+                                    />
                                     <div className="flex flex-col">
                                         <div className="flex pb-1">
                                             {seats.slice(1, 5).map((seat: any) => (
-                                                <SeatBox key={seat.id} seat={seat} guests={guests || []} />
+                                                <SeatBox
+                                                    key={seat.id}
+                                                    seat={seat}
+                                                    guests={guests || []}
+                                                    onRemoveGuest={handleRemoveGuest}
+                                                />
                                             ))}
                                         </div>
                                         <div className="p-5 rounded bg-yellow-700 w-full h-[130px] text-center text-white gap-5 flex justify-center items-center">
@@ -250,11 +293,20 @@ export const Seating = () => {
                                         </div>
                                         <div className="flex pt-1">
                                             {seats.slice(5, 9).map((seat: any) => (
-                                                <SeatBox key={seat.id} seat={seat} guests={guests || []} />
+                                                <SeatBox
+                                                    key={seat.id}
+                                                    seat={seat}
+                                                    guests={guests || []}
+                                                    onRemoveGuest={handleRemoveGuest}
+                                                />
                                             ))}
                                         </div>
                                     </div>
-                                    <SeatBox seat={seats[9]} guests={guests || []} />
+                                    <SeatBox
+                                        seat={seats[9]}
+                                        guests={guests || []}
+                                        onRemoveGuest={handleRemoveGuest}
+                                    />
                                 </div>
                             )
                         })}
