@@ -11,6 +11,7 @@ export type Guest = {
   id: number
   name: string
   party: "bride" | "groom"
+  seat_number: number
 }
 
 type Inputs = {
