@@ -65,6 +65,18 @@ export const Guests = () => {
       })
       if (!res.ok) throw new Error("Failed to delete guest")
     },
+    onMutate: async (guestId) => {
+      await queryClient.cancelQueries({ queryKey: ["guests"] })
+
+      const previousGuests = queryClient.getQueryData<Guest[]>(["guests"])
+      if (previousGuests) {
+        const newGuests = previousGuests.filter((guest) => guest.id !== guestId)
+        queryClient.setQueryData(["guests"], newGuests)
+      }
+
+      return previousGuests
+
+    },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["guests"] })
       toast.success('Deleted guest!')
