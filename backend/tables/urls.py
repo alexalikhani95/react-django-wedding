@@ -6,5 +6,4 @@ urlpatterns = [
     path("tables/list/", TableList.as_view(), name="list"),
     path("tables/<int:pk>/delete/", TableDelete.as_view(), name="delete"),
     path("seats/<int:pk>/assign/", AssignSeat.as_view(), name="assign-seat"),
-
 ]
