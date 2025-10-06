@@ -173,7 +173,7 @@ export const Guests = () => {
 
           {brideGuests && brideGuests.length > 0 ? (
             brideGuests.map((guest, index) => (
-              <div className="flex justify-between border-b border-border/60 px-3 py-2 last:border-b-0" key={index}>
+              <div className="flex items-center justify-between border-b border-border/60 px-3 py-2 last:border-b-0" key={index}>
                 <p
                 >
                   {guest.name}
@@ -201,7 +201,7 @@ export const Guests = () => {
           </header>
           {groomGuests && groomGuests.length > 0 ? (
             groomGuests.map((guest, index) => (
-              <div className="flex justify-between border-b border-border/60 px-3 py-2 last:border-b-0" key={index}>
+              <div className="flex justify-between items-center border-b border-border/60 px-3 py-2 last:border-b-0" key={index}>
                 <p
                 >
                   {guest.name}

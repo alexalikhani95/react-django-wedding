@@ -21,7 +21,9 @@ createRoot(document.getElementById('root')!).render(
 
 
       <BrowserRouter>
+      <div className='pb-5'>
         <Header />
+        </div>
         <Routes>
           <Route path="/" element={<App />} />
           <Route path="/rsvp" element={<Rsvp />} />
