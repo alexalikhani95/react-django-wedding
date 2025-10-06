@@ -93,6 +93,8 @@ export const Seating = () => {
     const queryClient = useQueryClient()
     const [activeGuest, setActiveGuest] = useState<Guest | null>(null)
 
+    console.log('active guest', activeGuest)
+
     const { data: guests, isLoading: isLoadingGuests, isError: isErrorGuests } =
         useQuery({
             queryKey: ["guests"],
@@ -148,31 +150,66 @@ export const Seating = () => {
         },
     })
 
-    const removeFromSeatMutation = useMutation<void, Error, number>({
+    const removeFromSeatMutation = useMutation({
         mutationFn: async (guestId: number) => {
             const res = await fetch(`${API_URL}/api/guests/${guestId}/remove-from-seat/`, {
                 method: "PATCH",
             })
             if (!res.ok) throw new Error("Failed to remove guest from seat")
         },
+        onMutate: async (guestId) => {
+            // Stop any background refetches to avoid race conditions that might overwrite the optimistic update
+            await queryClient.cancelQueries({ queryKey: ["tables"] })
+            await queryClient.cancelQueries({ queryKey: ["guests"] })
+
+            const previousTables = queryClient.getQueryData<Table[]>(["tables"])
+
+            if (previousTables) {
+                const newtables = previousTables.map((table) => ({
+                    ...table,
+                    seats: table.seats.map((seat) => {
+                        if (seat.guest_id === guestId) {
+                            return { ...seat, guest_id: null }
+                        }
+                        return seat
+                    })
+                }))
+                queryClient.setQueryData(["tables"], newtables)
+            }
+
+            const previousGuests = queryClient.getQueryData<Guest[]>(["guests"])
+            if (previousGuests) {
+                const newGuests = previousGuests.map((guest) => {
+                    if (guest.id === guestId) {
+                        return { ...guest, table: null }
+                    }
+                    return guest
+                })
+                queryClient.setQueryData(["guests"], newGuests)
+            }
+
+            return { previousTables, previousGuests }
+
+        },
         onSuccess: () => {
             queryClient.invalidateQueries({ queryKey: ["tables"] })
             queryClient.invalidateQueries({ queryKey: ["guests"] })
             toast.success("Removed guest from seat!")
         },
-        onError: () => {
+        onError: (err, guestId, context) => {
+            // Rollback to the previous data on error
+            if (context?.previousTables) {
+                queryClient.setQueryData(["tables"], context.previousTables)
+            }
+            if (context?.previousGuests) {
+                queryClient.setQueryData(["guests"], context.previousGuests)
+            }
             toast.error("Error removing guest from seat!")
         },
     })
 
     const assignSeatMutation = useMutation({
-        mutationFn: async ({
-            guestId,
-            seatId,
-        }: {
-            guestId: number
-            seatId: number
-        }) => {
+        mutationFn: async ({ guestId, seatId }: { guestId: number; seatId: number }) => {
             const res = await fetch(`${API_URL}/api/seats/${seatId}/assign/`, {
                 method: "PATCH",
                 headers: { "Content-Type": "application/json" },
@@ -181,12 +218,74 @@ export const Seating = () => {
             if (!res.ok) throw new Error("Failed to assign guest")
             return res.json()
         },
+        onMutate: async ({ guestId, seatId }) => {
+            await queryClient.cancelQueries({ queryKey: ["tables"] })
+            await queryClient.cancelQueries({ queryKey: ["guests"] })
+
+            setActiveGuest(null)
+            // get the previous table data
+            const previousTables = queryClient.getQueryData<Table[]>(["tables"])
+
+            // Optimistically update the tables query data
+            if (previousTables) {
+                const newTables = previousTables.map((table) => ({
+                    ...table,
+                    seats: table.seats.map((seat) => {
+                        // If the seat was already assigned to the guest, remove the guest
+                        if (seat.guest_id === guestId) {
+                            return { ...seat, guest_id: null }
+                        }
+                        // If this is the target seat, assign the guest
+                        if (seat.id === seatId) {
+                            return { ...seat, guest_id: guestId }
+                        }
+                        return seat
+                    }),
+                }))
+                queryClient.setQueryData(["tables"], newTables)
+            }
+
+            // get the previous guest data
+            const previousGuests = queryClient.getQueryData<Guest[]>(["guests"])
+
+            // Optimistically update the guests query data
+            if (previousGuests) {
+                const newGuests = previousGuests.map((guest) => {
+                    if (guest.id === guestId) {
+                        // Find the table that contains the target seatId
+                        const targetTable = previousTables?.find(table =>
+                            table.seats.some(seat => seat.id === seatId)
+                        )
+                        // Update the guest's table ID to the new table's ID
+                        return { ...guest, table: targetTable ? targetTable.id : null }
+                    }
+                    return guest
+                })
+                queryClient.setQueryData(["guests"], newGuests)
+            }
+
+            // Return the context object with the snapshot
+            return { previousTables, previousGuests }
+        },
         onSuccess: () => {
+            // Invalidate to refetch and ensure client state matches server state
             queryClient.invalidateQueries({ queryKey: ["tables"] })
             queryClient.invalidateQueries({ queryKey: ["guests"] })
+            toast.success("Guest assigned successfully!")
         },
-        onError: () => toast.error("Failed to assign guest"),
+        onError: (err, variables, context) => {
+            // go to the previous snapshot data on error
+            if (context?.previousTables) {
+                queryClient.setQueryData(["tables"], context.previousTables)
+            }
+            if (context?.previousGuests) {
+                queryClient.setQueryData(["guests"], context.previousGuests)
+            }
+            toast.error(`Failed to assign guest: ${err.message}`)
+            setActiveGuest(null)
+        }
     })
+
 
     const onSubmit = handleSubmit((data) => addMutation.mutate(data))
 
@@ -204,7 +303,6 @@ export const Seating = () => {
 
     const handleDragEnd = (event: DragEndEvent) => {
         const { active, over } = event
-        setActiveGuest(null)
         if (!over) return
 
         const activeId = String(active.id)
@@ -221,14 +319,11 @@ export const Seating = () => {
         removeFromSeatMutation.mutate(guestId)
     }
 
-    console.log('guests', guests)
-    console.log('tables', tables)
-
     return (
-        <div className="flex flex-col">
+        <div className="flex flex-col text-center">
             <h1 className="text-3xl mb-5">Seating</h1>
             <form className="mb-10" onSubmit={onSubmit}>
-                <div className="flex items-center gap-4">
+                <div className="flex items-center justify-center gap-4">
                     <label className="block text-sm font-medium text-foreground">
                         Table name:
                     </label>
@@ -254,7 +349,7 @@ export const Seating = () => {
                     {/* Guest list */}
                     <div className="flex flex-col gap-2 pr-10">
                         {guests?.length ? (
-                            guests.filter(guest => !guest.table).map((guest) => <GuestItem key={guest.id} guest={guest} />)
+                            guests.sort((a, b) => a.name.localeCompare(b.name)).filter(guest => !guest.table && guest.id !== activeGuest?.id).map((guest) => <GuestItem key={guest.id} guest={guest} />)
                         ) : (
                             <p>No guests</p>
                         )}
