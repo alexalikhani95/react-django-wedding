@@ -4,7 +4,7 @@ import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query"
 import { useForm } from "react-hook-form"
 import { toast } from "react-toastify"
 import { Trash2Icon } from "lucide-react"
-import type { Table } from "./seating"
+import type { Table } from "./seating/types"
 
 const API_URL = import.meta.env.VITE_API_URL
 
