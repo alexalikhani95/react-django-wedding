@@ -21,12 +21,12 @@ export const useAddTable = () => {
             })
             if (!response.ok) throw new Error("Failed to add table")
         },
-        onSuccess: () => {
+        onSuccess: (_data, variables) => {
             queryClient.invalidateQueries({ queryKey: ["tables"] })
-            toast.success("table created!")
+            toast.success(`${variables.name} added!`)
         },
-        onError: () => {
-            toast.error("Error adding table. Please try again.")
+        onError: (_data, variables) => {
+            toast.error(`Error adding ${variables.name}, please try again.`)
         },
     })
 }
@@ -34,19 +34,24 @@ export const useAddTable = () => {
 export const useDeleteTable = () => {
     const queryClient = useQueryClient()
 
-    return useMutation<void, Error, number>({
+    return useMutation<void, Error, number, { tableName?: string }>({
         mutationFn: async (id: number) => {
             const res = await fetch(`${API_URL}/api/tables/${id}/delete/`, {
                 method: "DELETE",
             })
             if (!res.ok) throw new Error("Failed to delete table")
         },
-        onSuccess: () => {
-            queryClient.invalidateQueries({ queryKey: ["tables"] })
-            toast.success("Deleted table!")
+        onMutate: (id) => {
+            const tables = queryClient.getQueryData<Table[]>(["tables"])
+            const table = tables?.find(t => t.id === id)
+            return { tableName: table?.name }
         },
-        onError: () => {
-            toast.error("Error deleting table!")
+        onSuccess: (_data, _variables, context) => {
+            queryClient.invalidateQueries({ queryKey: ["tables"] })
+            toast.success(`${context?.tableName || "Table"} deleted!`)
+        },
+        onError: (_err, _variables, context) => {
+            toast.error(`Error deleting ${context?.tableName || "table"}!`)
         },
     })
 }
@@ -165,7 +170,6 @@ export const useAssignSeat = () => {
         onSuccess: () => {
             queryClient.invalidateQueries({ queryKey: ["tables"] })
             queryClient.invalidateQueries({ queryKey: ["guests"] })
-            toast.success("Guest assigned successfully!")
         },
         onError: (err, _variables, context) => {
             if (context?.previousTables) {
