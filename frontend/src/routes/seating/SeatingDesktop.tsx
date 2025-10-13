@@ -72,9 +72,6 @@ const SeatBox = ({
     }
 }
 
-// -----------------
-// Main Component
-// -----------------
 export const SeatingDesktop = () => {
     const { register, handleSubmit, reset } = useForm<Inputs>()
     const [activeGuest, setActiveGuest] = useState<Guest | null>(null)
@@ -125,10 +122,11 @@ export const SeatingDesktop = () => {
     }
 
     return (
-        <div className="flex flex-col text-center items-center">
+        <div className="flex flex-col text-center">
             <h1 className="text-3xl mb-5">Seating</h1>
 
             {/* Add Table Form */}
+            <div className="w-full flex justify-center">
             <form onSubmit={onSubmit} className="mb-6 bg-white rounded-lg border p-4 shadow-sm w-[500px]">
                 <h2 className="text-sm font-semibold mb-3">Add Table</h2>
                 <div className="flex gap-2">
@@ -146,6 +144,7 @@ export const SeatingDesktop = () => {
                     </Button>
                 </div>
             </form>
+            </div>
 
             <DndContext onDragStart={handleDragStart} onDragEnd={handleDragEnd}>
                 <div className="flex gap-8">
@@ -164,7 +163,7 @@ export const SeatingDesktop = () => {
                     </div>
 
                     {/* Tables */}
-                    <div className="grid grid-cols-1 lg:grid-cols-2 gap-10">
+                    <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 auto-rows-min items-start">
                         {tables?.map((table: Table) => {
                             const seats = table.seats
                             return (
