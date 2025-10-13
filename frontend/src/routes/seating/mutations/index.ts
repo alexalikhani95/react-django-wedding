@@ -98,7 +98,7 @@ export const useRemoveFromSeat = () => {
             queryClient.invalidateQueries({ queryKey: ["guests"] })
             toast.success("Removed guest from seat!")
         },
-        onError: (err, guestId, context) => {
+        onError: (_err, _guestId, context) => {
             if (context?.previousTables) {
                 queryClient.setQueryData(["tables"], context.previousTables)
             }
@@ -167,7 +167,7 @@ export const useAssignSeat = () => {
             queryClient.invalidateQueries({ queryKey: ["guests"] })
             toast.success("Guest assigned successfully!")
         },
-        onError: (err, variables, context) => {
+        onError: (err, _variables, context) => {
             if (context?.previousTables) {
                 queryClient.setQueryData(["tables"], context.previousTables)
             }
