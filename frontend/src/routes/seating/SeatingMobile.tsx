@@ -52,7 +52,7 @@ export const SeatingMobile = () => {
         setSelectedGuest(prev => (prev?.id === guest.id ? null : guest))
     }
 
-    const handleSeatClick = (tableId: number, seatId: number, seatNumber: number, guestId: number | null) => {
+    const handleSeatClick = (tableId: number, seatId: number, guestId: number | null) => {
         setConfirmingDeleteId(null)
 
         if (guestId) {
@@ -177,7 +177,7 @@ export const SeatingMobile = () => {
                         return (
                             <button
                                 key={seat.id}
-                                onClick={() => handleSeatClick(table.id, seat.id, seat.seat_number, seat.guest_id)}
+                                onClick={() => handleSeatClick(table.id, seat.id, seat.guest_id)}
                                 className={`h-12 rounded-lg border-2 text-xs flex flex-col items-center justify-center p-1 transition-all ${
                                     !guest
                                         ? selectedGuest
