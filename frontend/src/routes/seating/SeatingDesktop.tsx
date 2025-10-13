@@ -151,9 +151,7 @@ export const SeatingDesktop = () => {
                     {/* Guests List */}
                     <div className="flex flex-col gap-2 pr-10">
                         {guests?.length ? (
-                            guests
-                                .sort((a, b) => a.name.localeCompare(b.name))
-                                .filter(
+                            guests.filter(
                                     (guest) => !guest.table && guest.id !== activeGuest?.id
                                 )
                                 .map((guest) => <GuestItem key={guest.id} guest={guest} />)
