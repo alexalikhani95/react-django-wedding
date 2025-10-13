@@ -4,9 +4,6 @@ export const Header = () => {
     return (
         <div className="bg-emerald-900 p-5 text-white">
             <div className="flex gap-4">
-                <Link to="/login">
-                    Login
-                </Link>
                 <Link to="/rsvp">
                     RSVP
                 </Link>
@@ -18,6 +15,9 @@ export const Header = () => {
                 </Link>
                 <Link to="/guests">
                     Guests
+                </Link>
+                <Link to="/seating">
+                    Seating
                 </Link>
             </div>
         </div>

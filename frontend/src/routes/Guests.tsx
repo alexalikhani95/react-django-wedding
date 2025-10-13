@@ -4,13 +4,16 @@ import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query"
 import { useForm } from "react-hook-form"
 import { toast } from "react-toastify"
 import { Trash2Icon } from "lucide-react"
+import type { Table } from "./seating/types"
 
 const API_URL = import.meta.env.VITE_API_URL
 
-type Guest = {
+export type Guest = {
   id: number
   name: string
   party: "bride" | "groom"
+  seat_number: number
+  table: Table
 }
 
 type Inputs = {
@@ -61,6 +64,18 @@ export const Guests = () => {
         method: "DELETE",
       })
       if (!res.ok) throw new Error("Failed to delete guest")
+    },
+    onMutate: async (guestId) => {
+      await queryClient.cancelQueries({ queryKey: ["guests"] })
+
+      const previousGuests = queryClient.getQueryData<Guest[]>(["guests"])
+      if (previousGuests) {
+        const newGuests = previousGuests.filter((guest) => guest.id !== guestId)
+        queryClient.setQueryData(["guests"], newGuests)
+      }
+
+      return previousGuests
+
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["guests"] })
@@ -168,9 +183,9 @@ export const Guests = () => {
             </span>
           </header>
 
-          {brideGuests && brideGuests.length > 1 ? (
+          {brideGuests && brideGuests.length > 0 ? (
             brideGuests.map((guest, index) => (
-              <div className="flex justify-between border-b border-border/60 px-3 py-2 last:border-b-0" key={index}>
+              <div className="flex items-center justify-between border-b border-border/60 px-3 py-2 last:border-b-0" key={index}>
                 <p
                 >
                   {guest.name}
@@ -196,9 +211,9 @@ export const Guests = () => {
               {groomGuests?.length}
             </span>
           </header>
-          {groomGuests && groomGuests.length > 1 ? (
+          {groomGuests && groomGuests.length > 0 ? (
             groomGuests.map((guest, index) => (
-              <div className="flex justify-between border-b border-border/60 px-3 py-2 last:border-b-0" key={index}>
+              <div className="flex justify-between items-center border-b border-border/60 px-3 py-2 last:border-b-0" key={index}>
                 <p
                 >
                   {guest.name}
