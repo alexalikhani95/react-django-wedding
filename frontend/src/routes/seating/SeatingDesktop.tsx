@@ -220,9 +220,6 @@ export const SeatingDesktop = () => {
             ) : (
                 <DndContext onDragStart={handleDragStart} onDragEnd={handleDragEnd}>
                     <div className="flex gap-8 h-[calc(100vh-180px)] overflow-hidden px-4">
-
-
-
                         {/* Guests List */}
                         <div className="sticky top-4 self-start min-w-[230px]">
                             <div className="bg-white/80 backdrop-blur-sm rounded-2xl shadow-inner border border-gray-200 p-4 max-h-[calc(100vh-200px)] overflow-y-auto">
