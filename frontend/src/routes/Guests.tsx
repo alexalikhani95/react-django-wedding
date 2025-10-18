@@ -1,5 +1,6 @@
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
+import { Skeleton } from "@/components/ui/skeleton"
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query"
 import { useForm } from "react-hook-form"
 import { toast } from "react-toastify"
@@ -20,6 +21,57 @@ type Inputs = {
   name: string
   party: "bride" | "groom"
 }
+
+const GuestsLoadingSkeleton = () => {
+  return (
+    <div className="grid w-full max-w-2xl grid-cols-1 gap-6 md:grid-cols-2 items-start">
+      {/* Bride panel skeleton */}
+      <div className="rounded-xl border border-border bg-white/70 shadow-sm overflow-hidden">
+        <header className="flex items-center justify-between border-b border-border p-3 bg-rose-50/60">
+          <div className="flex items-center gap-2">
+            <Skeleton className="h-6 w-6 rounded" />
+            <Skeleton className="h-4 w-24" />
+          </div>
+          <Skeleton className="h-5 w-8 rounded-full" />
+        </header>
+        <div className="space-y-0">
+          {[1, 2, 3].map((i) => (
+            <div
+              key={i}
+              className="flex items-center justify-between border-b border-border/60 px-3 py-2 last:border-b-0"
+            >
+              <Skeleton className="h-5 w-32" />
+              <Skeleton className="h-9 w-9 rounded" />
+            </div>
+          ))}
+        </div>
+      </div>
+
+      {/* Groom panel skeleton */}
+      <div className="rounded-xl border border-border bg-white/70 shadow-sm overflow-hidden">
+        <header className="flex items-center justify-between border-b border-border p-3 bg-emerald-50/60">
+          <div className="flex items-center gap-2">
+            <Skeleton className="h-6 w-6 rounded" />
+            <Skeleton className="h-4 w-24" />
+          </div>
+          <Skeleton className="h-5 w-8 rounded-full" />
+        </header>
+        <div className="space-y-0">
+          {[1, 2, 3].map((i) => (
+            <div
+              key={i}
+              className="flex items-center justify-between border-b border-border/60 px-3 py-2 last:border-b-0"
+            >
+              <Skeleton className="h-5 w-32" />
+              <Skeleton className="h-9 w-9 rounded" />
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+  )
+}
+
 
 export const Guests = () => {
   const {
@@ -54,7 +106,7 @@ export const Guests = () => {
       toast.success("Guest added")
     },
     onError: () => {
-      toast.error("Error deleting guest. Please try again.")
+      toast.error("Error adding guest. Please try again.")
     },
   })
 
@@ -67,33 +119,30 @@ export const Guests = () => {
     },
     onMutate: async (guestId) => {
       await queryClient.cancelQueries({ queryKey: ["guests"] })
-
       const previousGuests = queryClient.getQueryData<Guest[]>(["guests"])
       if (previousGuests) {
-        const newGuests = previousGuests.filter((guest) => guest.id !== guestId)
-        queryClient.setQueryData(["guests"], newGuests)
+        queryClient.setQueryData(
+          ["guests"],
+          previousGuests.filter((g) => g.id !== guestId)
+        )
       }
-
       return previousGuests
-
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["guests"] })
-      toast.success('Deleted guest!')
+      toast.success("Deleted guest!")
     },
     onError: () => {
-      toast.error('Error deleting guest!')
-    }
+      toast.error("Error deleting guest!")
+    },
   })
 
   const onSubmit = handleSubmit((data) => addMutation.mutate(data))
 
-  if (isLoading) return <p>Loading Guests...</p>
   if (isError) return <p>Error loading Guests</p>
 
-
-  const brideGuests = guests && guests.filter((guest) => guest.party === "bride")
-  const groomGuests = guests && guests.filter((guest) => guest.party === "groom")
+  const brideGuests = guests?.filter((guest) => guest.party === "bride") ?? []
+  const groomGuests = guests?.filter((guest) => guest.party === "groom") ?? []
 
   return (
     <div className="flex flex-col items-center">
@@ -159,75 +208,89 @@ export const Guests = () => {
         <Button
           type="submit"
           className="w-full rounded-xl p-4 text-base font-medium"
-          disabled={addMutation.isPending}
+          disabled={isLoading || addMutation.isPending}
         >
-          {addMutation.isPending ? (
-            "Adding guest..."
-          ) : (
-            "Add guest"
-          )}
+          {addMutation.isPending ? "Adding guest..." : "Add guest"}
         </Button>
       </form>
 
-      {/* Guest lists */}
-      <div className="grid w-full max-w-2xl grid-cols-1 gap-6 md:grid-cols-2 items-start">
-        {/* Bride panel */}
-        <div className="rounded-xl border border-border bg-white/70 shadow-sm overflow-hidden">
-          <header className="flex items-center justify-between border-b border-border p-3 bg-rose-50/60">
-            <div className="flex items-center gap-2">
-              <span className="text-xl">👰</span>
-              <h3 className="text-sm font-semibold text-rose-900">Bride Guests</h3>
-            </div>
-            <span className="rounded-full bg-rose-100 px-2 py-0.5 text-xs font-medium text-rose-700">
-              {brideGuests?.length}
-            </span>
-          </header>
-
-          {brideGuests && brideGuests.length > 0 ? (
-            brideGuests.map((guest, index) => (
-              <div className="flex items-center justify-between border-b border-border/60 px-3 py-2 last:border-b-0" key={index}>
-                <p
-                >
-                  {guest.name}
-                </p>
-                <Button variant="destructive" onClick={() => deleteMutation.mutate(guest.id)}>
-                  <Trash2Icon />
-                </Button>
+      {isLoading ? (
+        <GuestsLoadingSkeleton />
+      ) : (
+        <div className="grid w-full max-w-2xl grid-cols-1 gap-6 md:grid-cols-2 items-start">
+          {/* Bride panel */}
+          <div className="rounded-xl border border-border bg-white/70 shadow-sm overflow-hidden">
+            <header className="flex items-center justify-between border-b border-border p-3 bg-rose-50/60">
+              <div className="flex items-center gap-2">
+                <span className="text-xl">👰</span>
+                <h3 className="text-sm font-semibold text-rose-900">
+                  Bride Guests
+                </h3>
               </div>
-            ))
-          ) : (
-            <p className="px-3 py-3 text-sm text-muted-foreground">No guests yet.</p>
-          )}
-        </div>
+              <span className="rounded-full bg-rose-100 px-2 py-0.5 text-xs font-medium text-rose-700">
+                {brideGuests.length}
+              </span>
+            </header>
 
-        {/* Groom panel */}
-        <div className="rounded-xl border border-border bg-white/70 shadow-sm overflow-hidden">
-          <header className="flex items-center justify-between border-b border-border p-3 bg-emerald-50/60">
-            <div className="flex items-center gap-2">
-              <span className="text-xl">🤵</span>
-              <h3 className="text-sm font-semibold text-emerald-900">Groom Guests</h3>
-            </div>
-            <span className="rounded-full bg-emerald-100 px-2 py-0.5 text-xs font-medium text-emerald-700">
-              {groomGuests?.length}
-            </span>
-          </header>
-          {groomGuests && groomGuests.length > 0 ? (
-            groomGuests.map((guest, index) => (
-              <div className="flex justify-between items-center border-b border-border/60 px-3 py-2 last:border-b-0" key={index}>
-                <p
+            {brideGuests.length > 0 ? (
+              brideGuests.map((guest) => (
+                <div
+                  className="flex items-center justify-between border-b border-border/60 px-3 py-2 last:border-b-0"
+                  key={guest.id}
                 >
-                  {guest.name}
-                </p>
-                <Button variant="destructive" onClick={() => deleteMutation.mutate(guest.id)}>
-                  <Trash2Icon />
-                </Button>
+                  <p>{guest.name}</p>
+                  <Button
+                    variant="destructive"
+                    onClick={() => deleteMutation.mutate(guest.id)}
+                  >
+                    <Trash2Icon />
+                  </Button>
+                </div>
+              ))
+            ) : (
+              <p className="px-3 py-3 text-sm text-muted-foreground">
+                No guests yet.
+              </p>
+            )}
+          </div>
+
+          {/* Groom panel */}
+          <div className="rounded-xl border border-border bg-white/70 shadow-sm overflow-hidden">
+            <header className="flex items-center justify-between border-b border-border p-3 bg-emerald-50/60">
+              <div className="flex items-center gap-2">
+                <span className="text-xl">🤵</span>
+                <h3 className="text-sm font-semibold text-emerald-900">
+                  Groom Guests
+                </h3>
               </div>
-            ))
-          ) : (
-            <p className="px-3 py-3 text-sm text-muted-foreground">No guests yet.</p>
-          )}
+              <span className="rounded-full bg-emerald-100 px-2 py-0.5 text-xs font-medium text-emerald-700">
+                {groomGuests.length}
+              </span>
+            </header>
+
+            {groomGuests.length > 0 ? (
+              groomGuests.map((guest) => (
+                <div
+                  className="flex justify-between items-center border-b border-border/60 px-3 py-2 last:border-b-0"
+                  key={guest.id}
+                >
+                  <p>{guest.name}</p>
+                  <Button
+                    variant="destructive"
+                    onClick={() => deleteMutation.mutate(guest.id)}
+                  >
+                    <Trash2Icon />
+                  </Button>
+                </div>
+              ))
+            ) : (
+              <p className="px-3 py-3 text-sm text-muted-foreground">
+                No guests yet.
+              </p>
+            )}
+          </div>
         </div>
-      </div>
+      )}
     </div>
   )
 }
