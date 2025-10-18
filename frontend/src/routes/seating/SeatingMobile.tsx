@@ -10,6 +10,7 @@ import { useGuests } from "@/guests/queries"
 import type { Guest } from "../Guests"
 import type { Inputs, Table } from "./types"
 import { useAddTable, useDeleteTable, useRemoveFromSeat, useAssignSeat } from "./mutations"
+import { useSearchParams } from "react-router"
 
 export const SeatingMobile = () => {
     const { register, handleSubmit, reset } = useForm<Inputs>()
@@ -17,6 +18,14 @@ export const SeatingMobile = () => {
     const [expandedTable, setExpandedTable] = useState<number | null>(null)
     const [confirmingDeleteId, setConfirmingDeleteId] = useState<number | null>(null)
     const [confirmingGuestToRemove, setConfirmingGuestToRemove] = useState<{ guest: Guest, tableId: number } | null>(null)
+
+    const [searchParams, setSearchParams] = useSearchParams()
+    const search = searchParams.get("search") || ""
+
+    const handleSearchChange = (value: string) => {
+        if (value) setSearchParams({ search: value })
+        else setSearchParams({})
+    }
 
     const { data: guests, isLoading: isLoadingGuests, isError: isErrorGuests } = useGuests()
     const { data: tables, isLoading: tablesLoading, isError: isErrorTables } = useTables()
@@ -88,7 +97,7 @@ export const SeatingMobile = () => {
     if (isLoadingGuests || tablesLoading) return <p className="text-center p-4">Loading...</p>
     if (isErrorGuests || isErrorTables) return <p className="text-center p-4">Error loading data</p>
 
-    const unassignedGuests = guests?.filter(g => !g.table) || []
+    const unassignedGuests = guests?.filter(guest => !guest.table && guest.name.toLowerCase().includes(search.toLowerCase())) || []
 
     return (
         <div className="flex flex-col p-4 max-w-md mx-auto">
@@ -112,6 +121,15 @@ export const SeatingMobile = () => {
                 </div>
             </form>
 
+
+            <Input
+                placeholder="Search guest..."
+                value={search}
+                onChange={(e) => handleSearchChange(e.target.value)}
+
+                className="mb-6 w-full bg-white"
+            />
+
             {/* Unassigned Guests */}
             {unassignedGuests.length > 0 && (
                 <div className="mb-6 bg-white rounded-lg border p-4 shadow-sm">
@@ -130,11 +148,10 @@ export const SeatingMobile = () => {
                                     <button
                                         key={guest.id}
                                         onClick={() => handleGuestSelect(guest)}
-                                        className={`px-3 py-2 rounded-lg border text-sm transition-all ${
-                                            selectedGuest?.id === guest.id
-                                                ? "bg-blue-500 text-white border-blue-600 shadow-md"
-                                                : "bg-white border-gray-200 hover:border-blue-300"
-                                        }`}
+                                        className={`px-3 py-2 rounded-lg border text-sm transition-all ${selectedGuest?.id === guest.id
+                                            ? "bg-blue-500 text-white border-blue-600 shadow-md"
+                                            : "bg-white border-gray-200 hover:border-blue-300"
+                                            }`}
                                     >
                                         {guest.name}
                                     </button>
@@ -178,15 +195,14 @@ export const SeatingMobile = () => {
                             <button
                                 key={seat.id}
                                 onClick={() => handleSeatClick(table.id, seat.id, seat.guest_id)}
-                                className={`h-12 rounded-lg border-2 text-xs flex flex-col items-center justify-center p-1 transition-all ${
-                                    !guest
-                                        ? selectedGuest
-                                            ? "border-dashed border-blue-300 bg-blue-50 hover:bg-blue-100"
-                                            : "border-dashed border-gray-300 bg-gray-100"
-                                        : isGuestConfirming
-                                            ? "border-solid border-red-500 bg-red-100 text-red-800"
-                                            : "border-solid border-green-500 bg-green-50 hover:bg-green-100"
-                                }`}
+                                className={`h-12 rounded-lg border-2 text-xs flex flex-col items-center justify-center p-1 transition-all ${!guest
+                                    ? selectedGuest
+                                        ? "border-dashed border-blue-300 bg-blue-50 hover:bg-blue-100"
+                                        : "border-dashed border-gray-300 bg-gray-100"
+                                    : isGuestConfirming
+                                        ? "border-solid border-red-500 bg-red-100 text-red-800"
+                                        : "border-solid border-green-500 bg-green-50 hover:bg-green-100"
+                                    }`}
                             >
                                 <div className="font-medium text-center leading-tight text-[10px] truncate w-full px-1">
                                     {guest ? (isGuestConfirming ? "Remove?" : guest.name) : "Empty"}
