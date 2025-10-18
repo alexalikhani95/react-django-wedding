@@ -12,6 +12,7 @@ import { useAddTable, useDeleteTable, useRemoveFromSeat, useAssignSeat } from ".
 import type { Guest } from "../Guests"
 import type { Inputs, Seat } from "./types"
 import type { Table } from "./types"
+import { Skeleton } from "@/components/ui/skeleton"
 
 const GuestItem = ({ guest }: { guest: Guest }) => {
     const { attributes, listeners, setNodeRef, isDragging } = useDraggable({
@@ -30,6 +31,58 @@ const GuestItem = ({ guest }: { guest: Guest }) => {
 
         >
             {guest.name}
+        </div>
+    )
+}
+
+const LoadingSkeleton = () => {
+    return (
+        <div className="flex gap-8 h-[calc(100vh-180px)] overflow-hidden px-4">
+            {/* Guests Skeleton */}
+            <div className="sticky top-4 self-start min-w-[230px]">
+                <div className="bg-white/80 backdrop-blur-sm rounded-2xl shadow-inner border border-gray-200 p-4 max-h-[calc(100vh-200px)] overflow-y-auto">
+                    <Skeleton className="h-5 w-20 mx-auto mb-4" />
+                    <div className="flex flex-col gap-3">
+                        {Array.from({ length: 6 }).map((_, i) => (
+                            <Skeleton key={i} className="h-8 w-full rounded-xl" />
+                        ))}
+                    </div>
+                </div>
+            </div>
+
+            {/* Tables Skeleton */}
+            <div className="flex-1 overflow-y-auto pr-2">
+                <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 auto-rows-min items-start pt-10">
+                    {Array.from({ length: 4 }).map((_, i) => (
+                        <div key={i} className="flex items-center gap-2">
+                            {/* Left seat */}
+                            <Skeleton className="h-[50px] w-[80px] rounded-lg" />
+
+                            <div className="flex flex-col flex-1">
+                                {/* Top seats */}
+                                <div className="flex pb-1 gap-1">
+                                    {Array.from({ length: 4 }).map((_, j) => (
+                                        <Skeleton key={j} className="h-[50px] w-[80px] rounded-lg" />
+                                    ))}
+                                </div>
+
+                                {/* Table name placeholder */}
+                                <Skeleton className="h-[130px] w-full rounded-lg" />
+
+                                {/* Bottom seats */}
+                                <div className="flex pt-1 gap-1">
+                                    {Array.from({ length: 4 }).map((_, j) => (
+                                        <Skeleton key={j} className="h-[50px] w-[80px] rounded-lg" />
+                                    ))}
+                                </div>
+                            </div>
+
+                            {/* Right seat */}
+                            <Skeleton className="h-[50px] w-[80px] rounded-lg" />
+                        </div>
+                    ))}
+                </div>
+            </div>
         </div>
     )
 }
@@ -95,7 +148,6 @@ export const SeatingDesktop = () => {
         })
     })
 
-    if (isLoadingGuests || tablesLoading) return <p>Loading...</p>
     if (isErrorGuests || isErrorTables) return <p>Error loading data</p>
 
     const handleDragStart = (event: DragStartEvent) => {
@@ -145,7 +197,7 @@ export const SeatingDesktop = () => {
                         />
                         <Button
                             type="submit"
-                            disabled={addMutation.isPending}
+                            disabled={addMutation.isPending || isLoadingGuests || tablesLoading}
                             className="shrink-0"
                         >
                             {addMutation.isPending ? "..." : "Add"}
@@ -154,89 +206,95 @@ export const SeatingDesktop = () => {
                 </form>
             </div>
 
-            <DndContext onDragStart={handleDragStart} onDragEnd={handleDragEnd}>
-                <div className="flex gap-8 h-[calc(100vh-180px)] overflow-hidden px-4">
+            {isLoadingGuests || tablesLoading ? (
+                <LoadingSkeleton />
 
-                    {/* Guests List */}
-                    <div className="sticky top-4 self-start min-w-[230px]">
-                        <div className="bg-white/80 backdrop-blur-sm rounded-2xl shadow-inner border border-gray-200 p-4 max-h-[calc(100vh-200px)] overflow-y-auto">
-                            <h2 className="text-lg text-gray-700 mb-4 text-center">
-                                Guests
-                            </h2>
+            ) : (
+                <DndContext onDragStart={handleDragStart} onDragEnd={handleDragEnd}>
+                    <div className="flex gap-8 h-[calc(100vh-180px)] overflow-hidden px-4">
 
-                            <div className="flex flex-col gap-3">
-                                {guests?.length ? (
-                                    guests.sort((a, b) => a.name.localeCompare(b.name))
-                                        .filter((guest) => !guest.table && guest.id !== activeGuest?.id)
-                                        .map((guest) => <GuestItem key={guest.id} guest={guest} />)
-                                ) : (
-                                    <p className="text-gray-500 text-sm text-center">No guests</p>
-                                )}
+                        {/* Guests List */}
+                        <div className="sticky top-4 self-start min-w-[230px]">
+                            <div className="bg-white/80 backdrop-blur-sm rounded-2xl shadow-inner border border-gray-200 p-4 max-h-[calc(100vh-200px)] overflow-y-auto">
+                                <h2 className="text-lg text-gray-700 mb-4 text-center">
+                                    Guests
+                                </h2>
+
+                                <div className="flex flex-col gap-3">
+                                    {guests?.length ? (
+                                        guests.sort((a, b) => a.name.localeCompare(b.name))
+                                            .filter((guest) => !guest.table && guest.id !== activeGuest?.id)
+                                            .map((guest) => <GuestItem key={guest.id} guest={guest} />)
+                                    ) : (
+                                        <p className="text-gray-500 text-sm text-center">No guests</p>
+                                    )}
+                                </div>
+                            </div>
+                        </div>
+
+                        {/* Tables */}
+                        <div className="flex-1 overflow-y-auto pr-2">
+                            <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 auto-rows-min items-start pt-10">
+                                {tables?.map((table: Table) => {
+                                    const seats = table.seats
+                                    return (
+                                        <div className="flex items-center" key={table.id}>
+                                            <SeatBox
+                                                seat={seats[0]}
+                                                guests={guests || []}
+                                                onRemoveGuest={handleRemoveGuest}
+                                            />
+                                            <div className="flex flex-col">
+                                                <div className="flex pb-1">
+                                                    {seats.slice(1, 5).map((seat) => (
+                                                        <SeatBox
+                                                            key={seat.id}
+                                                            seat={seat}
+                                                            guests={guests || []}
+                                                            onRemoveGuest={handleRemoveGuest}
+                                                        />
+                                                    ))}
+                                                </div>
+                                                <div className="p-5 rounded bg-yellow-700 w-full h-[130px] text-center text-white gap-5 flex justify-center items-center">
+                                                    {table.name}
+                                                    <Button variant="destructive" onClick={() => deleteMutation.mutate(table.id)}>
+                                                        <Trash2Icon />
+                                                    </Button>
+                                                </div>
+                                                <div className="flex pt-1">
+                                                    {seats.slice(5, 9).map((seat) => (
+                                                        <SeatBox
+                                                            key={seat.id}
+                                                            seat={seat}
+                                                            guests={guests || []}
+                                                            onRemoveGuest={handleRemoveGuest}
+                                                        />
+                                                    ))}
+                                                </div>
+                                            </div>
+                                            <SeatBox
+                                                seat={seats[9]}
+                                                guests={guests || []}
+                                                onRemoveGuest={handleRemoveGuest}
+                                            />
+                                        </div>
+                                    )
+                                })}
                             </div>
                         </div>
                     </div>
 
-                    {/* Tables */}
-                    <div className="flex-1 overflow-y-auto pr-2">
-                        <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 auto-rows-min items-start pt-10">
-                            {tables?.map((table: Table) => {
-                                const seats = table.seats
-                                return (
-                                    <div className="flex items-center" key={table.id}>
-                                        <SeatBox
-                                            seat={seats[0]}
-                                            guests={guests || []}
-                                            onRemoveGuest={handleRemoveGuest}
-                                        />
-                                        <div className="flex flex-col">
-                                            <div className="flex pb-1">
-                                                {seats.slice(1, 5).map((seat) => (
-                                                    <SeatBox
-                                                        key={seat.id}
-                                                        seat={seat}
-                                                        guests={guests || []}
-                                                        onRemoveGuest={handleRemoveGuest}
-                                                    />
-                                                ))}
-                                            </div>
-                                            <div className="p-5 rounded bg-yellow-700 w-full h-[130px] text-center text-white gap-5 flex justify-center items-center">
-                                                {table.name}
-                                                <Button variant="destructive" onClick={() => deleteMutation.mutate(table.id)}>
-                                                    <Trash2Icon />
-                                                </Button>
-                                            </div>
-                                            <div className="flex pt-1">
-                                                {seats.slice(5, 9).map((seat) => (
-                                                    <SeatBox
-                                                        key={seat.id}
-                                                        seat={seat}
-                                                        guests={guests || []}
-                                                        onRemoveGuest={handleRemoveGuest}
-                                                    />
-                                                ))}
-                                            </div>
-                                        </div>
-                                        <SeatBox
-                                            seat={seats[9]}
-                                            guests={guests || []}
-                                            onRemoveGuest={handleRemoveGuest}
-                                        />
-                                    </div>
-                                )
-                            })}
-                        </div>
-                    </div>
-                </div>
+                    {/* Drag overlay */}
+                    <DragOverlay>
+                        {activeGuest ? (
+                            <div className="bg-white border border-gray-200 p-3 rounded-lg shadow-md w-[80px] text-center">
+                                {activeGuest.name}
+                            </div>
+                        ) : null}
+                    </DragOverlay>
+                </DndContext>
+            )}
 
-                {/* Drag overlay */}
-                <DragOverlay>
-                    {activeGuest ? (
-                        <div className="bg-white border border-gray-200 p-3 rounded-lg shadow-md w-[80px] text-center">
-                            {activeGuest.name}
-                        </div>
-                    ) : null}
-                </DragOverlay>
-            </DndContext>
         </div>
     )
 }
