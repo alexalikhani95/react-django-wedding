@@ -234,7 +234,8 @@ export const SeatingDesktop = () => {
 
                         {/* Tables */}
                         <div className="flex-1 overflow-y-auto pr-2">
-                            <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 auto-rows-min items-start pt-10">
+                            {/* auto-fit + minmax(500px, 1fr) ensures each table block is at least 500px wide and Automatically wraps down to a new row instead of squeezing and overlapping */}
+                            <div className="grid gap-10 auto-rows-min items-start pt-10 grid-cols-[repeat(auto-fit,minmax(500px,1fr))]">
                                 {tables?.map((table: Table) => {
                                     const seats = table.seats
                                     return (
