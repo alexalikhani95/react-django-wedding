@@ -6,6 +6,8 @@ import { useForm } from "react-hook-form"
 import { toast } from "react-toastify"
 import { Trash2Icon } from "lucide-react"
 import type { Table } from "./seating/types"
+import { useState } from "react"
+import { useSearchParams } from "react-router"
 
 const API_URL = import.meta.env.VITE_API_URL
 
@@ -82,6 +84,14 @@ export const Guests = () => {
   } = useForm<Inputs>({ defaultValues: { name: "", party: "bride" } })
   const queryClient = useQueryClient()
 
+  const [searchParams, setSearchParams] = useSearchParams()
+  const search = searchParams.get("search") || ""
+
+  const handleSearchChange = (value: string) => {
+    if (value) setSearchParams({ search: value })
+    else setSearchParams({})
+  }
+
   const { data: guests, isLoading, isError } = useQuery({
     queryKey: ["guests"],
     queryFn: async (): Promise<Guest[]> => {
@@ -141,8 +151,10 @@ export const Guests = () => {
 
   if (isError) return <p>Error loading Guests</p>
 
-  const brideGuests = guests?.filter((guest) => guest.party === "bride") ?? []
-  const groomGuests = guests?.filter((guest) => guest.party === "groom") ?? []
+  const filteredGuests = guests?.filter((guest) => guest.name.toLowerCase().includes(search.toLowerCase()))
+
+  const brideGuests = filteredGuests?.filter((guest) => guest.party === "bride") ?? []
+  const groomGuests = filteredGuests?.filter((guest) => guest.party === "groom") ?? []
 
   return (
     <div className="flex flex-col items-center">
@@ -214,6 +226,14 @@ export const Guests = () => {
         </Button>
       </form>
 
+      <Input
+        placeholder="Search guest..."
+        value={search}
+        onChange={(e) => handleSearchChange(e.target.value)}
+
+        className="mb-6 max-w-md bg-white"
+      />
+
       {isLoading ? (
         <GuestsLoadingSkeleton />
       ) : (
@@ -249,7 +269,7 @@ export const Guests = () => {
               ))
             ) : (
               <p className="px-3 py-3 text-sm text-muted-foreground">
-                No guests yet.
+                {search.length > 0 ? 'No guests match your search.' : 'No guests yet.'}
               </p>
             )}
           </div>
