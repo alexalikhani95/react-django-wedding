@@ -122,7 +122,11 @@ export const SeatingDesktop = () => {
     }
 
     const handleRemoveGuest = (guestId: number) => {
-        removeFromSeatMutation.mutate(guestId)
+        removeFromSeatMutation.mutate(guestId, {
+            onSuccess: () => {
+                setActiveGuest(null);
+            }
+        })
     }
 
     return (
