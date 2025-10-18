@@ -13,6 +13,7 @@ import type { Guest } from "../Guests"
 import type { Inputs, Seat } from "./types"
 import type { Table } from "./types"
 import { Skeleton } from "@/components/ui/skeleton"
+import { useSearchParams } from "react-router"
 
 const GuestItem = ({ guest }: { guest: Guest }) => {
     const { attributes, listeners, setNodeRef, isDragging } = useDraggable({
@@ -132,6 +133,13 @@ const SeatBox = ({
 export const SeatingDesktop = () => {
     const { register, handleSubmit, reset } = useForm<Inputs>()
     const [activeGuest, setActiveGuest] = useState<Guest | null>(null)
+    const [searchParams, setSearchParams] = useSearchParams()
+    const search = searchParams.get("search") || ""
+
+    const handleSearchChange = (value: string) => {
+        if (value) setSearchParams({ search: value })
+        else setSearchParams({})
+    }
 
     const { data: guests, isLoading: isLoadingGuests, isError: isErrorGuests } = useGuests()
     const { data: tables, isLoading: tablesLoading, isError: isErrorTables } = useTables()
@@ -213,6 +221,8 @@ export const SeatingDesktop = () => {
                 <DndContext onDragStart={handleDragStart} onDragEnd={handleDragEnd}>
                     <div className="flex gap-8 h-[calc(100vh-180px)] overflow-hidden px-4">
 
+
+
                         {/* Guests List */}
                         <div className="sticky top-4 self-start min-w-[230px]">
                             <div className="bg-white/80 backdrop-blur-sm rounded-2xl shadow-inner border border-gray-200 p-4 max-h-[calc(100vh-200px)] overflow-y-auto">
@@ -220,13 +230,21 @@ export const SeatingDesktop = () => {
                                     Guests
                                 </h2>
 
+                                <Input
+                                    placeholder="Search guest..."
+                                    value={search}
+                                    onChange={(e) => handleSearchChange(e.target.value)}
+
+                                    className="mb-6 w-full bg-white"
+                                />
+
                                 <div className="flex flex-col gap-3">
-                                    {guests?.length ? (
+                                    {guests?.filter((guest) => guest.name.toLowerCase().includes(search.toLowerCase())).length ? (
                                         guests.sort((a, b) => a.name.localeCompare(b.name))
                                             .filter((guest) => !guest.table && guest.id !== activeGuest?.id)
                                             .map((guest) => <GuestItem key={guest.id} guest={guest} />)
                                     ) : (
-                                        <p className="text-gray-500 text-sm text-center">No guests</p>
+                                        <p className="text-gray-500 text-sm text-center">{search.length > 0 ? 'No guests match your search.' : 'No guests yet.'}</p>
                                     )}
                                 </div>
                             </div>
