@@ -13,6 +13,7 @@ import { useAddTable, useDeleteTable, useRemoveFromSeat, useAssignSeat } from ".
 import { useSearchParams } from "react-router"
 
 import { Skeleton } from "@/components/ui/skeleton"
+import { SearchGuests } from "@/components/SearchGuests"
 
 const LoadingSkeleton = () => {
   return (
@@ -144,7 +145,7 @@ export const SeatingMobile = () => {
       <div className="flex flex-col p-4 max-w-md mx-auto">
         <h1 className="text-2xl font-bold mb-4 text-center">Seating</h1>
 
-        {/* Add Table Form (disabled while loading to prevent jump) */}
+        {/* Add Table Form  */}
         <form onSubmit={onSubmit} className="mb-6 bg-white rounded-lg border p-4 shadow-sm">
           <h2 className="text-sm font-semibold mb-3">Add Table</h2>
           <div className="flex gap-2">
@@ -154,9 +155,6 @@ export const SeatingMobile = () => {
             </Button>
           </div>
         </form>
-
-        <Input placeholder="Search guest..." value={search} onChange={(e) => handleSearchChange(e.target.value)} className="mb-6 w-full bg-white" disabled />
-
         <LoadingSkeleton />
       </div>
     )
@@ -166,8 +164,8 @@ export const SeatingMobile = () => {
     guests?.filter((guest) => !guest.table && guest.name.toLowerCase().includes(search.toLowerCase())) || []
 
   return (
-    <div className="flex flex-col p-4 max-w-md mx-auto">
-      <h1 className="text-2xl font-bold mb-4 text-center">Seating</h1>
+    <div className="flex flex-col p-4 max-w-md mx-auto gap-5">
+      <h1 className="text-2xl font-bold ext-center">Seating</h1>
 
       <form onSubmit={onSubmit} className="mb-6 bg-white rounded-lg border p-4 shadow-sm">
         <h2 className="text-sm font-semibold mb-3">Add Table</h2>
@@ -179,21 +177,18 @@ export const SeatingMobile = () => {
         </div>
       </form>
 
-      <Input
-        placeholder="Search guest..."
-        value={search}
-        onChange={(e) => handleSearchChange(e.target.value)}
-        className="mb-6 w-full bg-white"
-      />
-
       {/* Unassigned Guests */}
       {unassignedGuests.length > 0 && (
-        <div className="mb-6 bg-white rounded-lg border p-4 shadow-sm">
-          <h2 className="text-sm font-semibold mb-3 flex items-center gap-2">
+        <div className="flex flex-col bg-white rounded-lg border p-4 shadow-sm gap-3">
+          <h2 className="text-sm font-semibold flex items-center gap-2">
             <UserPlus className="w-4 h-4" />
             Unassigned Guests ({unassignedGuests.length})
           </h2>
-          <p className="text-xs text-muted-foreground mb-3">Tap a guest, then tap an empty seat to assign</p>
+          <p className="text-xs text-muted-foreground">Tap a guest, then tap an empty seat to assign</p>
+                <SearchGuests
+                value={search}
+                onChange={handleSearchChange}
+                />
           <div className="flex flex-wrap gap-2">
             {unassignedGuests
               .sort((a, b) => a.name.localeCompare(b.name))
