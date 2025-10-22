@@ -1,6 +1,6 @@
-import { Button } from "@/components/ui/button";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { toast } from "react-toastify";
+import { Button } from "@/components/ui/button";
 
 const API_URL = import.meta.env.VITE_API_URL;
 
@@ -16,8 +16,11 @@ type Rsvp = {
 };
 
 export const RsvpList = () => {
-
-  const { data: rsvps, isLoading, isError } = useQuery({
+  const {
+    data: rsvps,
+    isLoading,
+    isError,
+  } = useQuery({
     queryKey: ["rsvps"],
     queryFn: async () => {
       const res = await fetch(`${API_URL}/api/rsvp/list/`);
@@ -27,7 +30,8 @@ export const RsvpList = () => {
   });
 
   if (isLoading) return <p className="text-center p-4">Loading RSVPs...</p>;
-  if (isError) return <p className="text-center p-4 text-red-600">Error loading RSVPs</p>;
+  if (isError)
+    return <p className="text-center p-4 text-red-600">Error loading RSVPs</p>;
 
   const yesRsvps = rsvps.filter((r: Rsvp) => r.attending === "yes");
   const noRsvps = rsvps.filter((r: Rsvp) => r.attending === "no");
@@ -36,9 +40,13 @@ export const RsvpList = () => {
     <div className="flex flex-col md:flex-row gap-6 p-4">
       {/* Attending */}
       <div className="flex-1">
-        <h2 className="text-xl font-semibold mb-4 text-center md:text-left">Attending ✅ ({yesRsvps.length})</h2>
+        <h2 className="text-xl font-semibold mb-4 text-center md:text-left">
+          Attending ✅ ({yesRsvps.length})
+        </h2>
         <div className="flex flex-col gap-4">
-          {yesRsvps.length === 0 && <p className="text-gray-500 text-sm">No one has RSVP'd yes yet.</p>}
+          {yesRsvps.length === 0 && (
+            <p className="text-gray-500 text-sm">No one has RSVP'd yes yet.</p>
+          )}
           {yesRsvps.map((rsvp: Rsvp) => (
             <RsvpCard key={rsvp.id} rsvp={rsvp} />
           ))}
@@ -47,9 +55,13 @@ export const RsvpList = () => {
 
       {/* Not Attending ❌ */}
       <div className="flex-1">
-        <h2 className="text-xl font-semibold mb-4 text-center md:text-left">Not Attending ❌ ({noRsvps.length})</h2>
+        <h2 className="text-xl font-semibold mb-4 text-center md:text-left">
+          Not Attending ❌ ({noRsvps.length})
+        </h2>
         <div className="flex flex-col gap-4">
-          {noRsvps.length === 0 && <p className="text-gray-500 text-sm">No one has RSVP'd no yet.</p>}
+          {noRsvps.length === 0 && (
+            <p className="text-gray-500 text-sm">No one has RSVP'd no yet.</p>
+          )}
           {noRsvps.map((rsvp: Rsvp) => (
             <RsvpCard key={rsvp.id} rsvp={rsvp} />
           ))}
@@ -64,7 +76,9 @@ const RsvpCard = ({ rsvp }: { rsvp: Rsvp }) => {
 
   const mutation = useMutation({
     mutationFn: async (id: number) => {
-      const res = await fetch(`${API_URL}/api/rsvp/${id}/delete/`, { method: "DELETE" });
+      const res = await fetch(`${API_URL}/api/rsvp/${id}/delete/`, {
+        method: "DELETE",
+      });
       if (!res.ok) throw new Error("Failed to delete RSVP");
     },
     onSuccess: () => {

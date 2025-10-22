@@ -146,7 +146,9 @@
 @layer base {
   * {
     @apply border-border outline-ring/50;
-    body { font-family: 'Dancing Script', cursive; }
+    body {
+      font-family: "Dancing Script", cursive;
+    }
   }
 
   body {
@@ -155,12 +157,20 @@
 }
 
 @keyframes spin-slow {
-  from { transform: rotate(0deg); }
-  to { transform: rotate(360deg); }
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
 }
 @keyframes spin-slower {
-  from { transform: rotate(0deg); }
-  to { transform: rotate(-360deg); }
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(-360deg);
+  }
 }
 
 .animate-spin-slow {
