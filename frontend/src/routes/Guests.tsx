@@ -1,29 +1,29 @@
-import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
-import { Skeleton } from "@/components/ui/skeleton"
-import { useMutation, useQueryClient } from "@tanstack/react-query"
-import { useForm } from "react-hook-form"
-import { toast } from "react-toastify"
-import { Trash2Icon } from "lucide-react"
-import type { Table } from "./seating/types"
-import { useSearchParams } from "react-router"
-import { useGuests } from "@/guests/queries"
-import { SearchGuests } from "@/components/SearchGuests"
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { Trash2Icon } from "lucide-react";
+import { useForm } from "react-hook-form";
+import { useSearchParams } from "react-router";
+import { toast } from "react-toastify";
+import { SearchGuests } from "@/components/SearchGuests";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Skeleton } from "@/components/ui/skeleton";
+import { useGuests } from "@/guests/queries";
+import type { Table } from "./seating/types";
 
-const API_URL = import.meta.env.VITE_API_URL
+const API_URL = import.meta.env.VITE_API_URL;
 
 export type Guest = {
-  id: number
-  name: string
-  party: "bride" | "groom"
-  seat_number: number
-  table: Table
-}
+  id: number;
+  name: string;
+  party: "bride" | "groom";
+  seat_number: number;
+  table: Table;
+};
 
 type Inputs = {
-  name: string
-  party: "bride" | "groom"
-}
+  name: string;
+  party: "bride" | "groom";
+};
 
 const LoadingSkeleton = () => {
   return (
@@ -72,9 +72,8 @@ const LoadingSkeleton = () => {
         </div>
       </div>
     </div>
-  )
-}
-
+  );
+};
 
 export const Guests = () => {
   const {
@@ -82,18 +81,18 @@ export const Guests = () => {
     handleSubmit,
     formState: { errors },
     reset,
-  } = useForm<Inputs>({ defaultValues: { name: "", party: "bride" } })
-  const queryClient = useQueryClient()
+  } = useForm<Inputs>({ defaultValues: { name: "", party: "bride" } });
+  const queryClient = useQueryClient();
 
-  const [searchParams, setSearchParams] = useSearchParams()
-  const search = searchParams.get("search") || ""
+  const [searchParams, setSearchParams] = useSearchParams();
+  const search = searchParams.get("search") || "";
 
   const handleSearchChange = (value: string) => {
-    if (value) setSearchParams({ search: value })
-    else setSearchParams({})
-  }
+    if (value) setSearchParams({ search: value });
+    else setSearchParams({});
+  };
 
-  const { data: guests, isLoading, isError } = useGuests()
+  const { data: guests, isLoading, isError } = useGuests();
 
   const addMutation = useMutation({
     mutationFn: async (data: Inputs) => {
@@ -101,54 +100,58 @@ export const Guests = () => {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(data),
-      })
-      if (!response.ok) throw new Error("Failed to add guest")
+      });
+      if (!response.ok) throw new Error("Failed to add guest");
     },
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["guests"] })
-      reset()
-      toast.success("Guest added")
+      queryClient.invalidateQueries({ queryKey: ["guests"] });
+      reset();
+      toast.success("Guest added");
     },
     onError: () => {
-      toast.error("Error adding guest. Please try again.")
+      toast.error("Error adding guest. Please try again.");
     },
-  })
+  });
 
   const deleteMutation = useMutation<void, Error, number>({
     mutationFn: async (id: number) => {
       const res = await fetch(`${API_URL}/api/guests/${id}/delete/`, {
         method: "DELETE",
-      })
-      if (!res.ok) throw new Error("Failed to delete guest")
+      });
+      if (!res.ok) throw new Error("Failed to delete guest");
     },
     onMutate: async (guestId) => {
-      await queryClient.cancelQueries({ queryKey: ["guests"] })
-      const previousGuests = queryClient.getQueryData<Guest[]>(["guests"])
+      await queryClient.cancelQueries({ queryKey: ["guests"] });
+      const previousGuests = queryClient.getQueryData<Guest[]>(["guests"]);
       if (previousGuests) {
         queryClient.setQueryData(
           ["guests"],
-          previousGuests.filter((g) => g.id !== guestId)
-        )
+          previousGuests.filter((g) => g.id !== guestId),
+        );
       }
-      return previousGuests
+      return previousGuests;
     },
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["guests"] })
-      toast.success("Deleted guest!")
+      queryClient.invalidateQueries({ queryKey: ["guests"] });
+      toast.success("Deleted guest!");
     },
     onError: () => {
-      toast.error("Error deleting guest!")
+      toast.error("Error deleting guest!");
     },
-  })
+  });
 
-  const onSubmit = handleSubmit((data) => addMutation.mutate(data))
+  const onSubmit = handleSubmit((data) => addMutation.mutate(data));
 
-  if (isError) return <p>Error loading Guests</p>
+  if (isError) return <p>Error loading Guests</p>;
 
-  const filteredGuests = guests?.filter((guest) => guest.name.toLowerCase().includes(search.toLowerCase()))
+  const filteredGuests = guests?.filter((guest) =>
+    guest.name.toLowerCase().includes(search.toLowerCase()),
+  );
 
-  const brideGuests = filteredGuests?.filter((guest) => guest.party === "bride") ?? []
-  const groomGuests = filteredGuests?.filter((guest) => guest.party === "groom") ?? []
+  const brideGuests =
+    filteredGuests?.filter((guest) => guest.party === "bride") ?? [];
+  const groomGuests =
+    filteredGuests?.filter((guest) => guest.party === "groom") ?? [];
 
   return (
     <div className="flex flex-col items-center">
@@ -181,7 +184,9 @@ export const Guests = () => {
             aria-invalid={errors.name ? "true" : "false"}
           />
           {errors.name && (
-            <p className="mt-1 text-sm text-destructive">Please enter a name.</p>
+            <p className="mt-1 text-sm text-destructive">
+              Please enter a name.
+            </p>
           )}
         </div>
 
@@ -221,10 +226,7 @@ export const Guests = () => {
       </form>
 
       <div className="mb-5">
-      <SearchGuests
-      value={search}
-      onChange={handleSearchChange}
-      />
+        <SearchGuests value={search} onChange={handleSearchChange} />
       </div>
 
       {isLoading ? (
@@ -262,7 +264,9 @@ export const Guests = () => {
               ))
             ) : (
               <p className="px-3 py-3 text-sm text-muted-foreground">
-                {search.length > 0 ? 'No guests match your search.' : 'No guests yet.'}
+                {search.length > 0
+                  ? "No guests match your search."
+                  : "No guests yet."}
               </p>
             )}
           </div>
@@ -305,5 +309,5 @@ export const Guests = () => {
         </div>
       )}
     </div>
-  )
-}
+  );
+};
