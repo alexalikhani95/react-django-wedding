@@ -14,6 +14,7 @@ import type { Inputs, Seat } from "./types"
 import type { Table } from "./types"
 import { Skeleton } from "@/components/ui/skeleton"
 import { useSearchParams } from "react-router"
+import { SearchGuests } from "@/components/SearchGuests"
 
 const GuestItem = ({ guest }: { guest: Guest }) => {
     const { attributes, listeners, setNodeRef, isDragging } = useDraggable({
@@ -227,13 +228,12 @@ export const SeatingDesktop = () => {
                                     Guests
                                 </h2>
 
-                                <Input
-                                    placeholder="Search guest..."
-                                    value={search}
-                                    onChange={(e) => handleSearchChange(e.target.value)}
-
-                                    className="mb-6 w-full bg-white"
-                                />
+                                <div className="mb-5">
+                                    <SearchGuests
+                                        value={search}
+                                        onChange={handleSearchChange}
+                                    />
+                                </div>
 
                                 <div className="flex flex-col gap-3">
                                     {guests?.filter((guest) => guest.name.toLowerCase().includes(search.toLowerCase())).length ? (

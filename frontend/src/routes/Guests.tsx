@@ -1,13 +1,14 @@
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Skeleton } from "@/components/ui/skeleton"
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query"
+import { useMutation, useQueryClient } from "@tanstack/react-query"
 import { useForm } from "react-hook-form"
 import { toast } from "react-toastify"
 import { Trash2Icon } from "lucide-react"
 import type { Table } from "./seating/types"
-import { useState } from "react"
 import { useSearchParams } from "react-router"
+import { useGuests } from "@/guests/queries"
+import { SearchGuests } from "@/components/SearchGuests"
 
 const API_URL = import.meta.env.VITE_API_URL
 
@@ -24,7 +25,7 @@ type Inputs = {
   party: "bride" | "groom"
 }
 
-const GuestsLoadingSkeleton = () => {
+const LoadingSkeleton = () => {
   return (
     <div className="grid w-full max-w-2xl grid-cols-1 gap-6 md:grid-cols-2 items-start">
       {/* Bride panel skeleton */}
@@ -92,14 +93,7 @@ export const Guests = () => {
     else setSearchParams({})
   }
 
-  const { data: guests, isLoading, isError } = useQuery({
-    queryKey: ["guests"],
-    queryFn: async (): Promise<Guest[]> => {
-      const res = await fetch(`${API_URL}/api/guests/list/`)
-      if (!res.ok) throw new Error("Failed to fetch guests")
-      return res.json()
-    },
-  })
+  const { data: guests, isLoading, isError } = useGuests()
 
   const addMutation = useMutation({
     mutationFn: async (data: Inputs) => {
@@ -226,16 +220,15 @@ export const Guests = () => {
         </Button>
       </form>
 
-      <Input
-        placeholder="Search guest..."
-        value={search}
-        onChange={(e) => handleSearchChange(e.target.value)}
-
-        className="mb-6 max-w-md bg-white"
+      <div className="mb-5">
+      <SearchGuests
+      value={search}
+      onChange={handleSearchChange}
       />
+      </div>
 
       {isLoading ? (
-        <GuestsLoadingSkeleton />
+        <LoadingSkeleton />
       ) : (
         <div className="grid w-full max-w-2xl grid-cols-1 gap-6 md:grid-cols-2 items-start">
           {/* Bride panel */}
