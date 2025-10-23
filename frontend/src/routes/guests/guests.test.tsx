@@ -1,3 +1,4 @@
+import '@testing-library/jest-dom'
 import { expect, test } from 'vitest'
 import {screen} from '@testing-library/react'
 import { render } from '@/utils/test-utils'
