@@ -8,7 +8,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Skeleton } from "@/components/ui/skeleton";
 import { useGuests } from "@/guests/queries";
-import type { Table } from "./seating/types";
+import type { Table } from "../seating/types";
 
 const API_URL = import.meta.env.VITE_API_URL;
 
