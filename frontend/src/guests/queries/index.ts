@@ -1,5 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
-import type { Guest } from "@/routes/Guests";
+import { type Guest } from "@/routes/guests";
 
 const API_URL = import.meta.env.VITE_API_URL;
 
