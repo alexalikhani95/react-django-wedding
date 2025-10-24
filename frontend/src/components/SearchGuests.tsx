@@ -8,6 +8,7 @@ type Props = {
 export const SearchGuests = ({ value, onChange }: Props) => {
   return (
     <Input
+      aria-label="Search guest"
       placeholder="Search guest..."
       value={value}
       onChange={(e) => onChange(e.target.value)}
