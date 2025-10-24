@@ -8,7 +8,7 @@ import App from "./App.tsx";
 import { Header } from "./components/Header.tsx";
 import { Guests } from "./routes/guests";
 import { Information } from "./routes/Information.tsx";
-import { RsvpList } from "./routes/RsvpList.tsx";
+import { RsvpList } from "./routes/rsvpList/";
 import { Rsvp } from "./routes/rsvp";
 import { Seating } from "./routes/seating";
 

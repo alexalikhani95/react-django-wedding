@@ -33,6 +33,8 @@ export const RsvpList = () => {
   if (isError)
     return <p className="text-center p-4 text-red-600">Error loading RSVPs</p>;
 
+  console.log('rvsps', rsvps)
+
   const yesRsvps = rsvps.filter((r: Rsvp) => r.attending === "yes");
   const noRsvps = rsvps.filter((r: Rsvp) => r.attending === "no");
 
@@ -41,7 +43,7 @@ export const RsvpList = () => {
       {/* Attending */}
       <div className="flex-1">
         <h2 className="text-xl font-semibold mb-4 text-center md:text-left">
-          Attending ✅ ({yesRsvps.length})
+          Attending ({yesRsvps.length})
         </h2>
         <div className="flex flex-col gap-4">
           {yesRsvps.length === 0 && (
@@ -53,10 +55,10 @@ export const RsvpList = () => {
         </div>
       </div>
 
-      {/* Not Attending ❌ */}
+      {/* Not Attending */}
       <div className="flex-1">
         <h2 className="text-xl font-semibold mb-4 text-center md:text-left">
-          Not Attending ❌ ({noRsvps.length})
+          Not Attending ({noRsvps.length})
         </h2>
         <div className="flex flex-col gap-4">
           {noRsvps.length === 0 && (
