@@ -79,7 +79,7 @@ export const Guests = () => {
   const {
     register,
     handleSubmit,
-    formState: { errors },
+    formState: { errors, isValid },
     reset,
   } = useForm<Inputs>({ defaultValues: { name: "", party: "bride" } });
   const queryClient = useQueryClient();
@@ -219,7 +219,7 @@ export const Guests = () => {
         <Button
           type="submit"
           className="w-full rounded-xl p-4 text-base font-medium"
-          disabled={isLoading || addMutation.isPending}
+          disabled={isLoading || addMutation.isPending || !isValid}
         >
           {addMutation.isPending ? "Adding guest..." : "Add guest"}
         </Button>
