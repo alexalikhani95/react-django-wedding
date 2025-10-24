@@ -14,7 +14,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Skeleton } from "@/components/ui/skeleton";
 import { useGuests } from "@/guests/queries";
-import type { Guest } from "../Guests";
+import { type Guest } from "../guests";
 import {
   useAddTable,
   useAssignSeat,
@@ -145,7 +145,7 @@ const SeatBox = ({
 };
 
 export const SeatingDesktop = () => {
-  const { register, handleSubmit, reset } = useForm<Inputs>();
+  const { register, handleSubmit, reset, formState: { isValid } } = useForm<Inputs>();
   const [activeGuest, setActiveGuest] = useState<Guest | null>(null);
   const [searchParams, setSearchParams] = useSearchParams();
   const search = searchParams.get("search") || "";
@@ -225,13 +225,15 @@ export const SeatingDesktop = () => {
           <div className="flex gap-2">
             <Input
               {...register("name", { required: true })}
+              aria-label="Table name"
               placeholder="Table name"
               className="flex-1"
+              required
             />
             <Button
               type="submit"
               disabled={
-                addMutation.isPending || isLoadingGuests || tablesLoading
+                addMutation.isPending || isLoadingGuests || tablesLoading || !isValid
               }
               className="shrink-0"
             >
@@ -308,6 +310,7 @@ export const SeatingDesktop = () => {
                           {table.name}
                           <Button
                             variant="destructive"
+                            aria-label={`Delete ${table.name}`}
                             onClick={() => deleteMutation.mutate(table.id)}
                           >
                             <Trash2Icon />
