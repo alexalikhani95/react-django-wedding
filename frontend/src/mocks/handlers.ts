@@ -1,13 +1,6 @@
 import { http, HttpResponse } from 'msw'
 const API_URL = import.meta.env.VITE_API_URL;
-
-const mockGuests = [
-  { id: 1, name: 'Alice', party: 'bride', seat_number: 1, table: { id: 1, name: 'A' } },
-  { id: 2, name: 'Bob', party: 'groom', seat_number: 2, table: { id: 2, name: 'B' } },
-  { id: 3, name: 'Saka', party: 'groom', seat_number: null, table: null },
-  { id: 3, name: 'William Saliba', party: 'groom', seat_number: null, table: null },
-
-]
+import { mockGuests } from '@/routes/guests/mocks';
 
 const mockRsvps = [
     {
@@ -44,10 +37,6 @@ const mockTables = [
     seats: Array.from({ length: 10 }).map((_, i) => ({ id: i + 11, guest_id: null })),
   },
 ]
-
-
-
-
 
  
 export const handlers = [
