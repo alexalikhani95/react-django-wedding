@@ -87,10 +87,16 @@ export const SeatingMobile = () => {
     else setSearchParams({})
   }
 
-  const { data: guests, isLoading: isLoadingGuests, isError: isErrorGuests } =
-    useGuests()
-  const { data: tables, isLoading: tablesLoading, isError: isErrorTables } =
-    useTables()
+  const {
+    data: guests,
+    isLoading: isLoadingGuests,
+    isError: isErrorGuests,
+  } = useGuests()
+  const {
+    data: tables,
+    isLoading: tablesLoading,
+    isError: isErrorTables,
+  } = useTables()
 
   const addMutation = useAddTable()
   const deleteMutation = useDeleteTable()
@@ -161,7 +167,9 @@ export const SeatingMobile = () => {
   }
 
   if (isErrorGuests || isErrorTables)
-    return <p className="text-center text-destructive p-4">Error loading data</p>
+    return (
+      <p className="text-center text-destructive p-4">Error loading data</p>
+    )
 
   const unassignedGuests =
     guests?.filter(
@@ -225,10 +233,11 @@ export const SeatingMobile = () => {
                     <button
                       key={guest.id}
                       onClick={() => handleGuestSelect(guest)}
-                      className={`px-3 py-2 rounded-lg border text-sm transition-all ${selectedGuest?.id === guest.id
+                      className={`px-3 py-2 rounded-lg border text-sm transition-all ${
+                        selectedGuest?.id === guest.id
                           ? "bg-primary text-primary-foreground border-primary shadow-md"
                           : "bg-card text-card-foreground border-border hover:border-primary"
-                        }`}
+                      }`}
                     >
                       {guest.name}
                     </button>
@@ -281,14 +290,15 @@ export const SeatingMobile = () => {
                     onClick={() =>
                       handleSeatClick(table.id, seat.id, seat.guest_id)
                     }
-                    className={`h-12 rounded-lg border-2 text-xs flex flex-col items-center justify-center p-1 transition-all ${!guest
+                    className={`h-12 rounded-lg border-2 text-xs flex flex-col items-center justify-center p-1 transition-all ${
+                      !guest
                         ? selectedGuest
                           ? "border-dashed border-primary bg-muted hover:bg-muted/70"
                           : "border-dashed border-border bg-muted"
                         : isGuestConfirming
                           ? "border-solid border-destructive bg-destructive/10 text-destructive"
                           : "border-solid border-primary bg-primary/10 hover:bg-primary/20 text-primary-foreground"
-                      }`}
+                    }`}
                   >
                     <div className="font-medium text-center leading-tight text-[10px] truncate w-full px-1">
                       {guest
@@ -337,10 +347,11 @@ export const SeatingMobile = () => {
                         isConfirmingTableDelete ? "default" : "destructive"
                       }
                       size="sm"
-                      className={`m-2 transition-colors duration-200 ${isConfirmingTableDelete
+                      className={`m-2 transition-colors duration-200 ${
+                        isConfirmingTableDelete
                           ? "bg-accent hover:bg-accent/80"
                           : ""
-                        }`}
+                      }`}
                       onClick={(e) => {
                         e.stopPropagation()
                         handleDeleteClick(table.id, table.name)
@@ -407,7 +418,9 @@ export const SeatingMobile = () => {
                       )}
 
                       <div className="flex items-stretch gap-2">
-                        <div className="flex items-center">{renderSeat(leftSeat)}</div>
+                        <div className="flex items-center">
+                          {renderSeat(leftSeat)}
+                        </div>
                         <div className="flex-1 flex flex-col gap-2">
                           <div className="grid grid-cols-4 gap-1">
                             {topSeats.map(renderSeat)}
@@ -423,7 +436,9 @@ export const SeatingMobile = () => {
                             {bottomSeats.map(renderSeat)}
                           </div>
                         </div>
-                        <div className="flex items-center">{renderSeat(rightSeat)}</div>
+                        <div className="flex items-center">
+                          {renderSeat(rightSeat)}
+                        </div>
                       </div>
                     </div>
                   )}
