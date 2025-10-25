@@ -4,8 +4,6 @@ import { screen, waitFor } from '@testing-library/react'
 import { render } from '@/utils/test-utils'
 import { SeatingMobile } from './SeatingMobile'
 import userEvent from '@testing-library/user-event'
-import { server } from '@/mocks/server'
-import { http, HttpResponse } from 'msw'
 
 test('Seating Mobile page renders', async () => {
     render(<SeatingMobile />)
