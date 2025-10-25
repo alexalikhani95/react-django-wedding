@@ -33,8 +33,8 @@ const GuestItem = ({ guest }: { guest: Guest }) => {
       ref={setNodeRef}
       {...listeners}
       {...attributes}
-      className={`bg-white border border-gray-100 shadow-sm rounded-xl p-3
-            text-green-900 text-sm text-center select-none
+      className={`bg-card border border-border shadow-sm rounded-xl p-3
+            text-card-foreground text-sm text-center select-none
             cursor-grab active:cursor-grabbing
             hover:shadow-md hover:-translate-y-0.5 transition-all duration-150
             ${isDragging ? "opacity-60" : ""}`}
@@ -49,7 +49,7 @@ const LoadingSkeleton = () => {
     <div className="flex gap-8 h-[calc(100vh-180px)] overflow-hidden px-4">
       {/* Guests Skeleton */}
       <div className="sticky top-4 self-start min-w-[230px]">
-        <div className="bg-white/80 backdrop-blur-sm rounded-2xl shadow-inner border border-gray-200 p-4 max-h-[calc(100vh-200px)] overflow-y-auto">
+        <div className="bg-card/80 backdrop-blur-sm rounded-2xl shadow-inner border border-border p-4 max-h-[calc(100vh-200px)] overflow-y-auto">
           <Skeleton className="h-5 w-20 mx-auto mb-4" />
           <div className="flex flex-col gap-3">
             {Array.from({ length: 6 }).map((_, i) => (
@@ -118,16 +118,16 @@ const SeatBox = ({
     return (
       <div
         ref={setNodeRef}
-        className={`bg-white border border-gray-200 cursor-pointer p-3 mx-1 rounded-lg shadow-md h-[50px] relative w-[80px] flex items-center justify-center ${isOver ? "border-green-500" : ""}`}
+        className={`bg-card border border-border cursor-pointer p-3 mx-1 rounded-lg shadow-md h-[50px] relative w-[80px] flex items-center justify-center ${isOver ? "border-primary" : ""}`}
       >
-        <p>{guest.name}</p>
+        <p className="text-card-foreground text-sm">{guest.name}</p>
         {onRemoveGuest && (
           <button
             onClick={() => onRemoveGuest(guest.id)}
-            className="absolute top-[-10px] right-1 p-1 bg-red-50 rounded-full hover:bg-red-100 cursor-pointer"
+            className="absolute top-[-10px] right-1 p-1 bg-destructive/10 rounded-full hover:bg-destructive/20 cursor-pointer"
             title="Remove guest"
           >
-            <Trash2 className="w-4 h-4 text-red-500" />
+            <Trash2 className="w-4 h-4 text-destructive" />
           </button>
         )}
       </div>
@@ -136,7 +136,7 @@ const SeatBox = ({
     return (
       <div
         ref={setNodeRef}
-        className={`bg-gray-400 border border-dashed p-3 mx-1 rounded-lg shadow-md h-[50px] relative w-[80px] flex items-center justify-center ${isOver ? "border-dashed" : ""}`}
+        className={`bg-muted text-muted-foreground border border-dashed border-border p-3 mx-1 rounded-lg shadow-md h-[50px] relative w-[80px] flex items-center justify-center ${isOver ? "border-primary" : ""}`}
       >
         Empty
       </div>
@@ -217,14 +217,14 @@ export const SeatingDesktop = () => {
   }
 
   return (
-    <div className="flex flex-col text-center">
-      <h1 className="text-3xl mb-5">Seating</h1>
+    <div className="flex flex-col text-center text-foreground">
+      <h1 className="text-3xl mb-5 font-semibold">Seating</h1>
 
       {/* Add Table Form */}
       <div className="w-full flex justify-center">
         <form
           onSubmit={onSubmit}
-          className="mb-6 bg-white rounded-lg border p-4 shadow-sm w-[500px]"
+          className="mb-6 bg-card text-card-foreground rounded-lg border border-border p-4 shadow-sm w-[500px]"
         >
           <h2 className="text-sm font-semibold mb-3">Add Table</h2>
           <div className="flex gap-2">
@@ -258,8 +258,8 @@ export const SeatingDesktop = () => {
           <div className="flex gap-8 h-[calc(100vh-180px)] overflow-hidden px-4">
             {/* Guests List */}
             <div className="sticky top-4 self-start min-w-[230px]">
-              <div className="bg-white/80 backdrop-blur-sm rounded-2xl shadow-inner border border-gray-200 p-4 max-h-[calc(100vh-200px)] overflow-y-auto">
-                <h2 className="text-lg text-gray-700 mb-4 text-center">
+              <div className="bg-card/80 backdrop-blur-sm rounded-2xl shadow-inner border border-border p-4 max-h-[calc(100vh-200px)] overflow-y-auto">
+                <h2 className="text-lg text-card-foreground mb-4 text-center">
                   Guests
                 </h2>
 
@@ -280,7 +280,7 @@ export const SeatingDesktop = () => {
                         <GuestItem key={guest.id} guest={guest} />
                       ))
                   ) : (
-                    <p className="text-gray-500 text-sm text-center">
+                    <p className="text-muted-foreground text-sm text-center">
                       {search.length > 0
                         ? "No guests match your search."
                         : "No guests yet."}
@@ -292,7 +292,6 @@ export const SeatingDesktop = () => {
 
             {/* Tables */}
             <div className="flex-1 overflow-y-auto pr-2">
-              {/* auto-fit + minmax(500px, 1fr) ensures each table block is at least 500px wide and Automatically wraps down to a new row instead of squeezing and overlapping */}
               <div className="grid gap-10 auto-rows-min items-start pt-10 grid-cols-[repeat(auto-fit,minmax(500px,1fr))]">
                 {tables?.map((table: Table) => {
                   const seats = table.seats
@@ -314,7 +313,7 @@ export const SeatingDesktop = () => {
                             />
                           ))}
                         </div>
-                        <div className="p-5 rounded bg-yellow-700 w-full h-[130px] text-center text-white gap-5 flex justify-center items-center">
+                        <div className="p-5 rounded bg-primary w-full h-[130px] text-center text-primary-foreground gap-5 flex justify-center items-center">
                           {table.name}
                           <Button
                             variant="destructive"
@@ -350,7 +349,7 @@ export const SeatingDesktop = () => {
           {/* Drag overlay */}
           <DragOverlay>
             {activeGuest ? (
-              <div className="bg-white border border-gray-200 p-3 rounded-lg shadow-md w-[80px] text-center">
+              <div className="bg-card border border-border p-3 rounded-lg shadow-md w-[80px] text-center text-card-foreground">
                 {activeGuest.name}
               </div>
             ) : null}

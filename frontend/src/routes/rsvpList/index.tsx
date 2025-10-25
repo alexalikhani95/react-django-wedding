@@ -29,25 +29,39 @@ export const RsvpList = () => {
     },
   })
 
-  if (isLoading) return <p className="text-center p-4">Loading RSVPs...</p>
-  if (isError)
-    return <p className="text-center p-4 text-red-600">Error loading RSVPs</p>
+  if (isLoading)
+    return (
+      <p className="text-center p-6 text-muted-foreground text-sm">
+        Loading RSVPs...
+      </p>
+    )
 
-  console.log("rvsps", rsvps)
+  if (isError)
+    return (
+      <p className="text-center p-6 text-destructive text-sm">
+        Error loading RSVPs
+      </p>
+    )
 
   const yesRsvps = rsvps.filter((r: Rsvp) => r.attending === "yes")
   const noRsvps = rsvps.filter((r: Rsvp) => r.attending === "no")
 
   return (
-    <div className="flex flex-col md:flex-row gap-6 p-4">
+    <div className="flex flex-col md:flex-row gap-8 p-4 md:p-8">
       {/* Attending */}
-      <div className="flex-1">
-        <h2 className="text-xl font-semibold mb-4 text-center md:text-left">
-          Attending ({yesRsvps.length})
-        </h2>
-        <div className="flex flex-col gap-4">
+      <div className="flex-1 rounded-xl border border-border bg-card shadow-sm overflow-hidden">
+        <header className="flex items-center justify-between border-b border-border p-4 bg-accent text-accent-foreground">
+          <h2 className="text-lg font-semibold">Attending</h2>
+          <span className="rounded-full bg-accent/60 px-2 py-0.5 text-xs font-medium">
+            {yesRsvps.length}
+          </span>
+        </header>
+
+        <div className="flex flex-col gap-4 p-4">
           {yesRsvps.length === 0 && (
-            <p className="text-gray-500 text-sm">No one has RSVP'd yes yet.</p>
+            <p className="text-sm text-muted-foreground">
+              No one has RSVP’d yes yet.
+            </p>
           )}
           {yesRsvps.map((rsvp: Rsvp) => (
             <RsvpCard key={rsvp.id} rsvp={rsvp} />
@@ -56,13 +70,19 @@ export const RsvpList = () => {
       </div>
 
       {/* Not Attending */}
-      <div className="flex-1">
-        <h2 className="text-xl font-semibold mb-4 text-center md:text-left">
-          Not Attending ({noRsvps.length})
-        </h2>
-        <div className="flex flex-col gap-4">
+      <div className="flex-1 rounded-xl border border-border bg-card shadow-sm overflow-hidden">
+        <header className="flex items-center justify-between border-b border-border p-4 bg-primary text-primary-foreground">
+          <h2 className="text-lg font-semibold">Not Attending</h2>
+          <span className="rounded-full bg-primary/60 px-2 py-0.5 text-xs font-medium">
+            {noRsvps.length}
+          </span>
+        </header>
+
+        <div className="flex flex-col gap-4 p-4">
           {noRsvps.length === 0 && (
-            <p className="text-gray-500 text-sm">No one has RSVP'd no yet.</p>
+            <p className="text-sm text-muted-foreground">
+              No one has RSVP’d no yet.
+            </p>
           )}
           {noRsvps.map((rsvp: Rsvp) => (
             <RsvpCard key={rsvp.id} rsvp={rsvp} />
@@ -91,19 +111,33 @@ const RsvpCard = ({ rsvp }: { rsvp: Rsvp }) => {
   })
 
   return (
-    <div className="bg-white shadow-md rounded-lg p-4 flex flex-col gap-2 border border-gray-200">
-      <p className="font-semibold text-lg">{rsvp.name}</p>
+    <div className="rounded-lg border border-border bg-muted/50 text-card-foreground shadow-sm p-4 flex flex-col gap-2">
+      <p className="font-semibold text-base">{rsvp.name}</p>
+
       {rsvp.attending === "yes" && (
-        <div className="flex flex-col gap-1 text-gray-700 text-md">
-          <p>Starter: {rsvp.starter}</p>
-          <p>Main: {rsvp.main}</p>
-          <p>Dessert: {rsvp.dessert}</p>
-          <p>Allergies: {rsvp.allergies || "None"}</p>
+        <div className="flex flex-col gap-1 text-sm text-muted-foreground">
+          <p>
+            <span className="font-medium text-foreground">Starter:</span>{" "}
+            {rsvp.starter}
+          </p>
+          <p>
+            <span className="font-medium text-foreground">Main:</span>{" "}
+            {rsvp.main}
+          </p>
+          <p>
+            <span className="font-medium text-foreground">Dessert:</span>{" "}
+            {rsvp.dessert}
+          </p>
+          <p>
+            <span className="font-medium text-foreground">Allergies:</span>{" "}
+            {rsvp.allergies || "None"}
+          </p>
         </div>
       )}
+
       <Button
         variant="destructive"
-        className="mt-2 w-[100px]"
+        className="mt-3 w-[130px] self-start"
         onClick={() => mutation.mutate(rsvp.id)}
         disabled={mutation.isPending}
       >

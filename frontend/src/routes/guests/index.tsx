@@ -29,8 +29,8 @@ const LoadingSkeleton = () => {
   return (
     <div className="grid w-full max-w-2xl grid-cols-1 gap-6 md:grid-cols-2 items-start">
       {/* Bride panel skeleton */}
-      <div className="rounded-xl border border-border bg-white/70 shadow-sm overflow-hidden">
-        <header className="flex items-center justify-between border-b border-border p-3 bg-rose-50/60">
+      <div className="rounded-xl border border-border bg-card shadow-sm overflow-hidden">
+        <header className="flex items-center justify-between border-b border-border p-3 bg-muted/60">
           <div className="flex items-center gap-2">
             <Skeleton className="h-6 w-6 rounded" />
             <Skeleton className="h-4 w-24" />
@@ -51,8 +51,8 @@ const LoadingSkeleton = () => {
       </div>
 
       {/* Groom panel skeleton */}
-      <div className="rounded-xl border border-border bg-white/70 shadow-sm overflow-hidden">
-        <header className="flex items-center justify-between border-b border-border p-3 bg-emerald-50/60">
+      <div className="rounded-xl border border-border bg-card shadow-sm overflow-hidden">
+        <header className="flex items-center justify-between border-b border-border p-3 bg-muted/60">
           <div className="flex items-center gap-2">
             <Skeleton className="h-6 w-6 rounded" />
             <Skeleton className="h-4 w-24" />
@@ -82,8 +82,8 @@ export const Guests = () => {
     formState: { errors, isValid },
     reset,
   } = useForm<Inputs>({ defaultValues: { name: "", party: "bride" } })
-  const queryClient = useQueryClient()
 
+  const queryClient = useQueryClient()
   const [searchParams, setSearchParams] = useSearchParams()
   const search = searchParams.get("search") || ""
 
@@ -108,9 +108,7 @@ export const Guests = () => {
       reset()
       toast.success("Guest added")
     },
-    onError: () => {
-      toast.error("Error adding guest. Please try again.")
-    },
+    onError: () => toast.error("Error adding guest. Please try again."),
   })
 
   const deleteMutation = useMutation<void, Error, number>({
@@ -135,14 +133,15 @@ export const Guests = () => {
       queryClient.invalidateQueries({ queryKey: ["guests"] })
       toast.success("Deleted guest!")
     },
-    onError: () => {
-      toast.error("Error deleting guest!")
-    },
+    onError: () => toast.error("Error deleting guest!"),
   })
 
   const onSubmit = handleSubmit((data) => addMutation.mutate(data))
 
-  if (isError) return <p>Error loading Guests</p>
+  if (isError)
+    return (
+      <p className="text-center text-destructive p-4">Error loading Guests</p>
+    )
 
   const filteredGuests = guests?.filter((guest) =>
     guest.name.toLowerCase().includes(search.toLowerCase()),
@@ -154,12 +153,13 @@ export const Guests = () => {
     filteredGuests?.filter((guest) => guest.party === "groom") ?? []
 
   return (
-    <div className="flex flex-col items-center">
-      <h1 className="mb-4 text-3xl">Guests</h1>
+    <div className="flex flex-col items-center text-foreground">
+      <h1 className="mb-4 text-3xl font-semibold">Guests</h1>
 
+      {/* Add guest form */}
       <form
         onSubmit={onSubmit}
-        className="mb-8 w-full max-w-md rounded-xl border border-border bg-white/70 p-4 shadow-sm"
+        className="mb-8 w-full max-w-md rounded-xl border border-border bg-card text-card-foreground p-4 shadow-sm"
       >
         <div className="mb-4">
           <h2 className="text-base font-semibold">Add guest</h2>
@@ -234,15 +234,16 @@ export const Guests = () => {
       ) : (
         <div className="grid w-full max-w-2xl grid-cols-1 gap-6 md:grid-cols-2 items-start">
           {/* Bride panel */}
-          <div className="rounded-xl border border-border bg-white/70 shadow-sm overflow-hidden">
-            <header className="flex items-center justify-between border-b border-border p-3 bg-rose-50/60">
+          <div className="rounded-xl border border-border bg-card shadow-sm overflow-hidden">
+            <header
+              className="flex items-center justify-between border-b border-border p-3 rounded-t-xl
+                         bg-accent text-accent-foreground shadow-md"
+            >
               <div className="flex items-center gap-2">
                 <span className="text-xl">👰</span>
-                <h3 className="text-sm font-semibold text-rose-900">
-                  Bride Guests
-                </h3>
+                <h3 className="text-sm font-semibold">Bride Guests</h3>
               </div>
-              <span className="rounded-full bg-rose-100 px-2 py-0.5 text-xs font-medium text-rose-700">
+              <span className="rounded-full bg-accent/60 px-2 py-0.5 text-xs font-medium">
                 {brideGuests.length}
               </span>
             </header>
@@ -253,7 +254,7 @@ export const Guests = () => {
                   className="flex items-center justify-between border-b border-border/60 px-3 py-2 last:border-b-0"
                   key={guest.id}
                 >
-                  <p>{guest.name}</p>
+                  <p className="text-card-foreground">{guest.name}</p>
                   <Button
                     variant="destructive"
                     onClick={() => deleteMutation.mutate(guest.id)}
@@ -272,15 +273,16 @@ export const Guests = () => {
           </div>
 
           {/* Groom panel */}
-          <div className="rounded-xl border border-border bg-white/70 shadow-sm overflow-hidden">
-            <header className="flex items-center justify-between border-b border-border p-3 bg-emerald-50/60">
+          <div className="rounded-xl border border-border bg-card shadow-sm overflow-hidden">
+            <header
+              className="flex items-center justify-between border-b border-border p-3 rounded-t-xl
+                         bg-primary text-primary-foreground shadow-md"
+            >
               <div className="flex items-center gap-2">
                 <span className="text-xl">🤵</span>
-                <h3 className="text-sm font-semibold text-emerald-900">
-                  Groom Guests
-                </h3>
+                <h3 className="text-sm font-semibold">Groom Guests</h3>
               </div>
-              <span className="rounded-full bg-emerald-100 px-2 py-0.5 text-xs font-medium text-emerald-700">
+              <span className="rounded-full bg-primary/60 px-2 py-0.5 text-xs font-medium">
                 {groomGuests.length}
               </span>
             </header>
@@ -291,7 +293,7 @@ export const Guests = () => {
                   className="flex justify-between items-center border-b border-border/60 px-3 py-2 last:border-b-0"
                   key={guest.id}
                 >
-                  <p>{guest.name}</p>
+                  <p className="text-card-foreground">{guest.name}</p>
                   <Button
                     variant="destructive"
                     onClick={() => deleteMutation.mutate(guest.id)}
