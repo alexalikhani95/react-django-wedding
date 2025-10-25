@@ -1,5 +1,5 @@
-import { SeatingDesktop } from "./SeatingDesktop";
-import { SeatingMobile } from "./SeatingMobile";
+import { SeatingDesktop } from "./SeatingDesktop"
+import { SeatingMobile } from "./SeatingMobile"
 
 export const Seating = () => {
   return (
@@ -11,5 +11,5 @@ export const Seating = () => {
         <SeatingMobile />
       </div>
     </>
-  );
-};
+  )
+}
