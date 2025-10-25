@@ -139,7 +139,9 @@ export const Guests = () => {
   const onSubmit = handleSubmit((data) => addMutation.mutate(data))
 
   if (isError)
-    return <p className="text-center text-destructive p-4">Error loading Guests</p>
+    return (
+      <p className="text-center text-destructive p-4">Error loading Guests</p>
+    )
 
   const filteredGuests = guests?.filter((guest) =>
     guest.name.toLowerCase().includes(search.toLowerCase()),
