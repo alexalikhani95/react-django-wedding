@@ -1,6 +1,6 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query"
 import { toast } from "react-toastify"
-import type { Guest } from "@/routes/Guests"
+import type { Guest } from "@/routes/guests"
 import type { Table } from "../types"
 
 const API_URL = import.meta.env.VITE_API_URL
