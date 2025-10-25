@@ -1,19 +1,46 @@
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query"
-import { toast } from "react-toastify"
-import { Button } from "@/components/ui/button"
+import { useQuery } from "@tanstack/react-query"
+import { Skeleton } from "@/components/ui/skeleton"
+import type { Rsvp } from "./types"
+import { RsvpCard } from "./RsvpCard"
 
 const API_URL = import.meta.env.VITE_API_URL
 
-type Rsvp = {
-  id: number
-  name: string
-  attending: string
-  starter: string
-  main: string
-  dessert: string
-  allergies: string
-  created_at: string
-}
+const LoadingSkeleton = () => (
+  <div className="flex flex-col md:flex-row gap-8 p-4 md:p-8">
+    {[1, 2].map((i) => (
+      <div
+        key={i}
+        className="flex-1 rounded-xl border border-border bg-card shadow-sm overflow-hidden"
+      >
+        {/* Header */}
+        <header className="flex items-center justify-between border-b border-border p-4 bg-muted/60">
+          <div className="flex items-center gap-2">
+            <Skeleton className="h-5 w-32 rounded" />
+          </div>
+          <Skeleton className="h-5 w-8 rounded-full" />
+        </header>
+
+        {/* Body */}
+        <div className="flex flex-col gap-4 p-4">
+          {[1, 2, 3].map((j) => (
+            <div
+              key={j}
+              className="rounded-lg border border-border bg-muted/40 p-4 flex flex-col gap-3 shadow-sm"
+            >
+              <Skeleton className="h-5 w-40 rounded" />
+              <div className="flex flex-col gap-1">
+                <Skeleton className="h-4 w-3/4" />
+                <Skeleton className="h-4 w-2/3" />
+                <Skeleton className="h-4 w-1/2" />
+              </div>
+              <Skeleton className="h-8 w-24 rounded" />
+            </div>
+          ))}
+        </div>
+      </div>
+    ))}
+  </div>
+)
 
 export const RsvpList = () => {
   const {
@@ -29,12 +56,7 @@ export const RsvpList = () => {
     },
   })
 
-  if (isLoading)
-    return (
-      <p className="text-center p-6 text-muted-foreground text-sm">
-        Loading RSVPs...
-      </p>
-    )
+  if (isLoading) return <LoadingSkeleton />
 
   if (isError)
     return (
@@ -89,60 +111,6 @@ export const RsvpList = () => {
           ))}
         </div>
       </div>
-    </div>
-  )
-}
-
-const RsvpCard = ({ rsvp }: { rsvp: Rsvp }) => {
-  const queryClient = useQueryClient()
-
-  const mutation = useMutation({
-    mutationFn: async (id: number) => {
-      const res = await fetch(`${API_URL}/api/rsvp/${id}/delete/`, {
-        method: "DELETE",
-      })
-      if (!res.ok) throw new Error("Failed to delete RSVP")
-    },
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["rsvps"] })
-      toast.success("Deleted RSVP!")
-    },
-    onError: () => toast.error("Error deleting RSVP!"),
-  })
-
-  return (
-    <div className="rounded-lg border border-border bg-muted/50 text-card-foreground shadow-sm p-4 flex flex-col gap-2">
-      <p className="font-semibold text-base">{rsvp.name}</p>
-
-      {rsvp.attending === "yes" && (
-        <div className="flex flex-col gap-1 text-sm text-muted-foreground">
-          <p>
-            <span className="font-medium text-foreground">Starter:</span>{" "}
-            {rsvp.starter}
-          </p>
-          <p>
-            <span className="font-medium text-foreground">Main:</span>{" "}
-            {rsvp.main}
-          </p>
-          <p>
-            <span className="font-medium text-foreground">Dessert:</span>{" "}
-            {rsvp.dessert}
-          </p>
-          <p>
-            <span className="font-medium text-foreground">Allergies:</span>{" "}
-            {rsvp.allergies || "None"}
-          </p>
-        </div>
-      )}
-
-      <Button
-        variant="destructive"
-        className="mt-3 w-[130px] self-start"
-        onClick={() => mutation.mutate(rsvp.id)}
-        disabled={mutation.isPending}
-      >
-        {mutation.isPending ? "Deleting..." : "Delete RSVP"}
-      </Button>
     </div>
   )
 }
