@@ -1,39 +1,39 @@
-import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { useState } from "react";
-import { Controller, type SubmitHandler, useForm } from "react-hook-form";
-import { toast } from "react-toastify";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
+import { useMutation, useQueryClient } from "@tanstack/react-query"
+import { useState } from "react"
+import { Controller, type SubmitHandler, useForm } from "react-hook-form"
+import { toast } from "react-toastify"
+import { Button } from "@/components/ui/button"
+import { Input } from "@/components/ui/input"
 
-const API_URL = import.meta.env.VITE_API_URL;
+const API_URL = import.meta.env.VITE_API_URL
 
 type Inputs = {
-  attending: string;
-  name: string;
-  starter: string;
-  main: string;
-  dessert: string;
-  allergies: string;
-};
+  attending: string
+  name: string
+  starter: string
+  main: string
+  dessert: string
+  allergies: string
+}
 
 const ATTENDANCE = [
   { value: "yes", label: "Yes" },
   { value: "no", label: "No" },
-];
+]
 
 const STARTERS = [
   { value: "soup", label: "Soup" },
   { value: "salad", label: "Salad" },
-];
+]
 const MAINS = [
   { value: "lentils", label: "Lentils" },
   { value: "pasta", label: "Pasta" },
   { value: "salad", label: "Salad" },
-];
+]
 const DESSERTS = [
   { value: "cake", label: "Cake" },
   { value: "icecream", label: "Ice Cream" },
-];
+]
 
 const RadioCardGroup = ({
   name,
@@ -41,10 +41,10 @@ const RadioCardGroup = ({
   options,
   label,
 }: {
-  name: keyof Inputs;
-  control: any;
-  options: { value: string; label: string }[];
-  label: string;
+  name: keyof Inputs
+  control: any
+  options: { value: string; label: string }[]
+  label: string
 }) => {
   return (
     <div>
@@ -56,7 +56,7 @@ const RadioCardGroup = ({
         render={({ field }) => (
           <div className="grid grid-cols-1 gap-2 sm:grid-cols-2">
             {options.map((opt) => {
-              const selected = field.value === opt.value;
+              const selected = field.value === opt.value
               return (
                 <label
                   key={opt.value}
@@ -73,19 +73,19 @@ const RadioCardGroup = ({
                   />
                   {opt.label}
                 </label>
-              );
+              )
             })}
           </div>
         )}
       />
     </div>
-  );
-};
+  )
+}
 
 export const Rsvp = () => {
-  const { register, handleSubmit, control, watch, reset } = useForm<Inputs>();
-  const queryClient = useQueryClient();
-  const [submitted, setSubmitted] = useState(false);
+  const { register, handleSubmit, control, watch, reset } = useForm<Inputs>()
+  const queryClient = useQueryClient()
+  const [submitted, setSubmitted] = useState(false)
 
   const mutation = useMutation({
     mutationFn: async (data: Inputs) => {
@@ -93,26 +93,26 @@ export const Rsvp = () => {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(data),
-      });
-      if (!response.ok) throw new Error("Failed to add Rsvp");
+      })
+      if (!response.ok) throw new Error("Failed to add Rsvp")
     },
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["rsvps"] });
-      reset();
-      setSubmitted(true); // hide form, show success panel
-      toast.success("RSVP sent!");
+      queryClient.invalidateQueries({ queryKey: ["rsvps"] })
+      reset()
+      setSubmitted(true) // hide form, show success panel
+      toast.success("RSVP sent!")
     },
     onError: () => {
-      toast.error("Error sending RSVP. Please try again.");
+      toast.error("Error sending RSVP. Please try again.")
     },
-  });
+  })
 
   const onSubmit: SubmitHandler<Inputs> = (data) => {
-    mutation.mutate(data);
-  };
+    mutation.mutate(data)
+  }
 
-  const attending = watch("attending");
-  const showMeals = attending !== "no";
+  const attending = watch("attending")
+  const showMeals = attending !== "no"
 
   return (
     <div className="mx-auto max-w-xl p-6">
@@ -201,5 +201,5 @@ export const Rsvp = () => {
         </form>
       )}
     </div>
-  );
-};
+  )
+}

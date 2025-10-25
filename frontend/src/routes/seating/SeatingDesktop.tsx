@@ -1,33 +1,33 @@
-import type { DragEndEvent, DragStartEvent } from "@dnd-kit/core";
+import type { DragEndEvent, DragStartEvent } from "@dnd-kit/core"
 import {
   DndContext,
   DragOverlay,
   useDraggable,
   useDroppable,
-} from "@dnd-kit/core";
-import { Trash2, Trash2Icon } from "lucide-react";
-import { useState } from "react";
-import { useForm } from "react-hook-form";
-import { useSearchParams } from "react-router";
-import { SearchGuests } from "@/components/SearchGuests";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Skeleton } from "@/components/ui/skeleton";
-import { useGuests } from "@/guests/queries";
-import { type Guest } from "../guests";
+} from "@dnd-kit/core"
+import { Trash2, Trash2Icon } from "lucide-react"
+import { useState } from "react"
+import { useForm } from "react-hook-form"
+import { useSearchParams } from "react-router"
+import { SearchGuests } from "@/components/SearchGuests"
+import { Button } from "@/components/ui/button"
+import { Input } from "@/components/ui/input"
+import { Skeleton } from "@/components/ui/skeleton"
+import { useGuests } from "@/guests/queries"
+import type { Guest } from "../guests"
 import {
   useAddTable,
   useAssignSeat,
   useDeleteTable,
   useRemoveFromSeat,
-} from "./mutations";
-import { useTables } from "./queries";
-import type { Inputs, Seat, Table } from "./types";
+} from "./mutations"
+import { useTables } from "./queries"
+import type { Inputs, Seat, Table } from "./types"
 
 const GuestItem = ({ guest }: { guest: Guest }) => {
   const { attributes, listeners, setNodeRef, isDragging } = useDraggable({
     id: `guest-${guest.id}`,
-  });
+  })
   return (
     <div
       ref={setNodeRef}
@@ -41,8 +41,8 @@ const GuestItem = ({ guest }: { guest: Guest }) => {
     >
       {guest.name}
     </div>
-  );
-};
+  )
+}
 
 const LoadingSkeleton = () => {
   return (
@@ -99,20 +99,20 @@ const LoadingSkeleton = () => {
         </div>
       </div>
     </div>
-  );
-};
+  )
+}
 
 const SeatBox = ({
   seat,
   guests,
   onRemoveGuest,
 }: {
-  seat: Seat;
-  guests: Guest[];
-  onRemoveGuest?: (guestId: number) => void;
+  seat: Seat
+  guests: Guest[]
+  onRemoveGuest?: (guestId: number) => void
 }) => {
-  const { isOver, setNodeRef } = useDroppable({ id: `seat-${seat.id}` });
-  const guest = guests.find((g) => g.id === seat.guest_id);
+  const { isOver, setNodeRef } = useDroppable({ id: `seat-${seat.id}` })
+  const guest = guests.find((g) => g.id === seat.guest_id)
 
   if (guest) {
     return (
@@ -131,7 +131,7 @@ const SeatBox = ({
           </button>
         )}
       </div>
-    );
+    )
   } else {
     return (
       <div
@@ -140,76 +140,81 @@ const SeatBox = ({
       >
         Empty
       </div>
-    );
+    )
   }
-};
+}
 
 export const SeatingDesktop = () => {
-  const { register, handleSubmit, reset, formState: { isValid } } = useForm<Inputs>();
-  const [activeGuest, setActiveGuest] = useState<Guest | null>(null);
-  const [searchParams, setSearchParams] = useSearchParams();
-  const search = searchParams.get("search") || "";
+  const {
+    register,
+    handleSubmit,
+    reset,
+    formState: { isValid },
+  } = useForm<Inputs>()
+  const [activeGuest, setActiveGuest] = useState<Guest | null>(null)
+  const [searchParams, setSearchParams] = useSearchParams()
+  const search = searchParams.get("search") || ""
 
   const handleSearchChange = (value: string) => {
-    if (value) setSearchParams({ search: value });
-    else setSearchParams({});
-  };
+    if (value) setSearchParams({ search: value })
+    else setSearchParams({})
+  }
 
   const {
     data: guests,
     isLoading: isLoadingGuests,
     isError: isErrorGuests,
-  } = useGuests();
+  } = useGuests()
   const {
     data: tables,
     isLoading: tablesLoading,
     isError: isErrorTables,
-  } = useTables();
+  } = useTables()
 
   // Mutations
-  const addMutation = useAddTable();
-  const deleteMutation = useDeleteTable();
-  const removeFromSeatMutation = useRemoveFromSeat();
-  const assignSeatMutation = useAssignSeat();
+  const addMutation = useAddTable()
+  const deleteMutation = useDeleteTable()
+  const removeFromSeatMutation = useRemoveFromSeat()
+  const assignSeatMutation = useAssignSeat()
 
   const onSubmit = handleSubmit((data) => {
     addMutation.mutate(data, {
       onSuccess: () => reset(),
-    });
-  });
+    })
+  })
 
-  if (isErrorGuests || isErrorTables) return <p>Error loading data</p>;
+  if (isErrorGuests || isErrorTables) return <p>Error loading data</p>
 
   const handleDragStart = (event: DragStartEvent) => {
-    const id = String(event.active.id);
+    const id = String(event.active.id)
     if (id.startsWith("guest-")) {
-      const guestId = parseInt(id.replace("guest-", ""));
-      const guest = guests?.find((g) => g.id === guestId) || null;
-      setActiveGuest(guest);
+      const guestId = parseInt(id.replace("guest-", ""))
+      const guest = guests?.find((g) => g.id === guestId) || null
+      setActiveGuest(guest)
     }
-  };
+  }
 
   const handleDragEnd = (event: DragEndEvent) => {
-    const { active, over } = event;
-    if (!over) return;
+    const { active, over } = event
+    if (!over) return
 
-    const activeId = String(active.id);
-    const overId = String(over.id);
+    const activeId = String(active.id)
+    const overId = String(over.id)
 
-    if (!activeId.startsWith("guest-") || !overId.startsWith("seat-")) return;
+    if (!activeId.startsWith("guest-") || !overId.startsWith("seat-")) return
 
-    const guestId = parseInt(activeId.replace("guest-", ""));
-    const seatId = parseInt(overId.replace("seat-", ""));
-    assignSeatMutation.mutate({ guestId, seatId });
-  };
+    const guestId = parseInt(activeId.replace("guest-", ""))
+    const seatId = parseInt(overId.replace("seat-", ""))
+    assignSeatMutation.mutate({ guestId, seatId })
+  }
 
   const handleRemoveGuest = (guestId: number) => {
     removeFromSeatMutation.mutate(guestId, {
       onSuccess: () => {
-        setActiveGuest(null);
+        setActiveGuest(null)
       },
-    });
-  };
+    })
+  }
 
   return (
     <div className="flex flex-col text-center">
@@ -233,7 +238,10 @@ export const SeatingDesktop = () => {
             <Button
               type="submit"
               disabled={
-                addMutation.isPending || isLoadingGuests || tablesLoading || !isValid
+                addMutation.isPending ||
+                isLoadingGuests ||
+                tablesLoading ||
+                !isValid
               }
               className="shrink-0"
             >
@@ -287,7 +295,7 @@ export const SeatingDesktop = () => {
               {/* auto-fit + minmax(500px, 1fr) ensures each table block is at least 500px wide and Automatically wraps down to a new row instead of squeezing and overlapping */}
               <div className="grid gap-10 auto-rows-min items-start pt-10 grid-cols-[repeat(auto-fit,minmax(500px,1fr))]">
                 {tables?.map((table: Table) => {
-                  const seats = table.seats;
+                  const seats = table.seats
                   return (
                     <div className="flex items-center" key={table.id}>
                       <SeatBox
@@ -333,7 +341,7 @@ export const SeatingDesktop = () => {
                         onRemoveGuest={handleRemoveGuest}
                       />
                     </div>
-                  );
+                  )
                 })}
               </div>
             </div>
@@ -350,5 +358,5 @@ export const SeatingDesktop = () => {
         </DndContext>
       )}
     </div>
-  );
-};
+  )
+}
