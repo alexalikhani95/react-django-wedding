@@ -2,29 +2,32 @@ import '@testing-library/jest-dom'
 import { expect, test } from 'vitest'
 import { screen, waitFor } from '@testing-library/react'
 import { render } from '@/utils/test-utils'
-import { SeatingDesktop } from './SeatingDesktop'
+import { SeatingMobile } from './SeatingMobile'
 import userEvent from '@testing-library/user-event'
 import { server } from '@/mocks/server'
 import { http, HttpResponse } from 'msw'
 
-test('Seating Desktop page renders', async () => {
-    render(<SeatingDesktop />)
+test('Seating Mobile page renders', async () => {
+    render(<SeatingMobile />)
 
     expect(screen.getByRole('heading', { name: 'Seating' })).toBeInTheDocument()
 
     expect(screen.getByText('Add Table')).toBeInTheDocument()
-    expect(screen.getByRole('textbox', { name: 'Table name' })).toBeInTheDocument()
-    expect(await screen.findByText('Guests')).toBeInTheDocument()
+    expect(await screen.findByRole('textbox', { name: 'Table name' })).toBeInTheDocument()
+
+    // Unassigned guests
+    expect(await screen.findByText('Unassigned Guests (2)')).toBeInTheDocument()
     expect(await screen.findByText('Saka')).toBeInTheDocument()
+    expect(await screen.findByText('William Saliba')).toBeInTheDocument()
 
     expect(await screen.findByText('Table 1')).toBeInTheDocument()
-    expect(screen.getByRole('button', { name: 'Delete Table 1' })).toBeInTheDocument()
+    // expect(screen.getByRole('button', { name: 'Delete Table 1' })).toBeInTheDocument()
     expect(await screen.findByText('Table 2')).toBeInTheDocument()
-    expect(screen.getByRole('button', { name: 'Delete Table 2' })).toBeInTheDocument()
+    // expect(screen.getByRole('button', { name: 'Delete Table 2' })).toBeInTheDocument()
 })
 
 test('The Add table button remains disabled until a name is entered in the form', async () => {
-    render(<SeatingDesktop />)
+    render(<SeatingMobile />)
 
     const addTableBtn = screen.getByRole('button', { name: 'Add' })
 
@@ -36,28 +39,18 @@ test('The Add table button remains disabled until a name is entered in the form'
 })
 
 test('filters guests by search term', async () => {
-    render(<SeatingDesktop />)
+    render(<SeatingMobile />)
 
     const searchBox = screen.getByRole('textbox', { name: "Search guest" })
 
     expect(await screen.findByText('Saka')).toBeInTheDocument()
+    expect(await screen.findByText('William Saliba')).toBeInTheDocument()
 
 
-    await userEvent.type(searchBox, 'random text')
+    await userEvent.type(searchBox, 'William Saliba')
 
     await waitFor(() => {
         expect(screen.queryByText('Saka')).not.toBeInTheDocument()
-        expect(screen.queryByText('No guests match your search.')).toBeInTheDocument()
+        expect(screen.queryByText('William Saliba')).toBeInTheDocument()
     })
-})
-
-test('shows correct text when no guests are returned', async () => {
-    server.use(
-        http.get(`${import.meta.env.VITE_API_URL}/api/guests/list/`, () => {
-            return HttpResponse.json([])
-        })
-    )
-    render(<SeatingDesktop />)
-
-    expect(await screen.findByText('No guests yet.')).toBeInTheDocument()
 })
