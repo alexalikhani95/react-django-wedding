@@ -27,45 +27,40 @@ import {
 import { useTables } from "./queries"
 import type { Inputs, Table } from "./types"
 
-const LoadingSkeleton = () => {
-  return (
-    <div className="space-y-4">
-      {/* Unassigned Guests Skeleton */}
-      <div className="bg-white rounded-lg border p-4 shadow-sm space-y-3">
-        <Skeleton className="h-5 w-40" />
-        <div className="flex flex-wrap gap-2">
-          {Array.from({ length: 6 }).map((_, i) => (
-            <Skeleton key={i} className="h-8 w-20 rounded-lg" />
+const LoadingSkeleton = () => (
+  <div className="space-y-4">
+    {/* Unassigned Guests Skeleton */}
+    <div className="bg-card rounded-lg border border-border p-4 shadow-sm space-y-3">
+      <Skeleton className="h-5 w-40" />
+      <div className="flex flex-wrap gap-2">
+        {Array.from({ length: 6 }).map((_, i) => (
+          <Skeleton key={i} className="h-8 w-20 rounded-lg" />
+        ))}
+      </div>
+    </div>
+
+    {/* Tables Skeleton */}
+    {Array.from({ length: 3 }).map((_, i) => (
+      <div
+        key={i}
+        className="bg-card rounded-lg border border-border shadow-sm overflow-hidden"
+      >
+        <div className="flex items-center justify-between p-4">
+          <div className="flex items-center gap-3">
+            <Skeleton className="h-5 w-24" />
+            <Skeleton className="h-3 w-16" />
+          </div>
+          <Skeleton className="h-8 w-8 rounded-lg" />
+        </div>
+        <div className="p-3 border-t border-border bg-muted flex justify-center gap-2">
+          {Array.from({ length: 6 }).map((_, j) => (
+            <Skeleton key={j} className="h-6 w-10 rounded-md" />
           ))}
         </div>
       </div>
-
-      {/* Tables Skeleton */}
-      {Array.from({ length: 3 }).map((_, i) => (
-        <div
-          key={i}
-          className="bg-white rounded-lg border shadow-sm overflow-hidden"
-        >
-          {/* Table header */}
-          <div className="flex items-center justify-between p-4">
-            <div className="flex items-center gap-3">
-              <Skeleton className="h-5 w-24" />
-              <Skeleton className="h-3 w-16" />
-            </div>
-            <Skeleton className="h-8 w-8 rounded-lg" />
-          </div>
-
-          {/* Collapsed seat preview row */}
-          <div className="p-3 border-t bg-gray-50 flex justify-center gap-2">
-            {Array.from({ length: 6 }).map((_, j) => (
-              <Skeleton key={j} className="h-6 w-10 rounded-md" />
-            ))}
-          </div>
-        </div>
-      ))}
-    </div>
-  )
-}
+    ))}
+  </div>
+)
 
 export const SeatingMobile = () => {
   const {
@@ -92,16 +87,10 @@ export const SeatingMobile = () => {
     else setSearchParams({})
   }
 
-  const {
-    data: guests,
-    isLoading: isLoadingGuests,
-    isError: isErrorGuests,
-  } = useGuests()
-  const {
-    data: tables,
-    isLoading: tablesLoading,
-    isError: isErrorTables,
-  } = useTables()
+  const { data: guests, isLoading: isLoadingGuests, isError: isErrorGuests } =
+    useGuests()
+  const { data: tables, isLoading: tablesLoading, isError: isErrorTables } =
+    useTables()
 
   const addMutation = useAddTable()
   const deleteMutation = useDeleteTable()
@@ -115,7 +104,6 @@ export const SeatingMobile = () => {
 
   const handleDeleteClick = (tableId: number, tableName: string) => {
     setConfirmingGuestToRemove(null)
-
     if (confirmingDeleteId === tableId) {
       deleteMutation.mutate(tableId, {
         onSuccess: () => {
@@ -140,7 +128,6 @@ export const SeatingMobile = () => {
     guestId: number | null,
   ) => {
     setConfirmingDeleteId(null)
-
     if (guestId) {
       const guest = guests?.find((g) => g.id === guestId)
       if (guest) {
@@ -159,9 +146,7 @@ export const SeatingMobile = () => {
 
     assignSeatMutation.mutate(
       { guestId: selectedGuest.id, seatId },
-      {
-        onSuccess: () => toast.success("Guest assigned to seat"),
-      },
+      { onSuccess: () => toast.success("Guest assigned to seat") },
     )
     setSelectedGuest(null)
   }
@@ -176,7 +161,7 @@ export const SeatingMobile = () => {
   }
 
   if (isErrorGuests || isErrorTables)
-    return <p className="text-center p-4">Error loading data</p>
+    return <p className="text-center text-destructive p-4">Error loading data</p>
 
   const unassignedGuests =
     guests?.filter(
@@ -185,13 +170,13 @@ export const SeatingMobile = () => {
     ) || []
 
   return (
-    <div className="flex flex-col p-4 max-w-md mx-auto gap-5">
+    <div className="flex flex-col p-4 max-w-md mx-auto gap-5 text-foreground">
       <h1 className="text-2xl font-bold text-center">Seating</h1>
 
       {/* Add Table Form */}
       <form
         onSubmit={onSubmit}
-        className="mb-6 bg-white rounded-lg border p-4 shadow-sm"
+        className="mb-6 bg-card text-card-foreground rounded-lg border border-border p-4 shadow-sm"
       >
         <h2 className="text-sm font-semibold mb-3">Add Table</h2>
         <div className="flex gap-2">
@@ -223,7 +208,7 @@ export const SeatingMobile = () => {
         <>
           {/* Unassigned Guests */}
           {unassignedGuests.length > 0 && (
-            <div className="flex flex-col bg-white rounded-lg border p-4 shadow-sm gap-3">
+            <div className="flex flex-col bg-card text-card-foreground rounded-lg border border-border p-4 shadow-sm gap-3">
               <h2 className="text-sm font-semibold flex items-center gap-2">
                 <UserPlus className="w-4 h-4" />
                 Unassigned Guests ({unassignedGuests.length})
@@ -232,6 +217,7 @@ export const SeatingMobile = () => {
                 Tap a guest, then tap an empty seat to assign
               </p>
               <SearchGuests value={search} onChange={handleSearchChange} />
+
               <div className="flex flex-wrap gap-2">
                 {unassignedGuests
                   .sort((a, b) => a.name.localeCompare(b.name))
@@ -239,24 +225,24 @@ export const SeatingMobile = () => {
                     <button
                       key={guest.id}
                       onClick={() => handleGuestSelect(guest)}
-                      className={`px-3 py-2 rounded-lg border text-sm transition-all ${
-                        selectedGuest?.id === guest.id
-                          ? "bg-blue-500 text-white border-blue-600 shadow-md"
-                          : "bg-white border-gray-200 hover:border-blue-300"
-                      }`}
+                      className={`px-3 py-2 rounded-lg border text-sm transition-all ${selectedGuest?.id === guest.id
+                          ? "bg-primary text-primary-foreground border-primary shadow-md"
+                          : "bg-card text-card-foreground border-border hover:border-primary"
+                        }`}
                     >
                       {guest.name}
                     </button>
                   ))}
               </div>
+
               {selectedGuest && (
-                <div className="mt-3 p-2 bg-blue-50 rounded text-sm flex items-center justify-between">
-                  <div className="font-medium text-blue-900">
+                <div className="mt-3 p-2 bg-accent/20 rounded text-sm flex items-center justify-between">
+                  <div className="font-medium text-accent-foreground">
                     Selected: {selectedGuest.name}
                   </div>
                   <button
                     onClick={() => setSelectedGuest(null)}
-                    className="text-blue-600 hover:text-blue-800"
+                    className="text-accent-foreground hover:opacity-80"
                   >
                     <X className="w-4 h-4" />
                   </button>
@@ -295,15 +281,14 @@ export const SeatingMobile = () => {
                     onClick={() =>
                       handleSeatClick(table.id, seat.id, seat.guest_id)
                     }
-                    className={`h-12 rounded-lg border-2 text-xs flex flex-col items-center justify-center p-1 transition-all ${
-                      !guest
+                    className={`h-12 rounded-lg border-2 text-xs flex flex-col items-center justify-center p-1 transition-all ${!guest
                         ? selectedGuest
-                          ? "border-dashed border-blue-300 bg-blue-50 hover:bg-blue-100"
-                          : "border-dashed border-gray-300 bg-gray-100"
+                          ? "border-dashed border-primary bg-muted hover:bg-muted/70"
+                          : "border-dashed border-border bg-muted"
                         : isGuestConfirming
-                          ? "border-solid border-red-500 bg-red-100 text-red-800"
-                          : "border-solid border-green-500 bg-green-50 hover:bg-green-100"
-                    }`}
+                          ? "border-solid border-destructive bg-destructive/10 text-destructive"
+                          : "border-solid border-primary bg-primary/10 hover:bg-primary/20 text-primary-foreground"
+                      }`}
                   >
                     <div className="font-medium text-center leading-tight text-[10px] truncate w-full px-1">
                       {guest
@@ -319,7 +304,7 @@ export const SeatingMobile = () => {
               return (
                 <div
                   key={table.id}
-                  className="bg-white rounded-lg border shadow-sm overflow-hidden"
+                  className="bg-card text-card-foreground rounded-lg border border-border shadow-sm overflow-hidden"
                 >
                   <div className="flex items-center justify-between">
                     <button
@@ -330,7 +315,7 @@ export const SeatingMobile = () => {
                           setConfirmingGuestToRemove(null)
                         }
                       }}
-                      className="flex-1 p-4 flex items-center justify-between hover:bg-gray-50 text-left"
+                      className="flex-1 p-4 flex items-center justify-between hover:bg-muted text-left"
                     >
                       <div className="flex items-center gap-3">
                         <p className="text-lg font-bold">{table.name}</p>
@@ -352,11 +337,10 @@ export const SeatingMobile = () => {
                         isConfirmingTableDelete ? "default" : "destructive"
                       }
                       size="sm"
-                      className={`m-2 transition-colors duration-200 ${
-                        isConfirmingTableDelete
-                          ? "bg-orange-500 hover:bg-orange-600"
+                      className={`m-2 transition-colors duration-200 ${isConfirmingTableDelete
+                          ? "bg-accent hover:bg-accent/80"
                           : ""
-                      }`}
+                        }`}
                       onClick={(e) => {
                         e.stopPropagation()
                         handleDeleteClick(table.id, table.name)
@@ -375,19 +359,19 @@ export const SeatingMobile = () => {
                   </div>
 
                   {isConfirmingTableDelete && (
-                    <p className="text-xs text-center text-orange-600 pb-2">
+                    <p className="text-xs text-center text-accent pb-2">
                       Tap "Confirm?" again to delete {table.name}.
                     </p>
                   )}
 
                   {isExpanded && (
-                    <div className="p-4 border-t bg-gray-50">
+                    <div className="p-4 border-t border-border bg-muted/50">
                       {activeDeletion && (
-                        <div className="p-3 mb-4 bg-red-50 border border-red-300 rounded-lg shadow-inner">
+                        <div className="p-3 mb-4 bg-destructive/10 border border-destructive/50 rounded-lg shadow-inner">
                           <div className="flex items-center justify-between gap-2 mb-2">
                             <div className="flex items-center gap-2">
-                              <UserMinus className="w-4 h-4 text-red-600 shrink-0" />
-                              <p className="text-sm font-medium text-red-800">
+                              <UserMinus className="w-4 h-4 text-destructive shrink-0" />
+                              <p className="text-sm font-medium text-destructive">
                                 Remove{" "}
                                 <span className="font-bold">
                                   {confirmingGuestToRemove!.guest.name}
@@ -423,17 +407,14 @@ export const SeatingMobile = () => {
                       )}
 
                       <div className="flex items-stretch gap-2">
-                        <div className="flex items-center">
-                          {renderSeat(leftSeat)}
-                        </div>
-
+                        <div className="flex items-center">{renderSeat(leftSeat)}</div>
                         <div className="flex-1 flex flex-col gap-2">
                           <div className="grid grid-cols-4 gap-1">
                             {topSeats.map(renderSeat)}
                           </div>
 
-                          <div className="bg-yellow-700 rounded-lg py-4 px-3">
-                            <p className="text-white text-center font-semibold text-sm">
+                          <div className="bg-primary rounded-lg py-4 px-3">
+                            <p className="text-primary-foreground text-center font-semibold text-sm">
                               {table.name}
                             </p>
                           </div>
@@ -442,10 +423,7 @@ export const SeatingMobile = () => {
                             {bottomSeats.map(renderSeat)}
                           </div>
                         </div>
-
-                        <div className="flex items-center">
-                          {renderSeat(rightSeat)}
-                        </div>
+                        <div className="flex items-center">{renderSeat(rightSeat)}</div>
                       </div>
                     </div>
                   )}
