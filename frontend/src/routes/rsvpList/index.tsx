@@ -1,19 +1,19 @@
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { toast } from "react-toastify";
-import { Button } from "@/components/ui/button";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query"
+import { toast } from "react-toastify"
+import { Button } from "@/components/ui/button"
 
-const API_URL = import.meta.env.VITE_API_URL;
+const API_URL = import.meta.env.VITE_API_URL
 
 type Rsvp = {
-  id: number;
-  name: string;
-  attending: string;
-  starter: string;
-  main: string;
-  dessert: string;
-  allergies: string;
-  created_at: string;
-};
+  id: number
+  name: string
+  attending: string
+  starter: string
+  main: string
+  dessert: string
+  allergies: string
+  created_at: string
+}
 
 export const RsvpList = () => {
   const {
@@ -23,20 +23,20 @@ export const RsvpList = () => {
   } = useQuery({
     queryKey: ["rsvps"],
     queryFn: async () => {
-      const res = await fetch(`${API_URL}/api/rsvp/list/`);
-      if (!res.ok) throw new Error("Failed to fetch RSVPs");
-      return res.json();
+      const res = await fetch(`${API_URL}/api/rsvp/list/`)
+      if (!res.ok) throw new Error("Failed to fetch RSVPs")
+      return res.json()
     },
-  });
+  })
 
-  if (isLoading) return <p className="text-center p-4">Loading RSVPs...</p>;
+  if (isLoading) return <p className="text-center p-4">Loading RSVPs...</p>
   if (isError)
-    return <p className="text-center p-4 text-red-600">Error loading RSVPs</p>;
+    return <p className="text-center p-4 text-red-600">Error loading RSVPs</p>
 
-  console.log('rvsps', rsvps)
+  console.log("rvsps", rsvps)
 
-  const yesRsvps = rsvps.filter((r: Rsvp) => r.attending === "yes");
-  const noRsvps = rsvps.filter((r: Rsvp) => r.attending === "no");
+  const yesRsvps = rsvps.filter((r: Rsvp) => r.attending === "yes")
+  const noRsvps = rsvps.filter((r: Rsvp) => r.attending === "no")
 
   return (
     <div className="flex flex-col md:flex-row gap-6 p-4">
@@ -70,25 +70,25 @@ export const RsvpList = () => {
         </div>
       </div>
     </div>
-  );
-};
+  )
+}
 
 const RsvpCard = ({ rsvp }: { rsvp: Rsvp }) => {
-  const queryClient = useQueryClient();
+  const queryClient = useQueryClient()
 
   const mutation = useMutation({
     mutationFn: async (id: number) => {
       const res = await fetch(`${API_URL}/api/rsvp/${id}/delete/`, {
         method: "DELETE",
-      });
-      if (!res.ok) throw new Error("Failed to delete RSVP");
+      })
+      if (!res.ok) throw new Error("Failed to delete RSVP")
     },
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["rsvps"] });
-      toast.success("Deleted RSVP!");
+      queryClient.invalidateQueries({ queryKey: ["rsvps"] })
+      toast.success("Deleted RSVP!")
     },
     onError: () => toast.error("Error deleting RSVP!"),
-  });
+  })
 
   return (
     <div className="bg-white shadow-md rounded-lg p-4 flex flex-col gap-2 border border-gray-200">
@@ -110,5 +110,5 @@ const RsvpCard = ({ rsvp }: { rsvp: Rsvp }) => {
         {mutation.isPending ? "Deleting..." : "Delete RSVP"}
       </Button>
     </div>
-  );
-};
+  )
+}

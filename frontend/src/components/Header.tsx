@@ -1,4 +1,4 @@
-import { Link } from "react-router";
+import { Link } from "react-router"
 
 export const Header = () => {
   return (
@@ -11,5 +11,5 @@ export const Header = () => {
         <Link to="/seating">Seating</Link>
       </div>
     </div>
-  );
-};
+  )
+}

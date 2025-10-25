@@ -1,7 +1,7 @@
-import { useState } from "react";
-import { useForm } from "react-hook-form";
-import { toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
+import { useState } from "react"
+import { useForm } from "react-hook-form"
+import { toast } from "react-toastify"
+import "react-toastify/dist/ReactToastify.css"
 import {
   AlertTriangle,
   ChevronDown,
@@ -10,22 +10,22 @@ import {
   UserMinus,
   UserPlus,
   X,
-} from "lucide-react";
-import { useSearchParams } from "react-router";
-import { SearchGuests } from "@/components/SearchGuests";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Skeleton } from "@/components/ui/skeleton";
-import { useGuests } from "@/guests/queries";
-import { type Guest } from "../guests";
+} from "lucide-react"
+import { useSearchParams } from "react-router"
+import { SearchGuests } from "@/components/SearchGuests"
+import { Button } from "@/components/ui/button"
+import { Input } from "@/components/ui/input"
+import { Skeleton } from "@/components/ui/skeleton"
+import { useGuests } from "@/guests/queries"
+import type { Guest } from "../guests"
 import {
   useAddTable,
   useAssignSeat,
   useDeleteTable,
   useRemoveFromSeat,
-} from "./mutations";
-import { useTables } from "./queries";
-import type { Inputs, Table } from "./types";
+} from "./mutations"
+import { useTables } from "./queries"
+import type { Inputs, Table } from "./types"
 
 const LoadingSkeleton = () => {
   return (
@@ -64,8 +64,8 @@ const LoadingSkeleton = () => {
         </div>
       ))}
     </div>
-  );
-};
+  )
+}
 
 export const SeatingMobile = () => {
   const {
@@ -73,86 +73,88 @@ export const SeatingMobile = () => {
     handleSubmit,
     reset,
     formState: { isValid },
-  } = useForm<Inputs>();
-  const [selectedGuest, setSelectedGuest] = useState<Guest | null>(null);
-  const [expandedTable, setExpandedTable] = useState<number | null>(null);
-  const [confirmingDeleteId, setConfirmingDeleteId] = useState<number | null>(null);
+  } = useForm<Inputs>()
+  const [selectedGuest, setSelectedGuest] = useState<Guest | null>(null)
+  const [expandedTable, setExpandedTable] = useState<number | null>(null)
+  const [confirmingDeleteId, setConfirmingDeleteId] = useState<number | null>(
+    null,
+  )
   const [confirmingGuestToRemove, setConfirmingGuestToRemove] = useState<{
-    guest: Guest;
-    tableId: number;
-  } | null>(null);
+    guest: Guest
+    tableId: number
+  } | null>(null)
 
-  const [searchParams, setSearchParams] = useSearchParams();
-  const search = searchParams.get("search") || "";
+  const [searchParams, setSearchParams] = useSearchParams()
+  const search = searchParams.get("search") || ""
 
   const handleSearchChange = (value: string) => {
-    if (value) setSearchParams({ search: value });
-    else setSearchParams({});
-  };
+    if (value) setSearchParams({ search: value })
+    else setSearchParams({})
+  }
 
   const {
     data: guests,
     isLoading: isLoadingGuests,
     isError: isErrorGuests,
-  } = useGuests();
+  } = useGuests()
   const {
     data: tables,
     isLoading: tablesLoading,
     isError: isErrorTables,
-  } = useTables();
+  } = useTables()
 
-  const addMutation = useAddTable();
-  const deleteMutation = useDeleteTable();
-  const removeFromSeatMutation = useRemoveFromSeat();
-  const assignSeatMutation = useAssignSeat();
+  const addMutation = useAddTable()
+  const deleteMutation = useDeleteTable()
+  const removeFromSeatMutation = useRemoveFromSeat()
+  const assignSeatMutation = useAssignSeat()
 
   const onSubmit = handleSubmit((data) => {
-    addMutation.mutate(data);
-    reset();
-  });
+    addMutation.mutate(data)
+    reset()
+  })
 
   const handleDeleteClick = (tableId: number, tableName: string) => {
-    setConfirmingGuestToRemove(null);
+    setConfirmingGuestToRemove(null)
 
     if (confirmingDeleteId === tableId) {
       deleteMutation.mutate(tableId, {
         onSuccess: () => {
-          toast.success(`${tableName} deleted`);
-          setConfirmingDeleteId(null);
+          toast.success(`${tableName} deleted`)
+          setConfirmingDeleteId(null)
         },
-      });
+      })
     } else {
-      setConfirmingDeleteId(tableId);
+      setConfirmingDeleteId(tableId)
     }
-  };
+  }
 
   const handleGuestSelect = (guest: Guest) => {
-    setConfirmingDeleteId(null);
-    setConfirmingGuestToRemove(null);
-    setSelectedGuest((prev) => (prev?.id === guest.id ? null : guest));
-  };
+    setConfirmingDeleteId(null)
+    setConfirmingGuestToRemove(null)
+    setSelectedGuest((prev) => (prev?.id === guest.id ? null : guest))
+  }
 
   const handleSeatClick = (
     tableId: number,
     seatId: number,
     guestId: number | null,
   ) => {
-    setConfirmingDeleteId(null);
+    setConfirmingDeleteId(null)
 
     if (guestId) {
-      const guest = guests?.find((g) => g.id === guestId);
+      const guest = guests?.find((g) => g.id === guestId)
       if (guest) {
-        setConfirmingGuestToRemove({ guest, tableId });
-        setSelectedGuest(null);
+        setConfirmingGuestToRemove({ guest, tableId })
+        setSelectedGuest(null)
       }
-      return;
+      return
     }
 
-    setConfirmingGuestToRemove(null);
+    setConfirmingGuestToRemove(null)
 
     if (!selectedGuest) {
-      toast.info("Select a guest first, then tap an empty seat to assign them");
-      return;
+      toast.info("Select a guest first, then tap an empty seat to assign them")
+      return
     }
 
     assignSeatMutation.mutate(
@@ -160,27 +162,27 @@ export const SeatingMobile = () => {
       {
         onSuccess: () => toast.success("Guest assigned to seat"),
       },
-    );
-    setSelectedGuest(null);
-  };
+    )
+    setSelectedGuest(null)
+  }
 
   const confirmRemoveGuest = (guestId: number) => {
     removeFromSeatMutation.mutate(guestId, {
       onSuccess: () => {
-        toast.success("Guest removed from seat");
-        setConfirmingGuestToRemove(null);
+        toast.success("Guest removed from seat")
+        setConfirmingGuestToRemove(null)
       },
-    });
-  };
+    })
+  }
 
   if (isErrorGuests || isErrorTables)
-    return <p className="text-center p-4">Error loading data</p>;
+    return <p className="text-center p-4">Error loading data</p>
 
   const unassignedGuests =
     guests?.filter(
       (guest) =>
         !guest.table && guest.name.toLowerCase().includes(search.toLowerCase()),
-    ) || [];
+    ) || []
 
   return (
     <div className="flex flex-col p-4 max-w-md mx-auto gap-5">
@@ -201,7 +203,12 @@ export const SeatingMobile = () => {
           />
           <Button
             type="submit"
-            disabled={isLoadingGuests || tablesLoading || addMutation.isPending || !isValid}
+            disabled={
+              isLoadingGuests ||
+              tablesLoading ||
+              addMutation.isPending ||
+              !isValid
+            }
             className="shrink-0"
           >
             {addMutation.isPending ? "..." : "Add"}
@@ -232,10 +239,11 @@ export const SeatingMobile = () => {
                     <button
                       key={guest.id}
                       onClick={() => handleGuestSelect(guest)}
-                      className={`px-3 py-2 rounded-lg border text-sm transition-all ${selectedGuest?.id === guest.id
-                        ? "bg-blue-500 text-white border-blue-600 shadow-md"
-                        : "bg-white border-gray-200 hover:border-blue-300"
-                        }`}
+                      className={`px-3 py-2 rounded-lg border text-sm transition-all ${
+                        selectedGuest?.id === guest.id
+                          ? "bg-blue-500 text-white border-blue-600 shadow-md"
+                          : "bg-white border-gray-200 hover:border-blue-300"
+                      }`}
                     >
                       {guest.name}
                     </button>
@@ -263,38 +271,39 @@ export const SeatingMobile = () => {
               Tables ({tables?.length || 0})
             </h2>
             {tables?.map((table: Table) => {
-              const isExpanded = expandedTable === table.id;
+              const isExpanded = expandedTable === table.id
               const occupiedSeats = table.seats.filter(
                 (seat) => seat.guest_id !== null,
-              ).length;
-              const isConfirmingTableDelete = confirmingDeleteId === table.id;
+              ).length
+              const isConfirmingTableDelete = confirmingDeleteId === table.id
               const activeDeletion =
                 confirmingGuestToRemove &&
-                confirmingGuestToRemove.tableId === table.id;
+                confirmingGuestToRemove.tableId === table.id
 
-              const leftSeat = table.seats[0];
-              const rightSeat = table.seats[9];
-              const topSeats = table.seats.slice(1, 5);
-              const bottomSeats = table.seats.slice(5, 9);
+              const leftSeat = table.seats[0]
+              const rightSeat = table.seats[9]
+              const topSeats = table.seats.slice(1, 5)
+              const bottomSeats = table.seats.slice(5, 9)
 
               const renderSeat = (seat: any) => {
-                const guest = guests?.find((g) => g.id === seat.guest_id);
+                const guest = guests?.find((g) => g.id === seat.guest_id)
                 const isGuestConfirming =
-                  guest && confirmingGuestToRemove?.guest.id === guest.id;
+                  guest && confirmingGuestToRemove?.guest.id === guest.id
                 return (
                   <button
                     key={seat.id}
                     onClick={() =>
                       handleSeatClick(table.id, seat.id, seat.guest_id)
                     }
-                    className={`h-12 rounded-lg border-2 text-xs flex flex-col items-center justify-center p-1 transition-all ${!guest
-                      ? selectedGuest
-                        ? "border-dashed border-blue-300 bg-blue-50 hover:bg-blue-100"
-                        : "border-dashed border-gray-300 bg-gray-100"
-                      : isGuestConfirming
-                        ? "border-solid border-red-500 bg-red-100 text-red-800"
-                        : "border-solid border-green-500 bg-green-50 hover:bg-green-100"
-                      }`}
+                    className={`h-12 rounded-lg border-2 text-xs flex flex-col items-center justify-center p-1 transition-all ${
+                      !guest
+                        ? selectedGuest
+                          ? "border-dashed border-blue-300 bg-blue-50 hover:bg-blue-100"
+                          : "border-dashed border-gray-300 bg-gray-100"
+                        : isGuestConfirming
+                          ? "border-solid border-red-500 bg-red-100 text-red-800"
+                          : "border-solid border-green-500 bg-green-50 hover:bg-green-100"
+                    }`}
                   >
                     <div className="font-medium text-center leading-tight text-[10px] truncate w-full px-1">
                       {guest
@@ -304,8 +313,8 @@ export const SeatingMobile = () => {
                         : "Empty"}
                     </div>
                   </button>
-                );
-              };
+                )
+              }
 
               return (
                 <div
@@ -315,12 +324,10 @@ export const SeatingMobile = () => {
                   <div className="flex items-center justify-between">
                     <button
                       onClick={() => {
-                        setExpandedTable(isExpanded ? null : table.id);
-                        setConfirmingDeleteId(null);
-                        if (
-                          confirmingGuestToRemove?.tableId !== table.id
-                        ) {
-                          setConfirmingGuestToRemove(null);
+                        setExpandedTable(isExpanded ? null : table.id)
+                        setConfirmingDeleteId(null)
+                        if (confirmingGuestToRemove?.tableId !== table.id) {
+                          setConfirmingGuestToRemove(null)
                         }
                       }}
                       className="flex-1 p-4 flex items-center justify-between hover:bg-gray-50 text-left"
@@ -345,13 +352,14 @@ export const SeatingMobile = () => {
                         isConfirmingTableDelete ? "default" : "destructive"
                       }
                       size="sm"
-                      className={`m-2 transition-colors duration-200 ${isConfirmingTableDelete
-                        ? "bg-orange-500 hover:bg-orange-600"
-                        : ""
-                        }`}
+                      className={`m-2 transition-colors duration-200 ${
+                        isConfirmingTableDelete
+                          ? "bg-orange-500 hover:bg-orange-600"
+                          : ""
+                      }`}
                       onClick={(e) => {
-                        e.stopPropagation();
-                        handleDeleteClick(table.id, table.name);
+                        e.stopPropagation()
+                        handleDeleteClick(table.id, table.name)
                       }}
                       disabled={deleteMutation.isPending}
                     >
@@ -391,9 +399,7 @@ export const SeatingMobile = () => {
                               <Button
                                 variant="secondary"
                                 size="sm"
-                                onClick={() =>
-                                  setConfirmingGuestToRemove(null)
-                                }
+                                onClick={() => setConfirmingGuestToRemove(null)}
                                 className="h-7 text-xs"
                               >
                                 Cancel
@@ -444,7 +450,7 @@ export const SeatingMobile = () => {
                     </div>
                   )}
                 </div>
-              );
+              )
             })}
 
             {(!tables || tables.length === 0) && (
@@ -456,6 +462,5 @@ export const SeatingMobile = () => {
         </>
       )}
     </div>
-  );
-};
-
+  )
+}

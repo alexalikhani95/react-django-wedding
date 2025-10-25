@@ -1,11 +1,9 @@
-
-import '@testing-library/jest-dom'
-import { beforeAll, afterEach, afterAll } from 'vitest'
-import { server } from '../src/mocks/server'
-
+import "@testing-library/jest-dom"
+import { afterAll, afterEach, beforeAll } from "vitest"
+import { server } from "../src/mocks/server"
 
 // Establish API mocking before all tests.
-beforeAll(() => server.listen({ onUnhandledRequest: 'error' }))
+beforeAll(() => server.listen({ onUnhandledRequest: "error" }))
 
 // Reset handlers after each test (so tests are isolated).
 afterEach(() => server.resetHandlers())
