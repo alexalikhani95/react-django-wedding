@@ -21,5 +21,5 @@ export const Information = () => {
         <p className="text-sm">1 Ringwood Road, Burley, Ringwood BH24 4BS</p>
       </div>
     </div>
-  );
-};
+  )
+}
