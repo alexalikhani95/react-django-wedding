@@ -33,6 +33,14 @@ db.sqlite3
 .env.* 
 
 # -------------------
+# Coverage
+# -------------------
+.coverage
+.coverage.*
+htmlcov/
+coverage.xml
+
+# -------------------
 # Django
 # -------------------
 /staticfiles/
