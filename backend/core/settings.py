@@ -1,4 +1,5 @@
 import os
+import sys  # needed for detecting test mode
 from pathlib import Path
 
 from dotenv import load_dotenv
@@ -69,12 +70,23 @@ WSGI_APPLICATION = 'core.wsgi.application'
 
 DATABASE_URL = os.getenv("DATABASE_URL")
 
-DATABASES = {
-    "default": dj_database_url.parse(
-        DATABASE_URL,
-        conn_max_age=600,   # persistent connections
-    )
-}
+# Default database (used in dev/prod)
+default_db = dj_database_url.parse(
+    DATABASE_URL,
+    conn_max_age=600,   # persistent connections
+)
+
+# Use SQLite for tests to avoid overwriting your real DB
+if 'test' in sys.argv:
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.sqlite3',
+            'NAME': BASE_DIR / 'test_db.sqlite3',
+        }
+    }
+else:
+    DATABASES = {'default': default_db}
+
 
 # Password validation
 # https://docs.djangoproject.com/en/5.2/ref/settings/#auth-password-validators
@@ -110,17 +122,11 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.2/howto/static-files/
 
-# Tell Django the URL prefix for serving static files.
-# Keep this as "static/" so WhiteNoise serves from /static/...
 STATIC_URL = "/static/"
-
 
 # Only set the production bits when DEBUG is False (as in the Render docs)
 if not DEBUG:
-    # Where collectstatic will put files on the server
     STATIC_ROOT = BASE_DIR / "staticfiles"
-
-    # WhiteNoise storage: compressed + hashed filenames for long-term caching
     STORAGES = {
         "staticfiles": {
             "BACKEND": "whitenoise.storage.CompressedManifestStaticFilesStorage"
@@ -128,8 +134,6 @@ if not DEBUG:
     }
 
 # Default primary key field type
-# https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field
-
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 CORS_ALLOWED_ORIGINS = [
