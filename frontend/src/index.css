@@ -1,6 +1,47 @@
 @import "tailwindcss";
 @import "tw-animate-css";
 
+@font-face {
+  font-family: 'ADega Serif';
+  src: url('/src/assets/fonts/ADega-Serif-Regular.otf') format('opentype');
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Evafiya';
+  src: url('/src/assets/fonts/Evafiya.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Handwritting';
+  src: url('/src/assets/fonts/Handwritting-Regular.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Mattedly';
+  src: url('/src/assets/fonts/Mattedly-DEMO.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Metropolis';
+  src: url('/src/assets/fonts/MetropolisPersonalUseRegular.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Myriad Pro';
+  src: url('/src/assets/fonts/MyriadPro-Regular.otf') format('opentype');
+  font-weight: normal;
+  font-style: normal;
+}
 @custom-variant dark (&:is(.dark *));
 
 @theme inline {
@@ -39,12 +80,26 @@
   --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
   --color-sidebar-border: var(--sidebar-border);
   --color-sidebar-ring: var(--sidebar-ring);
+  --color-forest-green: var(--forest-green); 
+  --color-beige: var(--beige)
+  --font-adega: "ADega Serif", serif;
+  --font-evafiya: "Evafiya", sans-serif;
+  --font-handwriting: "Handwritting", cursive;
+  --font-mattedly: "Mattedly", sans-serif;
+  --font-metropolis: "Metropolis", sans-serif;
+  --font-myriad: "Myriad Pro", sans-serif;
 }
 
 :root {
   --radius: 0.625rem;
 
-  /* 🌲 Forest palette (light mode) */
+  --forest-green: #315a42;
+  --beige: #F8F8F4;
+
+
+
+  
+/* 🌲 Forest palette (light mode) */
   --background: #f4f1e8;
   /* woodland cream */
   --foreground: #0b3d2c;
@@ -178,4 +233,7 @@
 }
 .animate-spin-slower {
   animation: spin-slower 8s linear infinite;
+}
+body {
+  font-family: var(--font-metropolis);
 }
