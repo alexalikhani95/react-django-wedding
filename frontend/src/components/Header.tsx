@@ -7,6 +7,7 @@ export const Header = () => {
       <div className="flex justify-between items-center">
         {/* Navigation Links */}
         <div className="flex gap-4">
+          <Link to="/">Home</Link>
           <Link to="/rsvp">RSVP</Link>
           <Link to="/rsvp-list">RSVP List</Link>
           <Link to="/information">Information</Link>
