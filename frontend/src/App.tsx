@@ -9,7 +9,7 @@ function App() {
       <div className='flex flex-col items-center gap-10 text-lg b-beige py-10'>
         <p className='text-xl'>14.08.26</p>
 
-        <img src={HomeImage} alt="Burley Manor Home" className='w-[203spx] h-[200px]' />
+        <img src={HomeImage} alt="Burley Manor Home" className='w-[300px] h-[200px]' />
 
         <p className='text-4xl font-mattedly'>Alexander & Charlotte</p>
 
@@ -24,8 +24,8 @@ function App() {
 
       <div className='grid grid-cols-2 bg-forest-green text-beige py-5'>
 
-        <div className='flex justify-center'>
-          <img src={WeddingLiner} className='w-[200px] h-[200px]' />
+        <div className='flex justify-center relative'>
+          <img src={WeddingLiner} className='w-[200px] h-[200px] absolute -bottom-10' />
         </div>
 
 
