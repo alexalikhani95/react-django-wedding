@@ -19,11 +19,14 @@ import { Button } from "./components/ui/button"
 import { Checkbox } from "./components/ui/checkbox"
 import { Input } from "./components/ui/input"
 import { Label } from "./components/ui/label"
-import React, { useRef } from "react"
+import React, { useRef, useState } from "react"
 
 function App() {
   const rsvpRef = useRef<HTMLDivElement | null>(null)
   const detailsRef = useRef<HTMLDivElement | null>(null)
+  const submittedRef = useRef<HTMLDivElement | null>(null)
+  const [showSubmitted, setShowSubmitted] = useState(false)
+
   return (
     <>
       <div className="flex flex-col items-center text-center justify-center gap-10 text-lg b-beige py-10">
@@ -169,7 +172,7 @@ function App() {
 
             {/* To Begin */}
             <section className="flex flex-col gap-2">
-              <h2 className="text-lg font-mattedly mb-1">To Begin</h2>
+              <h2 className="text-3xl font-mattedly mb-1">To Begin</h2>
 
               <Label className="flex items-start gap-3 text-sm leading-snug">
                 <Checkbox />
@@ -192,7 +195,7 @@ function App() {
 
             {/* The Main Event */}
             <section className="flex flex-col gap-2 mt-3">
-              <h2 className="text-lg font-mattedly mb-1">The Main Event</h2>
+              <h2 className="text-3xl font-mattedly mb-1">The Main Event</h2>
 
               <Label className="flex items-start gap-3 text-sm leading-snug">
                 <Checkbox />
@@ -214,7 +217,7 @@ function App() {
 
             {/* Something Sweet */}
             <section className="flex flex-col gap-2 mt-3">
-              <h2 className="text-lg font-mattedly mb-1">Something Sweet</h2>
+              <h2 className="text-3xl font-mattedly mb-1">Something Sweet</h2>
 
               <Label className="flex items-start gap-3 text-sm leading-snug">
                 <Checkbox />
@@ -294,30 +297,25 @@ function App() {
 
       {/* Submit your RSVP */}
       <div className="bg-forest-green flex items-center justify-center py-10">
-        <Button variant="primary" className="w-[300px]">
+        <Button variant="primary" className="w-[300px] p-10" onClick={() => {
+          setShowSubmitted(true)
+          submittedRef.current?.scrollIntoView({ behavior: "smooth", block: "start" })
+        }}>
           SUBMIT YOUR RSVP
         </Button>
       </div>
 
       {/* // Thank you */}
-      <div className="flex flex-col items-center gap-10 text-lg b-beige py-10 text-center">
-        <p className="text-7xl font-mattedly">Thank you!</p>
-        <p className="text-2xl font-metropolis">YOUR RSVP HAS BEEN SUBMITTED</p>
-
-        <img
+      <div className="flex flex-col items-center gap-10 text-lg b-beige py-10 text-center min-h-[200px]" ref={submittedRef}>
+        {showSubmitted && <><p className="text-7xl font-mattedly">Thank you!</p><p className="text-2xl font-metropolis">YOUR RSVP HAS BEEN SUBMITTED</p><img
           src={GreenCheers}
           alt="Thank you"
-          className="w-[200px] h-[200px]"
-        />
-
-        <p className="text-2xl font-metropolis">WITH LOVE,</p>
-        <p className="text-4xl font-mattedly">Alexander & Charlotte</p>
-
-        <Button variant="secondary" size={"lg"} onClick={() => {
-          detailsRef.current?.scrollIntoView({ behavior: "smooth", block: "start" })
-        }}>
-          FINER DETAILS
-        </Button>
+          className="w-[200px] h-[200px]" /><p className="text-2xl font-metropolis">WITH LOVE,</p><p className="text-4xl font-mattedly">Alexander & Charlotte</p><Button variant="secondary" size={"lg"} onClick={() => {
+            detailsRef.current?.scrollIntoView({ behavior: "smooth", block: "start" })
+          }}>
+            FINER DETAILS
+          </Button></>
+        }
       </div>
 
       {/* Bottom Details Section */}
