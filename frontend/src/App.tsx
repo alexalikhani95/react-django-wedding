@@ -14,15 +14,15 @@ import WhiteCar from "@/assets/White-Car.png"
 import WeddingDayWhite from "@/assets/White-Church-Wedding-day.png"
 // import WhiteCheers from "@/assets/White-cheers-Thankyou.png"
 import WhiteGlasses from "@/assets/White-Glasses-Taxi.png"
+
 // import WhiteMelvin from "@/assets/White-Melvin.png"
 
+import { useRef, useState } from "react"
+import { Controller, useForm } from "react-hook-form"
 import { Button } from "./components/ui/button"
 import { Input } from "./components/ui/input"
 import { Label } from "./components/ui/label"
 import { RadioGroup, RadioGroupItem } from "./components/ui/radio-group"
-
-import { useRef, useState } from "react"
-import { useForm, Controller } from "react-hook-form"
 
 type RSVPInputs = {
   guestName: string
@@ -144,7 +144,8 @@ function App() {
             />
 
             <p>
-              Please let us know if you&apos;ll be joining us the evening before.
+              Please let us know if you&apos;ll be joining us the evening
+              before.
             </p>
           </div>
 
@@ -266,8 +267,8 @@ function App() {
                           className="mt-1"
                         />
                         <span>
-                          Isle of Wight heritage tomatoes, vegan mozzarella, leaf,
-                          basil oil, ciabatta bread
+                          Isle of Wight heritage tomatoes, vegan mozzarella,
+                          leaf, basil oil, ciabatta bread
                         </span>
                       </Label>
 
@@ -285,8 +286,9 @@ function App() {
                           className="mt-1"
                         />
                         <span>
-                          Vegetable antipasti board, chargrilled pepper, courgette,
-                          olives, balsamic onions, sourdough, vegan pesto
+                          Vegetable antipasti board, chargrilled pepper,
+                          courgette, olives, balsamic onions, sourdough, vegan
+                          pesto
                         </span>
                       </Label>
                     </RadioGroup>
@@ -317,8 +319,8 @@ function App() {
                           className="mt-1"
                         />
                         <span>
-                          Butternut squash, spinach & mushroom en croûte, roast tomato
-                          sauce, tenderstem broccoli, fondant potato
+                          Butternut squash, spinach & mushroom en croûte, roast
+                          tomato sauce, tenderstem broccoli, fondant potato
                         </span>
                       </Label>
 
@@ -336,7 +338,8 @@ function App() {
                           className="mt-1"
                         />
                         <span>
-                          Spelt leek & pea risotto, oyster mushroom, vegan parmesan
+                          Spelt leek & pea risotto, oyster mushroom, vegan
+                          parmesan
                         </span>
                       </Label>
                     </RadioGroup>
@@ -408,10 +411,11 @@ function App() {
                   Allergies and Intolerances
                 </h2>
                 <p className="max-w-[360px] mx-auto text-xs leading-relaxed">
-                  The menu is plant-based and therefore free from dairy and eggs.
+                  The menu is plant-based and therefore free from dairy and
+                  eggs.
                   <br />
-                  If you have any other food allergies or intolerances, please let
-                  us know below.
+                  If you have any other food allergies or intolerances, please
+                  let us know below.
                 </p>
               </div>
 
@@ -478,7 +482,9 @@ function App() {
         {showSubmitted && (
           <div className="animate-fade-in duration-700">
             <p className="text-7xl font-mattedly">Thank you!</p>
-            <p className="text-2xl font-metropolis">YOUR RSVP HAS BEEN SUBMITTED</p>
+            <p className="text-2xl font-metropolis">
+              YOUR RSVP HAS BEEN SUBMITTED
+            </p>
 
             <img
               src={GreenCheers}
