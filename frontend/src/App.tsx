@@ -19,8 +19,11 @@ import { Button } from "./components/ui/button"
 import { Checkbox } from "./components/ui/checkbox"
 import { Input } from "./components/ui/input"
 import { Label } from "./components/ui/label"
+import React, { useRef } from "react"
 
 function App() {
+  const rsvpRef = useRef<HTMLDivElement | null>(null)
+  const detailsRef = useRef<HTMLDivElement | null>(null)
   return (
     <>
       <div className="flex flex-col items-center text-center justify-center gap-10 text-lg b-beige py-10">
@@ -36,7 +39,9 @@ function App() {
 
         <p className="text-2xl font-metropolis">BURLEY MANOR</p>
 
-        <Button variant="secondary" size={"lg"}>
+        <Button variant="secondary" size={"lg"} onClick={() => {
+          rsvpRef.current?.scrollIntoView({ behavior: "smooth", block: "start" })
+        }}>
           RSVP
         </Button>
       </div>
@@ -61,7 +66,7 @@ function App() {
       </div>
 
       {/* // Night before */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 bg-beige py-15">
+      <div className="grid grid-cols-1 sm:grid-cols-2 bg-beige py-15" ref={rsvpRef}>
         <div className="flex flex-col items-center text-center">
           <p>The Night Before</p>
           <p>THURSDAY 13TH AUGUST 2026</p>
@@ -96,7 +101,7 @@ function App() {
             </Label>
           </div>
 
-          <Button variant="primary" size={"lg"}>
+          <Button variant="secondary" size={"lg"}>
             ADD NEXT GUEST
           </Button>
         </div>
@@ -308,13 +313,15 @@ function App() {
         <p className="text-2xl font-metropolis">WITH LOVE,</p>
         <p className="text-4xl font-mattedly">Alexander & Charlotte</p>
 
-        <Button variant="secondary" size={"lg"}>
+        <Button variant="secondary" size={"lg"} onClick={() => {
+          detailsRef.current?.scrollIntoView({ behavior: "smooth", block: "start" })
+        }}>
           FINER DETAILS
         </Button>
       </div>
 
       {/* Bottom Details Section */}
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-0 w-full">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-0 w-full" ref={detailsRef}>
         {/* GIFTS */}
         <div className="bg-forest-green text-beige flex flex-col items-center justify-center py-14 px-10 text-center">
           <h2 className="text-5xl font-mattedly mb-4">Gifts</h2>
@@ -327,7 +334,7 @@ function App() {
 
         {/* A&C LOGO PANEL */}
         <div className="bg-forest-green text-beige flex flex-col items-center justify-center py-14 px-10 text-center">
-          <Button variant="primary">Contribute</Button>
+          <Button variant="primary" className="w-[200px]">Contribute</Button>
 
           <img src={LogoBeige} className="w-[150px] h-[150px]" />
         </div>
