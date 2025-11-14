@@ -1,7 +1,7 @@
 import { useQuery } from "@tanstack/react-query"
 import { Skeleton } from "@/components/ui/skeleton"
-import type { Rsvp } from "./types"
 import { RsvpCard } from "./RsvpCard"
+import type { Rsvp } from "./types"
 
 const API_URL = import.meta.env.VITE_API_URL
 

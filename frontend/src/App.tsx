@@ -1,143 +1,148 @@
-import HomeImage from '@/assets/Burley-Manor-Home.png'
-import LogoBeige from '@/assets/Logo-Biege.png'
-import MenuGreen from '@/assets/Menu-Green.jpg'
-import MenuBeige from '@/assets/Menu-biege.jpg'
-import PaperTexture from '@/assets/Paper-texture.jpeg'
-import WeddingLiner from '@/assets/Wedding-liner.png'
-import NightBeforeGreen from '@/assets/Night-before-green.png'
-import WeddingDayGreen from '@/assets/Green-Church-Wedding-day.png'
-import WeddingDayWhite from '@/assets/White-Church-Wedding-day.png'
-import WhiteCar from '@/assets/White-Car.png'
-import GreenCar from '@/assets/Green-Car.png'
-import WhiteCheers from '@/assets/White-cheers-Thankyou.png'
-import GreenCheers from '@/assets/Green-cheers-Thankyou.png'
-import WhiteGlasses from '@/assets/White-Glasses-Taxi.png'
-import GreenGlasses from '@/assets/Green-Glasses-Taxi.png'
-import WhiteMelvin from '@/assets/White-Melvin.png'
-import GreenMelvin from '@/assets/Green-Melvin.png'
-import { Button } from './components/ui/button'
-import { Input } from './components/ui/input'
-import { Checkbox } from './components/ui/checkbox'
-import { Label } from './components/ui/label'
+import HomeImage from "@/assets/Burley-Manor-Home.png"
+import GreenCar from "@/assets/Green-Car.png"
+import WeddingDayGreen from "@/assets/Green-Church-Wedding-day.png"
+import GreenCheers from "@/assets/Green-cheers-Thankyou.png"
+import GreenGlasses from "@/assets/Green-Glasses-Taxi.png"
+import GreenMelvin from "@/assets/Green-Melvin.png"
+import LogoBeige from "@/assets/Logo-Biege.png"
+import MenuBeige from "@/assets/Menu-biege.jpg"
+import MenuGreen from "@/assets/Menu-Green.jpg"
+import NightBeforeGreen from "@/assets/Night-before-green.png"
+import PaperTexture from "@/assets/Paper-texture.jpeg"
+import WeddingLiner from "@/assets/Wedding-liner.png"
+import WhiteCar from "@/assets/White-Car.png"
+import WeddingDayWhite from "@/assets/White-Church-Wedding-day.png"
+import WhiteCheers from "@/assets/White-cheers-Thankyou.png"
+import WhiteGlasses from "@/assets/White-Glasses-Taxi.png"
+import WhiteMelvin from "@/assets/White-Melvin.png"
+import { Button } from "./components/ui/button"
+import { Checkbox } from "./components/ui/checkbox"
+import { Input } from "./components/ui/input"
+import { Label } from "./components/ui/label"
 
 function App() {
   return (
     <>
-      <div className='flex flex-col items-center text-center justify-center gap-10 text-lg b-beige py-10'>
-        <p className='text-xl'>14.08.26</p>
+      <div className="flex flex-col items-center text-center justify-center gap-10 text-lg b-beige py-10">
+        <p className="text-xl">14.08.26</p>
 
-        <img src={HomeImage} alt="Burley Manor Home" className='w-[300px] h-[200px]' />
+        <img
+          src={HomeImage}
+          alt="Burley Manor Home"
+          className="w-[300px] h-[200px]"
+        />
 
-        <p className='text-7xl font-mattedly'>Alexander & Charlotte</p>
+        <p className="text-7xl font-mattedly">Alexander & Charlotte</p>
 
-        <p className='text-2xl font-metropolis'>BURLEY MANOR</p>
+        <p className="text-2xl font-metropolis">BURLEY MANOR</p>
 
-        <Button variant="secondary" size={'lg'}>
+        <Button variant="secondary" size={"lg"}>
           RSVP
         </Button>
       </div>
 
-
-
-      <div className='grid grid-cols-2 bg-forest-green text-beige py-5'>
-
-        <div className='flex justify-center relative'>
-          <img src={WeddingLiner} className='w-[250px] h-[250px] absolute -bottom-12 drop-shadow-md/70' />
+      <div className="grid grid-cols-2 bg-forest-green text-beige py-5">
+        <div className="flex justify-center relative">
+          <img
+            src={WeddingLiner}
+            className="w-[250px] h-[250px] absolute -bottom-12 drop-shadow-md/70"
+          />
         </div>
 
-
-        <div className='flex flex-col items-center text-center'>
+        <div className="flex flex-col items-center text-center">
           <p>WE CAN'T WAIT TO</p>
 
-          <p className='text-xl'>Celebrate with you</p>
+          <p className="text-xl">Celebrate with you</p>
 
-          <img src={LogoBeige} className='w-[150px] h-[150px]' />
+          <img src={LogoBeige} className="w-[150px] h-[150px]" />
 
           <p>Kindly respond by *insert date* by filling out the form below</p>
-
         </div>
       </div>
 
-
       {/* // Night before */}
-      <div className='grid grid-cols-1 sm:grid-cols-2 bg-beige py-15'>
-
-        <div className='flex flex-col items-center text-center'>
+      <div className="grid grid-cols-1 sm:grid-cols-2 bg-beige py-15">
+        <div className="flex flex-col items-center text-center">
           <p>The Night Before</p>
           <p>THURSDAY 13TH AUGUST 2026</p>
 
-          <img src={NightBeforeGreen} alt="Night before scene" className='w-[300px] h-[200px]' />
+          <img
+            src={NightBeforeGreen}
+            alt="Night before scene"
+            className="w-[300px] h-[200px]"
+          />
 
-          <p>Please list only the names on your invitation tag and let us know if you'll be joining us</p>
+          <p>
+            Please list only the names on your invitation tag and let us know if
+            you'll be joining us
+          </p>
         </div>
 
-        <div className='flex flex-col items-center gap-5'>
-          <Label
-            htmlFor="guest-name"
-            className='flex flex-col items-start'
-          >
+        <div className="flex flex-col items-center gap-5">
+          <Label htmlFor="guest-name" className="flex flex-col items-start">
             Guest 1:
-            <Input placeholder='First Name, Surname' className='bg-white' />
+            <Input placeholder="First Name, Surname" className="bg-white" />
           </Label>
 
-          <div className='flex gap-5'>
-            <Label className='flex flex-col'>
+          <div className="flex gap-5">
+            <Label className="flex flex-col">
               Joyfully Accepts
               <Checkbox />
             </Label>
 
-            <Label className='flex flex-col'>
+            <Label className="flex flex-col">
               Regretfully Declines
               <Checkbox />
             </Label>
           </div>
 
-          <Button variant="primary" size={'lg'}>
+          <Button variant="primary" size={"lg"}>
             ADD NEXT GUEST
           </Button>
         </div>
-
       </div>
 
       {/* Wedding Day */}
-      <div className='grid grid-cols-1 sm:grid-cols-2 bg-forest-green text-beige py-15'>
+      <div className="grid grid-cols-1 sm:grid-cols-2 bg-forest-green text-beige py-15">
+        <div className="flex flex-col items-center text-center gap-3">
+          <p className="text-6xl font-mattedly">Our Wedding Day</p>
+          <p className="font-metropolis">Friday 14TH AUGUST 2026</p>
 
-        <div className='flex flex-col items-center text-center gap-3'>
-          <p className='text-6xl font-mattedly'>Our Wedding Day</p>
-          <p className='font-metropolis'>Friday 14TH AUGUST 2026</p>
+          <img
+            src={WeddingDayWhite}
+            alt="Wedding day"
+            className="w-[200px] h-[200px]"
+          />
 
-          <img src={WeddingDayWhite} alt="Wedding day" className='w-[200px] h-[200px]' />
-
-          <p>Please list only the names on your invitation tag and let us know if you'll be joining us</p>
+          <p>
+            Please list only the names on your invitation tag and let us know if
+            you'll be joining us
+          </p>
         </div>
 
-        <div className='flex flex-col items-center gap-5'>
-          <Label
-            htmlFor="guest-name"
-            className='flex flex-col items-start'
-          >
+        <div className="flex flex-col items-center gap-5">
+          <Label htmlFor="guest-name" className="flex flex-col items-start">
             Guest 1:
-            <Input placeholder='First Name, Surname' className='bg-white' />
+            <Input placeholder="First Name, Surname" className="bg-white" />
           </Label>
 
-          <div className='flex gap-5'>
-            <Label className='flex flex-col'>
+          <div className="flex gap-5">
+            <Label className="flex flex-col">
               Joyfully Accepts
               <Checkbox />
             </Label>
 
-            <Label className='flex flex-col'>
+            <Label className="flex flex-col">
               Regretfully Declines
               <Checkbox />
             </Label>
           </div>
 
-          <Button variant="primary" size={'lg'}>
+          <Button variant="primary" size={"lg"}>
             ADD NEXT GUEST
           </Button>
         </div>
-
-      </div >
+      </div>
 
       {/* // Menu */}
       <div
@@ -164,8 +169,8 @@ function App() {
               <Label className="flex items-start gap-3 text-sm leading-snug">
                 <Checkbox />
                 <span>
-                  Isle of Wight heritage tomatoes, vegan mozzarella, leaf, basil oil,
-                  ciabatta bread
+                  Isle of Wight heritage tomatoes, vegan mozzarella, leaf, basil
+                  oil, ciabatta bread
                 </span>
               </Label>
 
@@ -174,8 +179,8 @@ function App() {
               <Label className="flex items-start gap-3 text-sm leading-snug">
                 <Checkbox />
                 <span>
-                  Vegetable antipasti board, chargrilled pepper, courgette, olives,
-                  balsamic onions, sourdough, vegan pesto
+                  Vegetable antipasti board, chargrilled pepper, courgette,
+                  olives, balsamic onions, sourdough, vegan pesto
                 </span>
               </Label>
             </section>
@@ -187,8 +192,8 @@ function App() {
               <Label className="flex items-start gap-3 text-sm leading-snug">
                 <Checkbox />
                 <span>
-                  Butternut squash, spinach & mushroom en croûte, roast tomato sauce,
-                  tenderstem broccoli, fondant potato
+                  Butternut squash, spinach & mushroom en croûte, roast tomato
+                  sauce, tenderstem broccoli, fondant potato
                 </span>
               </Label>
 
@@ -209,8 +214,8 @@ function App() {
               <Label className="flex items-start gap-3 text-sm leading-snug">
                 <Checkbox />
                 <span>
-                  Chocolate tart, passion fruit sorbet, chocolate sauce, passion fruit
-                  crumb
+                  Chocolate tart, passion fruit sorbet, chocolate sauce, passion
+                  fruit crumb
                 </span>
               </Label>
 
@@ -218,9 +223,7 @@ function App() {
 
               <Label className="flex items-start gap-3 text-sm leading-snug">
                 <Checkbox />
-                <span>
-                  Elderflower jelly, summer fruits, crème fraîche
-                </span>
+                <span>Elderflower jelly, summer fruits, crème fraîche</span>
               </Label>
             </section>
           </div>
@@ -240,8 +243,8 @@ function App() {
               <p className="max-w-[360px] mx-auto text-xs leading-relaxed">
                 The menu is plant-based and therefore free from dairy and eggs.
                 <br />
-                If you have any other food allergies or intolerances, please let us
-                know below.
+                If you have any other food allergies or intolerances, please let
+                us know below.
               </p>
             </div>
 
@@ -285,50 +288,48 @@ function App() {
       </div>
 
       {/* Submit your RSVP */}
-      <div className='bg-forest-green flex items-center justify-center py-10'>
-        <Button variant="primary" className='w-[300px]'>SUBMIT YOUR RSVP</Button>
+      <div className="bg-forest-green flex items-center justify-center py-10">
+        <Button variant="primary" className="w-[300px]">
+          SUBMIT YOUR RSVP
+        </Button>
       </div>
 
       {/* // Thank you */}
-      <div className='flex flex-col items-center gap-10 text-lg b-beige py-10 text-center'>
-        <p className='text-7xl font-mattedly'>Thank you!</p>
-        <p className='text-2xl font-metropolis'>YOUR RSVP HAS BEEN SUBMITTED</p>
+      <div className="flex flex-col items-center gap-10 text-lg b-beige py-10 text-center">
+        <p className="text-7xl font-mattedly">Thank you!</p>
+        <p className="text-2xl font-metropolis">YOUR RSVP HAS BEEN SUBMITTED</p>
 
+        <img
+          src={GreenCheers}
+          alt="Thank you"
+          className="w-[200px] h-[200px]"
+        />
 
-        <img src={GreenCheers} alt="Thank you" className='w-[200px] h-[200px]' />
+        <p className="text-2xl font-metropolis">WITH LOVE,</p>
+        <p className="text-4xl font-mattedly">Alexander & Charlotte</p>
 
-        <p className='text-2xl font-metropolis'>WITH LOVE,</p>
-        <p className='text-4xl font-mattedly'>Alexander & Charlotte</p>
-
-        <Button variant="secondary" size={'lg'}>
+        <Button variant="secondary" size={"lg"}>
           FINER DETAILS
         </Button>
       </div>
 
       {/* Bottom Details Section */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-0 w-full">
-
         {/* GIFTS */}
         <div className="bg-forest-green text-beige flex flex-col items-center justify-center py-14 px-10 text-center">
           <h2 className="text-5xl font-mattedly mb-4">Gifts</h2>
           <p className="max-w-[450px] text-sm leading-relaxed mb-6">
-            The most important thing to us is having you there to celebrate our wedding day.
-            However if you wish to give a gift, we’d greatly appreciate a contribution to our honeymoon.
+            The most important thing to us is having you there to celebrate our
+            wedding day. However if you wish to give a gift, we’d greatly
+            appreciate a contribution to our honeymoon.
           </p>
-
-
         </div>
 
         {/* A&C LOGO PANEL */}
         <div className="bg-forest-green text-beige flex flex-col items-center justify-center py-14 px-10 text-center">
-          <Button
-            variant="primary"
-          >
-            Contribute
-          </Button>
+          <Button variant="primary">Contribute</Button>
 
-          <img src={LogoBeige} className='w-[150px] h-[150px]' />
-
+          <img src={LogoBeige} className="w-[150px] h-[150px]" />
         </div>
 
         {/* ACCOMMODATION */}
@@ -385,10 +386,7 @@ function App() {
             Seating has been reserved for only those named on your invitation.
           </p>
         </div>
-
       </div>
-
-
     </>
   )
 }

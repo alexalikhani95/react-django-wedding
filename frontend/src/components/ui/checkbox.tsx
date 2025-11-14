@@ -1,5 +1,5 @@
-import * as React from "react"
 import * as CheckboxPrimitive from "@radix-ui/react-checkbox"
+import type * as React from "react"
 
 import GreenTick from "@/assets/Green-Tick.png"
 import { cn } from "@/lib/utils"
@@ -20,7 +20,7 @@ function Checkbox({
         "focus-visible:ring-[3px] focus-visible:ring-ring/50 focus-visible:border-ring",
         "aria-invalid:border-destructive aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40",
         "disabled:cursor-not-allowed disabled:opacity-50",
-        className
+        className,
       )}
       {...props}
     >
