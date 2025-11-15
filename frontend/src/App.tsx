@@ -18,13 +18,19 @@ import WhiteGlasses from "@/assets/White-Glasses-Taxi.png"
 // import WhiteMelvin from "@/assets/White-Melvin.png"
 
 import { useRef, useState } from "react"
-import { Controller, useForm } from "react-hook-form"
+import { Controller, useForm, type SubmitHandler } from "react-hook-form"
 import { Button } from "./components/ui/button"
 import { Input } from "./components/ui/input"
 import { Label } from "./components/ui/label"
 import { RadioGroup, RadioGroupItem } from "./components/ui/radio-group"
+import { useMutation, useQueryClient } from "@tanstack/react-query"
 
-type RSVPInputs = {
+import { toast } from "react-toastify"
+
+const API_URL = import.meta.env.VITE_API_URL
+
+
+type Inputs = {
   guestName: string
 
   nightBefore: "accept" | "decline" | null
@@ -42,6 +48,7 @@ function App() {
   const rsvpRef = useRef<HTMLDivElement | null>(null)
   const detailsRef = useRef<HTMLDivElement | null>(null)
   const submittedRef = useRef<HTMLDivElement | null>(null)
+  const queryClient = useQueryClient()
 
   const [showSubmitted, setShowSubmitted] = useState(false)
 
@@ -49,9 +56,10 @@ function App() {
     control,
     register,
     handleSubmit,
+    reset,
     watch,
     formState: { errors },
-  } = useForm<RSVPInputs>({
+  } = useForm<Inputs>({
     defaultValues: {
       guestName: "",
       nightBefore: null,
@@ -66,17 +74,47 @@ function App() {
 
   const allergiesValue = watch("allergies")
 
-  const submitRSVP = handleSubmit((data) => {
-    console.log("RSVP SUBMITTED:", data)
+  const mutation = useMutation({
+    mutationFn: async (data: Inputs) => {
+      const response = await fetch(`${API_URL}/api/rsvp/create/`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          name: data.guestName,
+          night_before: data.nightBefore,
+          wedding_day: data.weddingDay,
+
+          starter: data.starter,
+          main: data.main,
+          dessert: data.dessert,
+
+          allergies: data.allergies,
+          allergy_notes: data.allergyNotes,
+        }),
+      })
+      if (!response.ok) throw new Error("Failed to add Rsvp")
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["rsvps"] })
+      reset()
+      setShowSubmitted(true)
+      toast.success("RSVP sent!")
+    },
+    onError: () => toast.error("Error sending RSVP. Please try again."),
+  })
+
+
+  const onSubmit: SubmitHandler<Inputs> = (data) => {
+    mutation.mutate(data)
     setShowSubmitted(true)
     submittedRef.current?.scrollIntoView({ behavior: "smooth", block: "start" })
-  })
+  }
 
   return (
     <>
       {/* Header / Hero */}
       <div className="flex flex-col text-forest-green items-center text-center justify-center gap-10 text-lg b-beige py-10">
-        <p className="text-xl">14.08.26</p>
+        <p className="text-3xl font-adega">14.08.26</p>
 
         <img
           src={HomeImage}
@@ -86,11 +124,25 @@ function App() {
 
         <p className="text-7xl font-mattedly">Alexander & Charlotte</p>
 
-        <p className="text-2xl font-metropolis">BURLEY MANOR</p>
+        <p className="text-2xl font-adega">BURLEY MANOR</p>
+
+        <Button
+          variant="secondary"
+          size="lg"
+          className="mt-6 font-adega text-xl"
+          onClick={() =>
+            rsvpRef.current?.scrollIntoView({
+              behavior: "smooth",
+              block: "start",
+            })
+          }
+        >
+          RSVP
+        </Button>
       </div>
 
       {/* Your Details (guest name, but no gating) */}
-      <div className="flex flex-col items-center justify-center text-center py-12 bg-beige">
+      <div className="flex flex-col items-center justify-center text-center py-12 bg-beige" ref={rsvpRef}>
         <h2 className="text-4xl font-mattedly mb-4">Your Details</h2>
 
         <div className="flex flex-col gap-4 w-full max-w-[360px] items-center">
@@ -115,27 +167,26 @@ function App() {
           />
         </div>
 
-        <div className="flex flex-col items-center text-center">
-          <p>WE CAN&apos;T WAIT TO</p>
+        <div className="flex flex-col items-center text-center gap-5">
+          <p className="font-adega">WE CAN&apos;T WAIT TO</p>
 
-          <p className="text-xl">Celebrate with you</p>
+          <p className="text-6xl font-mattedly">Celebrate with you</p>
 
           <img src={LogoBeige} className="w-[150px] h-[150px]" />
 
-          <p>Kindly respond by *insert date* by filling out the form below</p>
+          <p className="font-evafiya">Kindly respond by *insert date* by filling out the form below</p>
         </div>
       </div>
 
       {/* Main RSVP Form */}
-      <form onSubmit={submitRSVP}>
+      <form onSubmit={handleSubmit(onSubmit)}>
         {/* Night before */}
         <div
           className="grid grid-cols-1 sm:grid-cols-2 bg-beige py-15"
-          ref={rsvpRef}
         >
-          <div className="flex flex-col items-center text-center">
-            <p>The Night Before</p>
-            <p>THURSDAY 13TH AUGUST 2026</p>
+          <div className="flex flex-col items-center text-center gap-5">
+            <p className="font-mattedly text-6xl">The Night Before</p>
+            <p className="font-adega">THURSDAY 13TH AUGUST 2026</p>
 
             <img
               src={NightBeforeGreen}
@@ -143,7 +194,7 @@ function App() {
               className="w-[300px] h-[200px]"
             />
 
-            <p>
+            <p className="font-evafiya">
               Please let us know if you&apos;ll be joining us the evening
               before.
             </p>
@@ -151,7 +202,7 @@ function App() {
 
           </div>
 
-          <div className="flex flex-col items-center justify-center w-full">
+          <div className="flex flex-col items-center justify-center w-full font-adega">
             <Controller
               name="nightBefore"
               control={control}
@@ -173,6 +224,7 @@ function App() {
             cursor-pointer
             transition-all
             hover:bg-white hover:shadow-md hover:border-forest-green/60
+            
           "
                   >
                     <RadioGroupItem
@@ -180,7 +232,7 @@ function App() {
                       value="accept"
                       className="border-forest-green text-forest-green"
                     />
-                    <span className="text-sm font-metropolis tracking-wide">
+                    <span className="text-sm tracking-wide">
                       Joyfully Accepts
                     </span>
                   </Label>
@@ -204,7 +256,7 @@ function App() {
                       value="decline"
                       className="border-forest-green text-forest-green"
                     />
-                    <span className="text-sm font-metropolis tracking-wide">
+                    <span className="text-sm tracking-wide">
                       Regretfully Declines
                     </span>
                   </Label>
@@ -217,9 +269,9 @@ function App() {
 
         {/* Wedding Day */}
         <div className="grid gap-3 grid-cols-1 sm:grid-cols-2 bg-forest-green text-beige py-15">
-          <div className="flex flex-col items-center text-center gap-3">
+          <div className="flex flex-col items-center text-center gap-5">
             <p className="text-6xl font-mattedly">Our Wedding Day</p>
-            <p className="font-metropolis">Friday 14TH AUGUST 2026</p>
+            <p className="font-adega">FRIDAY 14TH AUGUST 2026</p>
 
             <img
               src={WeddingDayWhite}
@@ -227,10 +279,10 @@ function App() {
               className="w-[200px] h-[200px]"
             />
 
-            <p>Please let us know if you’ll be joining us on the day.</p>
+            <p className="font-evafiya">Please let us know if you’ll be joining us on the day.</p>
           </div>
 
-          <div className="flex flex-col items-center justify-center w-full">
+          <div className="flex flex-col items-center justify-center w-full font-adega">
             <Controller
               name="weddingDay"
               control={control}
@@ -259,7 +311,7 @@ function App() {
                       value="accept"
                       className="border-forest-green text-forest-green"
                     />
-                    <span className="text-sm font-metropolis tracking-wide">
+                    <span className="text-sm tracking-wide">
                       Joyfully Accepts
                     </span>
                   </Label>
@@ -283,7 +335,7 @@ function App() {
                       value="decline"
                       className="border-forest-green text-forest-green"
                     />
-                    <span className="text-sm font-metropolis tracking-wide">
+                    <span className="text-sm tracking-wide">
                       Regretfully Declines
                     </span>
                   </Label>
@@ -310,7 +362,6 @@ function App() {
               {/* Header */}
               <div className="text-center">
                 <p className="text-5xl font-mattedly leading-tight">The Menu</p>
-                <p className="mt-1 tracking-wide text-sm">GUEST 1:</p>
               </div>
 
               {/* To Begin */}
@@ -322,7 +373,7 @@ function App() {
                   control={control}
                   render={({ field }) => (
                     <RadioGroup
-                      className="flex flex-col gap-2"
+                      className="flex flex-col gap-2 font-evafiya"
                       value={field.value ?? ""}
                       onValueChange={field.onChange}
                     >
@@ -374,7 +425,7 @@ function App() {
                   control={control}
                   render={({ field }) => (
                     <RadioGroup
-                      className="flex flex-col gap-2"
+                      className="flex flex-col gap-2 font-evafiya"
                       value={field.value ?? ""}
                       onValueChange={field.onChange}
                     >
@@ -425,7 +476,7 @@ function App() {
                   control={control}
                   render={({ field }) => (
                     <RadioGroup
-                      className="flex flex-col gap-2"
+                      className="flex flex-col gap-2 font-evafiya"
                       value={field.value ?? ""}
                       onValueChange={field.onChange}
                     >
@@ -476,10 +527,10 @@ function App() {
             >
               {/* Header */}
               <div>
-                <h2 className="uppercase tracking-[0.15em] text-base font-semibold mb-2">
+                <h2 className="uppercase tracking-[0.15em] text-base font-adega mb-2">
                   Allergies and Intolerances
                 </h2>
-                <p className="max-w-[360px] mx-auto text-xs leading-relaxed">
+                <p className="max-w-[360px] mx-auto text-sm  font-evafiya">
                   The menu is plant-based and therefore free from dairy and
                   eggs.
                   <br />
@@ -494,12 +545,12 @@ function App() {
                 control={control}
                 render={({ field }) => (
                   <RadioGroup
-                    className="flex flex-row gap-8 justify-center mt-2"
+                    className="flex flex-row gap-8 justify-center mt-2 font-evafiya"
                     value={field.value ?? ""}
                     onValueChange={field.onChange}
                   >
                     <Label
-                      className="flex flex-col items-center gap-1 text-xs cursor-pointer"
+                      className="flex flex-col items-center gap-1 text-sm cursor-pointer"
                       htmlFor="allergy-none"
                     >
                       <RadioGroupItem id="allergy-none" value="none" />
@@ -507,7 +558,7 @@ function App() {
                     </Label>
 
                     <Label
-                      className="flex flex-col items-center gap-1 text-xs cursor-pointer"
+                      className="flex flex-col items-center gap-1 text-sm cursor-pointer"
                       htmlFor="allergy-yes"
                     >
                       <RadioGroupItem id="allergy-yes" value="yes" />
@@ -520,7 +571,7 @@ function App() {
               {/* Allergy Notes (conditional) */}
               {allergiesValue === "yes" && (
                 <div className="flex flex-col items-start w-full mt-3 text-left">
-                  <Label htmlFor="allergyNotes" className="mb-1 text-xs">
+                  <Label htmlFor="allergyNotes" className="mb-1 text-sm font-evafiya">
                     Please specify:
                   </Label>
                   <Input
@@ -537,7 +588,7 @@ function App() {
 
         {/* Submit your RSVP */}
         <div className="bg-forest-green flex items-center justify-center py-10">
-          <Button type="submit" variant="primary" className="w-[300px] p-10">
+          <Button type="submit" variant="primary" className="w-[300px] px-10 py-5 font-adega text-xl">
             SUBMIT YOUR RSVP
           </Button>
         </div>
@@ -545,14 +596,14 @@ function App() {
 
       {/* Thank you */}
       <div
-        className="flex flex-col items-center gap-10 text-lg b-beige py-10 text-center min-h-[200px]"
+        className="bg-beige py-10 text-center min-h-[200px]"
         ref={submittedRef}
       >
         {showSubmitted && (
-          <div className="animate-fade-in duration-700">
+          <div className="animate-fade-in duration-700 flex flex-col items-center gap-5">
             <p className="text-7xl font-mattedly">Thank you!</p>
-            <p className="text-2xl font-metropolis">
-              YOUR RSVP HAS BEEN SUBMITTED
+            <p className="text-2xl font-adega">
+              YOUR RSVP HAS BEEN RECIEVED
             </p>
 
             <img
@@ -561,13 +612,13 @@ function App() {
               className="w-[200px] h-[200px] mx-auto my-6"
             />
 
-            <p className="text-2xl font-metropolis">WITH LOVE,</p>
+            <p className="text-2xl font-adega">WITH LOVE,</p>
             <p className="text-4xl font-mattedly">Alexander & Charlotte</p>
 
             <Button
               variant="secondary"
               size="lg"
-              className="mt-6"
+              className="max-w-[300px] font-adega text-xl mt-10"
               onClick={() =>
                 detailsRef.current?.scrollIntoView({
                   behavior: "smooth",
@@ -587,9 +638,9 @@ function App() {
         ref={detailsRef}
       >
         {/* GIFTS */}
-        <div className="bg-forest-green text-beige flex flex-col items-center justify-center py-14 px-10 text-center">
-          <h2 className="text-5xl font-mattedly mb-4">Gifts</h2>
-          <p className="max-w-[450px] text-sm leading-relaxed mb-6">
+        <div className="bg-forest-green text-beige flex flex-col items-center py-14 px-10 text-center">
+          <h2 className="text-6xl font-mattedly mb-4">Gifts</h2>
+          <p className="max-w-[450px] text-md font-evafiya mb-6">
             The most important thing to us is having you there to celebrate our
             wedding day. However if you wish to give a gift, we’d greatly
             appreciate a contribution to our honeymoon.
@@ -597,65 +648,66 @@ function App() {
         </div>
 
         {/* Contribute */}
-        <div className="bg-forest-green text-beige flex flex-col items-center justify-center py-14 px-10 text-center">
-          <Button variant="primary" className="w-[200px]">
-            Contribute
+        <div className="bg-forest-green text-beige flex flex-col items-center py-14 px-10 text-center">
+          <Button variant="primary" className="w-[200px] font-adega text-xl" size='lg'>
+            CONTRIBUTE
           </Button>
 
           <img src={LogoBeige} className="w-[150px] h-[150px] mt-6" />
         </div>
 
         {/* Accommodation */}
-        <div className="bg-beige text-forest-green flex flex-col items-center justify-center py-14 px-10 text-center">
+        <div className="bg-beige text-forest-green flex flex-col items-center py-14 px-10 text-center">
           <h2 className="text-6xl font-mattedly mb-4">Accommodation</h2>
 
           <img src={HomeImage} className="w-[280px] opacity-70 mb-4" />
 
-          <p className="max-w-[420px] text-sm leading-relaxed mb-4">
+          <p className="max-w-[420px] text-md font-evafiya mb-4">
             If you would like to book a room at Burley Manor please quote
           </p>
 
-          <div className="border border-forest-green rounded-full px-6 py-2 tracking-[0.15em] text-sm mb-2">
+          <div className="border border-forest-green rounded-full px-6 py-2 tracking-[0.15em] text-md mb-2 font-adega">
             BMW140626
           </div>
 
-          <p className="text-sm">when making your reservation</p>
+          <p className="text-md font-evafiya">when making your reservation</p>
         </div>
 
         {/* Parking */}
-        <div className="bg-forest-green text-beige flex flex-col items-center justify-center py-14 px-10 text-center">
-          <h2 className="text-6xl font-mattedly mb-4">Parking</h2>
+        <div className="bg-forest-green text-beige flex flex-col gap-4 items-center py-14 px-10 text-center">
+          <h2 className="text-6xl font-mattedly">Parking</h2>
 
           <img src={WhiteCar} className="w-[120px] opacity-80 mb-4" />
 
-          <p className="max-w-[420px] text-xs leading-relaxed tracking-wide mb-2 uppercase">
+          <p className="text-md font-adega uppercase">
             Please note parking at the church is very limited
           </p>
 
-          <p className="max-w-[420px] text-sm leading-relaxed">
+          <p className="max-w-[420px] text-md font-evafiya">
             If you would like to book a room at Burley Manor please quote
           </p>
         </div>
 
         {/* Taxis */}
-        <div className="bg-forest-green text-beige flex flex-col items-center justify-center py-14 px-10 text-center">
+        <div className="bg-forest-green text-beige flex flex-col items-center py-14 px-10 text-center">
           <h2 className="text-6xl font-mattedly mb-4">Taxi’s</h2>
 
           <img src={WhiteGlasses} className="w-[120px] opacity-80 mb-4" />
 
-          <p className="text-sm leading-relaxed">
-            NEW FOREST TAXIS – 01425 600 222 <br />
-            BROCKENHURST TAXIS – 01590 615141
+          <p className="text-md font-adega">
+            NEW FOREST TAXIS – 01425 600 222
           </p>
-        </div>
+          <p className="text-md font-adega">
+            BROCKENHURST TAXIS – 01590 615141
+          </p>        </div>
 
         {/* Plus-ones */}
-        <div className="bg-beige text-forest-green flex flex-col items-center justify-center py-14 px-10 text-center">
+        <div className="bg-beige text-forest-green flex flex-col items-center py-14 px-10 text-center">
           <h2 className="text-6xl font-mattedly mb-4">Plus-ones & Children</h2>
 
           <img src={GreenMelvin} className="w-[140px] opacity-70 mb-4" />
 
-          <p className="max-w-[420px] text-sm leading-relaxed">
+          <p className="max-w-[420px] text-md leading-relaxed font-evafiya">
             Seating has been reserved for only those named on your invitation.
           </p>
         </div>
