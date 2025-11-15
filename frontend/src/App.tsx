@@ -129,7 +129,7 @@ function App() {
         <Button
           variant="secondary"
           size="lg"
-          className="mt-6 font-adega text-xl"
+          className="font-adega text-xl"
           onClick={() =>
             rsvpRef.current?.scrollIntoView({
               behavior: "smooth",
@@ -141,7 +141,6 @@ function App() {
         </Button>
       </div>
 
-      {/* Your Details (guest name, but no gating) */}
       <div className="flex flex-col items-center justify-center text-center py-12 bg-beige" ref={rsvpRef}>
         <h2 className="text-4xl font-mattedly mb-4">Your Details</h2>
 
@@ -159,24 +158,32 @@ function App() {
       </div>
 
       {/* Intro strip */}
-      <div className="grid grid-cols-2 bg-forest-green text-beige py-5">
-        <div className="flex justify-center relative">
+      <div className="grid grid-cols-1 md:grid-cols-2 bg-forest-green text-beige py-5">
+        {/* Image column */}
+        <div className="flex justify-center relative order-2 md:order-1">
           <img
             src={WeddingLiner}
             className="w-[250px] h-[250px] absolute -bottom-12 drop-shadow-md/70"
           />
         </div>
 
-        <div className="flex flex-col items-center text-center gap-5">
-          <p className="font-adega">WE CAN&apos;T WAIT TO</p>
+        {/* Text column */}
+        <div className="flex flex-col items-center text-center gap-5 order-1 md:order-2">
+          <p className="font-adega tracking-[0.15em]">WE CAN&apos;T WAIT TO</p>
 
           <p className="text-6xl font-mattedly">Celebrate with you</p>
+          <p className="font-evafiya block sm:hidden mb-10">
+            Kindly respond by *insert date* by filling out the form below
+          </p>
 
           <img src={LogoBeige} className="w-[150px] h-[150px]" />
 
-          <p className="font-evafiya">Kindly respond by *insert date* by filling out the form below</p>
+          <p className="font-evafiya hidden sm:block">
+            Kindly respond by *insert date* by filling out the form below
+          </p>
         </div>
       </div>
+
 
       {/* Main RSVP Form */}
       <form onSubmit={handleSubmit(onSubmit)}>
@@ -349,7 +356,7 @@ function App() {
 
         {/* Menu */}
         <div
-          className="grid grid-cols-1 sm:grid-cols-2 py-15 
+          className="grid grid-cols-1 sm:grid-cols-2 py-15 px-10
              bg-[url(@/assets/Menu-biege.jpg)] bg-cover bg-center bg-no-repeat"
         >
           {/* Menu Card */}
@@ -357,7 +364,7 @@ function App() {
             <div
               className="bg-[url(@/assets/Paper-texture.jpeg)] bg-cover bg-center
                  text-forest-green flex flex-col gap-6 rounded-xl shadow-md
-                 w-[420px] p-8 font-metropolis"
+                 w-[450px] p-8 font-metropolis"
             >
               {/* Header */}
               <div className="text-center">
@@ -520,10 +527,10 @@ function App() {
           </div>
 
           {/* Allergies & Intolerances Section */}
-          <div className="flex flex-col justify-center items-center">
+          <div className="flex flex-col justify-center items-center mt-10 sm:mt-0">
             <div
               className="bg-forest-green text-beige flex flex-col items-center gap-5
-                 py-8 px-6 rounded-md w-[420px] font-metropolis shadow-md text-center"
+                 py-8 px-6 rounded-md max-w-[400px] font-metropolis shadow-md text-center"
             >
               {/* Header */}
               <div>
@@ -596,7 +603,7 @@ function App() {
 
       {/* Thank you */}
       <div
-        className="bg-beige py-10 text-center min-h-[200px]"
+        className="bg-beige py-10 text-center"
         ref={submittedRef}
       >
         {showSubmitted && (
@@ -648,7 +655,7 @@ function App() {
         </div>
 
         {/* Contribute */}
-        <div className="bg-forest-green text-beige flex flex-col items-center py-14 px-10 text-center">
+        <div className="bg-forest-green text-beige flex flex-col items-center py-0 sm:py-14 text-center">
           <Button variant="primary" className="w-[200px] font-adega text-xl" size='lg'>
             CONTRIBUTE
           </Button>
@@ -666,7 +673,7 @@ function App() {
             If you would like to book a room at Burley Manor please quote
           </p>
 
-          <div className="border border-forest-green rounded-full px-6 py-2 tracking-[0.15em] text-md mb-2 font-adega">
+          <div className="border border-forest-green rounded-full px-6 py-4 tracking-[0.15em] text-md mb-2 font-adega">
             BMW140626
           </div>
 
@@ -689,7 +696,8 @@ function App() {
         </div>
 
         {/* Taxis */}
-        <div className="bg-forest-green text-beige flex flex-col items-center py-14 px-10 text-center">
+        <div className="bg-forest-green text-beige flex flex-col items-center py-14 px-10 text-center 
+     order-6 md:order-none">
           <h2 className="text-6xl font-mattedly mb-4">Taxi’s</h2>
 
           <img src={WhiteGlasses} className="w-[120px] opacity-80 mb-4" />
@@ -699,10 +707,12 @@ function App() {
           </p>
           <p className="text-md font-adega">
             BROCKENHURST TAXIS – 01590 615141
-          </p>        </div>
+          </p>
+        </div>
 
         {/* Plus-ones */}
-        <div className="bg-beige text-forest-green flex flex-col items-center py-14 px-10 text-center">
+        <div className="bg-beige text-forest-green flex flex-col items-center py-14 px-10 text-center 
+     order-5 md:order-none">
           <h2 className="text-6xl font-mattedly mb-4">Plus-ones & Children</h2>
 
           <img src={GreenMelvin} className="w-[140px] opacity-70 mb-4" />
@@ -711,6 +721,7 @@ function App() {
             Seating has been reserved for only those named on your invitation.
           </p>
         </div>
+
       </div>
     </>
   )
