@@ -75,7 +75,7 @@ function App() {
   return (
     <>
       {/* Header / Hero */}
-      <div className="flex flex-col items-center text-center justify-center gap-10 text-lg b-beige py-10">
+      <div className="flex flex-col text-forest-green items-center text-center justify-center gap-10 text-lg b-beige py-10">
         <p className="text-xl">14.08.26</p>
 
         <img
@@ -147,41 +147,76 @@ function App() {
               Please let us know if you&apos;ll be joining us the evening
               before.
             </p>
+
+
           </div>
 
-          <div className="flex flex-col items-center justify-center gap-5">
+          <div className="flex flex-col items-center justify-center w-full">
             <Controller
               name="nightBefore"
               control={control}
               render={({ field }) => (
                 <RadioGroup
-                  className="flex flex-col gap-5"
+                  className="flex flex-col gap-4 w-full max-w-[320px] mt-2"
                   value={field.value ?? ""}
                   onValueChange={field.onChange}
                 >
+                  {/* Joyfully Accepts */}
                   <Label
                     htmlFor="nb-accept"
-                    className="flex items-center gap-2 cursor-pointer"
+                    className="
+            flex items-center gap-4 w-full
+            px-5 py-3
+            rounded-lg border border-forest-green/30
+            bg-white/95 text-forest-green
+            shadow-sm
+            cursor-pointer
+            transition-all
+            hover:bg-white hover:shadow-md hover:border-forest-green/60
+          "
                   >
-                    <RadioGroupItem id="nb-accept" value="accept" />
-                    <span>Joyfully Accepts</span>
+                    <RadioGroupItem
+                      id="nb-accept"
+                      value="accept"
+                      className="border-forest-green text-forest-green"
+                    />
+                    <span className="text-sm font-metropolis tracking-wide">
+                      Joyfully Accepts
+                    </span>
                   </Label>
 
+                  {/* Regretfully Declines */}
                   <Label
                     htmlFor="nb-decline"
-                    className="flex items-center gap-2 cursor-pointer"
+                    className="
+            flex items-center gap-4 w-full
+            px-5 py-3
+            rounded-lg border border-forest-green/30
+            bg-white/95 text-forest-green
+            shadow-sm
+            cursor-pointer
+            transition-all
+            hover:bg-white hover:shadow-md hover:border-forest-green/60
+          "
                   >
-                    <RadioGroupItem id="nb-decline" value="decline" />
-                    <span>Regretfully Declines</span>
+                    <RadioGroupItem
+                      id="nb-decline"
+                      value="decline"
+                      className="border-forest-green text-forest-green"
+                    />
+                    <span className="text-sm font-metropolis tracking-wide">
+                      Regretfully Declines
+                    </span>
                   </Label>
                 </RadioGroup>
               )}
             />
           </div>
+
         </div>
 
         {/* Wedding Day */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 bg-forest-green text-beige py-15">
+        <div className="grid gap-3 grid-cols-1 sm:grid-cols-2 bg-forest-green text-beige py-15">
           <div className="flex flex-col items-center text-center gap-3">
             <p className="text-6xl font-mattedly">Our Wedding Day</p>
             <p className="font-metropolis">Friday 14TH AUGUST 2026</p>
@@ -195,35 +230,69 @@ function App() {
             <p>Please let us know if you’ll be joining us on the day.</p>
           </div>
 
-          <div className="flex flex-col items-center justify-center gap-5">
+          <div className="flex flex-col items-center justify-center w-full">
             <Controller
               name="weddingDay"
               control={control}
               render={({ field }) => (
                 <RadioGroup
-                  className="flex flex-col gap-5"
                   value={field.value ?? ""}
                   onValueChange={field.onChange}
+                  className="flex flex-col gap-4 w-full max-w-[340px]"
                 >
+                  {/* Accept */}
                   <Label
                     htmlFor="wd-accept"
-                    className="flex items-center gap-2 cursor-pointer"
+                    className="
+            flex items-center gap-4 w-full
+            px-5 py-3
+            rounded-lg border
+            bg-beige/95 text-forest-green
+            shadow-sm
+            cursor-pointer
+            transition-all
+            hover:bg-beige hover:shadow-md hover:border-beige
+          "
                   >
-                    <RadioGroupItem id="wd-accept" value="accept" />
-                    <span>Joyfully Accepts</span>
+                    <RadioGroupItem
+                      id="wd-accept"
+                      value="accept"
+                      className="border-forest-green text-forest-green"
+                    />
+                    <span className="text-sm font-metropolis tracking-wide">
+                      Joyfully Accepts
+                    </span>
                   </Label>
 
+                  {/* Decline */}
                   <Label
                     htmlFor="wd-decline"
-                    className="flex items-center gap-2 cursor-pointer"
+                    className="
+            flex items-center gap-4 w-full
+            px-5 py-3
+            rounded-lg border
+            bg-beige/95 text-forest-green
+            shadow-sm
+            cursor-pointer
+            transition-all
+            hover:bg-beige hover:shadow-md hover:border-beige
+          "
                   >
-                    <RadioGroupItem id="wd-decline" value="decline" />
-                    <span>Regretfully Declines</span>
+                    <RadioGroupItem
+                      id="wd-decline"
+                      value="decline"
+                      className="border-forest-green text-forest-green"
+                    />
+                    <span className="text-sm font-metropolis tracking-wide">
+                      Regretfully Declines
+                    </span>
                   </Label>
                 </RadioGroup>
               )}
             />
           </div>
+
+
         </div>
 
         {/* Menu */}
@@ -258,7 +327,7 @@ function App() {
                       onValueChange={field.onChange}
                     >
                       <Label
-                        className="flex items-start gap-3 text-sm leading-snug cursor-pointer"
+                        className="flex items-center gap-3 text-sm leading-snug cursor-pointer"
                         htmlFor="starter-tomato"
                       >
                         <RadioGroupItem
@@ -277,7 +346,7 @@ function App() {
                       </p>
 
                       <Label
-                        className="flex items-start gap-3 text-sm leading-snug cursor-pointer"
+                        className="flex items-center gap-3 text-sm leading-snug cursor-pointer"
                         htmlFor="starter-antipasti"
                       >
                         <RadioGroupItem
@@ -310,7 +379,7 @@ function App() {
                       onValueChange={field.onChange}
                     >
                       <Label
-                        className="flex items-start gap-3 text-sm leading-snug cursor-pointer"
+                        className="flex items-center gap-3 text-sm leading-snug cursor-pointer"
                         htmlFor="main-croute"
                       >
                         <RadioGroupItem
@@ -329,7 +398,7 @@ function App() {
                       </p>
 
                       <Label
-                        className="flex items-start gap-3 text-sm leading-snug cursor-pointer"
+                        className="flex items-center gap-3 text-sm leading-snug cursor-pointer"
                         htmlFor="main-risotto"
                       >
                         <RadioGroupItem
@@ -361,7 +430,7 @@ function App() {
                       onValueChange={field.onChange}
                     >
                       <Label
-                        className="flex items-start gap-3 text-sm leading-snug cursor-pointer"
+                        className="flex items-center gap-3 text-sm leading-snug cursor-pointer"
                         htmlFor="dessert-tart"
                       >
                         <RadioGroupItem
@@ -380,7 +449,7 @@ function App() {
                       </p>
 
                       <Label
-                        className="flex items-start gap-3 text-sm leading-snug cursor-pointer"
+                        className="flex items-center gap-3 text-sm leading-snug cursor-pointer"
                         htmlFor="dessert-jelly"
                       >
                         <RadioGroupItem
