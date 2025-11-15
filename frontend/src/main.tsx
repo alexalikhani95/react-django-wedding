@@ -7,7 +7,6 @@ import { ToastContainer } from "react-toastify"
 import App from "./App.tsx"
 import { Header } from "./components/Header.tsx"
 import { Guests } from "./routes/guests"
-import { Rsvp } from "./routes/rsvp"
 import { RsvpList } from "./routes/rsvpList/"
 import { Seating } from "./routes/seating"
 
@@ -22,7 +21,6 @@ createRoot(document.getElementById("root")!).render(
         </div>
         <Routes>
           <Route path="/" element={<App />} />
-          <Route path="/rsvp" element={<Rsvp />} />
           <Route path="/rsvp-list" element={<RsvpList />} />
           <Route path="/guests" element={<Guests />} />
           <Route path="/seating" element={<Seating />} />
