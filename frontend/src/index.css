@@ -4,8 +4,7 @@
 @font-face {
   font-family: "ADega Serif";
   src: url("/src/assets/fonts/ADega-Serif-Regular.otf") format("opentype");
-  font-weight: normal;
-  font-style: normal;
+
 }
 
 @font-face {
@@ -31,9 +30,8 @@
 
 @font-face {
   font-family: "Metropolis";
-  src: url("/src/assets/fonts/MetropolisPersonalUseRegular.ttf")
-    format("truetype");
-  font-weight: lighter;
+    src: url("./assets/fonts/MetropolisPersonalUseRegular.ttf") format("truetype");
+  font-weight: 300;
   font-style: normal;
 }
 
@@ -206,6 +204,13 @@
 
   body {
     @apply bg-background text-foreground;
+  }
+}
+
+@layer utilities {
+  .font-adega {
+    letter-spacing: 4px;
+    font-weight: lighter;
   }
 }
 

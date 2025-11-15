@@ -11,7 +11,7 @@ const buttonVariants = cva(
       variant: {
         default: "bg-primary text-primary-foreground hover:bg-primary/90",
         primary:
-          "bg-transparent border border-beige text-beige \
+          "bg-transparent border-2 border-beige text-beige \
  hover:bg-beige hover:text-forest-green \
  dark:hover:bg-beige/90 dark:hover:text-forest-green \
  transition-colors",
