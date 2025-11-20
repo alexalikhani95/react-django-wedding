@@ -145,7 +145,7 @@ function App() {
         <h2 className="text-4xl font-mattedly mb-4">Your Details</h2>
 
         <div className="flex flex-col gap-4 w-full max-w-[360px] items-center">
-          <Label htmlFor="guestName" className="w-full text-left text-sm">
+          <Label htmlFor="guestName" className="w-full text-left text-md font-adega">
             Guest Name
           </Label>
           <Input
@@ -173,13 +173,13 @@ function App() {
 
           <p className="text-6xl font-mattedly">Celebrate with you</p>
           <p className="font-evafiya block sm:hidden mb-10">
-            Kindly respond by *insert date* by filling out the form below
+            Kindly respond by 14.05.26 by filling out the form below
           </p>
 
           <img src={LogoBeige} className="w-[150px] h-[150px]" />
 
           <p className="font-evafiya hidden sm:block">
-            Kindly respond by *insert date* by filling out the form below
+            Kindly respond by 14.05.26 by filling out the form below
           </p>
         </div>
       </div>
@@ -203,7 +203,7 @@ function App() {
 
             <p className="font-evafiya">
               Please let us know if you&apos;ll be joining us the evening
-              before.
+              before
             </p>
 
 
@@ -225,7 +225,7 @@ function App() {
                     className="
             flex items-center gap-4 w-full
             px-5 py-3
-            rounded-lg border border-forest-green/30
+            border border-forest-green/30
             bg-white/95 text-forest-green
             shadow-sm
             cursor-pointer
@@ -250,7 +250,7 @@ function App() {
                     className="
             flex items-center gap-4 w-full
             px-5 py-3
-            rounded-lg border border-forest-green/30
+            border border-forest-green/30
             bg-white/95 text-forest-green
             shadow-sm
             cursor-pointer
@@ -286,7 +286,7 @@ function App() {
               className="w-[200px] h-[200px]"
             />
 
-            <p className="font-evafiya">Please let us know if you’ll be joining us on the day.</p>
+            <p className="font-evafiya">Please let us know if you’ll be joining us on the day</p>
           </div>
 
           <div className="flex flex-col items-center justify-center w-full font-adega">
@@ -305,7 +305,7 @@ function App() {
                     className="
             flex items-center gap-4 w-full
             px-5 py-3
-            rounded-lg border
+            border
             bg-beige/95 text-forest-green
             shadow-sm
             cursor-pointer
@@ -329,7 +329,7 @@ function App() {
                     className="
             flex items-center gap-4 w-full
             px-5 py-3
-            rounded-lg border
+            border
             bg-beige/95 text-forest-green
             shadow-sm
             cursor-pointer
@@ -363,8 +363,8 @@ function App() {
           <div className="flex justify-center">
             <div
               className="bg-[url(@/assets/Paper-texture.jpeg)] bg-cover bg-center
-                 text-forest-green flex flex-col gap-6 rounded-xl shadow-md
-                 w-[450px] p-8 font-metropolis"
+                 text-forest-green flex flex-col gap-6 shadow-md
+                 w-[450px] p-8 font-metropolis drop-shadow-md/50"
             >
               {/* Header */}
               <div className="text-center">
@@ -530,7 +530,7 @@ function App() {
           <div className="flex flex-col justify-center items-center mt-10 sm:mt-0">
             <div
               className="bg-forest-green text-beige flex flex-col items-center gap-5
-                 py-8 px-6 rounded-md max-w-[400px] font-metropolis shadow-md text-center"
+                 py-8 px-6 max-w-[400px] font-metropolis shadow-md text-center"
             >
               {/* Header */}
               <div>
@@ -610,7 +610,7 @@ function App() {
           <div className="animate-fade-in duration-700 flex flex-col items-center gap-5">
             <p className="text-7xl font-mattedly">Thank you!</p>
             <p className="text-2xl font-adega">
-              YOUR RSVP HAS BEEN RECIEVED
+              YOUR RSVP HAS BEEN RECEIVED
             </p>
 
             <img
@@ -688,10 +688,6 @@ function App() {
 
           <p className="text-md font-adega uppercase">
             Please note parking at the church is very limited
-          </p>
-
-          <p className="max-w-[420px] text-md font-evafiya">
-            If you would like to book a room at Burley Manor please quote
           </p>
         </div>
 
