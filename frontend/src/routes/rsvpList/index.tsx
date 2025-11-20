@@ -6,7 +6,11 @@ import type { Rsvp } from "./types"
 const API_URL = import.meta.env.VITE_API_URL
 
 export const RsvpList = () => {
-  const { data: rsvps, isLoading, isError } = useQuery({
+  const {
+    data: rsvps,
+    isLoading,
+    isError,
+  } = useQuery({
     queryKey: ["rsvps"],
     queryFn: async () => {
       const res = await fetch(`${API_URL}/api/rsvp/list/`)
@@ -41,7 +45,6 @@ export const RsvpList = () => {
   return (
     <div className="min-h-screen p-10 bg-[#F6F2E9] font-metropolis">
       <div className="grid gap-10 md:grid-cols-2">
-
         {/* ➤ ATTENDING COLUMN */}
         <div>
           <header className="bg-forest-green text-beige rounded-xl px-6 py-5 flex items-center justify-between shadow-sm">
@@ -55,9 +58,7 @@ export const RsvpList = () => {
 
           <div className="mt-6 space-y-6">
             {attending.length === 0 && (
-              <p className="text-sm text-forest-green/70">
-                No attendees yet.
-              </p>
+              <p className="text-sm text-forest-green/70">No attendees yet.</p>
             )}
 
             {attending.map((r: Rsvp) => (
@@ -79,9 +80,7 @@ export const RsvpList = () => {
 
           <div className="mt-6 space-y-6">
             {notAttending.length === 0 && (
-              <p className="text-sm text-forest-green/70">
-                No declines yet.
-              </p>
+              <p className="text-sm text-forest-green/70">No declines yet.</p>
             )}
 
             {notAttending.map((r: Rsvp) => (
@@ -89,7 +88,6 @@ export const RsvpList = () => {
             ))}
           </div>
         </div>
-
       </div>
     </div>
   )

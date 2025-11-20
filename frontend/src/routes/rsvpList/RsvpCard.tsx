@@ -1,7 +1,7 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query"
 import { toast } from "react-toastify"
 import { Button } from "@/components/ui/button"
-import type { Rsvp, StarterCode, MainCode, DessertCode } from "./types"
+import type { DessertCode, MainCode, Rsvp, StarterCode } from "./types"
 
 const API_URL = import.meta.env.VITE_API_URL
 
@@ -19,14 +19,11 @@ const MENU_MAP: {
   main: {
     croute:
       "Butternut squash, spinach & mushroom en croûte, roast tomato sauce, tenderstem broccoli, fondant potato",
-    risotto:
-      "Spelt leek & pea risotto, oyster mushroom, vegan parmesan",
+    risotto: "Spelt leek & pea risotto, oyster mushroom, vegan parmesan",
   },
   dessert: {
-    tart:
-      "Chocolate tart, passion fruit sorbet, chocolate sauce, passion fruit crumb",
-    jelly:
-      "Elderflower jelly, summer fruits, crème fraîche",
+    tart: "Chocolate tart, passion fruit sorbet, chocolate sauce, passion fruit crumb",
+    jelly: "Elderflower jelly, summer fruits, crème fraîche",
   },
 }
 
@@ -97,7 +94,6 @@ export const RsvpCard = ({ rsvp }: { rsvp: Rsvp }) => {
           </p>
 
           <div className="flex flex-col gap-4 text-sm text-forest-green leading-relaxed">
-
             {/* Starter */}
             <div>
               <p className="font-semibold">Starter:</p>

@@ -4,7 +4,6 @@
 @font-face {
   font-family: "ADega Serif";
   src: url("/src/assets/fonts/ADega-Serif-Regular.otf") format("opentype");
-
 }
 
 @font-face {
@@ -30,7 +29,7 @@
 
 @font-face {
   font-family: "Metropolis";
-    src: url("./assets/fonts/MetropolisPersonalUseRegular.ttf") format("truetype");
+  src: url("./assets/fonts/MetropolisPersonalUseRegular.ttf") format("truetype");
   font-weight: 300;
   font-style: normal;
 }
@@ -209,8 +208,8 @@
 
 @layer utilities {
   .font-adega {
-    letter-spacing: 4px;
     font-weight: lighter;
+    letter-spacing: 4px;
   }
 }
 
