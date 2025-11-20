@@ -2,55 +2,56 @@ import { useState } from "react"
 import LogoBeige from "@/assets/Logo-Biege.png"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
-import type { AccessCode } from "."
 
 type Props = {
-  setAccess: React.Dispatch<React.SetStateAction<AccessCode | null>>
+    setAccess: React.Dispatch<React.SetStateAction<string | null>>
 }
 
 export const PinScreen = ({ setAccess }: Props) => {
-  const [code, setCode] = useState("")
-  const [error, setError] = useState("")
+    const [code, setCode] = useState("")
+    const [error, setError] = useState("")
 
-  const handleSubmit = () => {
-    if (code === "ALIKHANIWEDDING") {
-      setAccess("weddingDay")
-    } else if (code === "14-08-26") {
-      setAccess("nightBefore")
-    } else {
-      setError("Incorrect code. Please try again.")
+    const handleSubmit = () => {
+        if (code === "ALIKHANIWEDDING") {
+            setAccess("weddingDay")
+            localStorage.setItem("accessCode", "weddingDay")
+        } else if (code === "14-08-26") {
+            setAccess("nightBefore")
+            localStorage.setItem("accessCode", "nightBefore")
+        } else {
+            setError("Incorrect code. Please try again.")
+        }
     }
-  }
 
-  return (
-    <div className="bg-forest-green text-beige min-h-screen flex flex-col items-center gap-6 px-5 text-center">
-      <img src={LogoBeige} className="w-[120px] opacity-80" />
+    return (
+        <div className="bg-forest-green text-beige min-h-screen flex flex-col items-center gap-6 px-5 text-center">
+            <img src={LogoBeige} className="w-[120px] opacity-80" />
 
-      <h2 className="text-5xl font-mattedly">Welcome</h2>
-      <p className="text-md font-evafiya max-w-[260px]">
-        Please enter your access code to continue
-      </p>
+            <h2 className="text-5xl font-mattedly">Welcome</h2>
+            <p className="text-md font-evafiya max-w-[260px]">
+                Please enter your access code to continue
+            </p>
 
-      <Input
-        value={code}
-        onChange={(e) => {
-          setCode(e.target.value)
-          setError("")
-        }}
-        placeholder="Enter code..."
-        className="bg-white max-w-[240px] text-forest-green"
-      />
+            <Input
+                value={code}
+                onChange={(e) => {
+                    setCode(e.target.value)
+                    setError("")
+                }}
+                placeholder="Enter code..."
+                className="bg-white max-w-[240px] text-forest-green"
+            />
 
-      {error && <p className="text-red-600 text-sm font-adega">{error}</p>}
+            {error && <p className="text-red-600 text-sm font-adega">{error}</p>}
 
-      <Button
-        variant="primary"
-        size="lg"
-        className="w-[200px] font-adega text-xl"
-        onClick={handleSubmit}
-      >
-        Continue
-      </Button>
-    </div>
-  )
+            <Button
+                variant="primary"
+                size="lg"
+                className="w-[200px] font-adega text-xl"
+                onClick={handleSubmit}
+            >
+                Continue
+            </Button>
+        </div>
+    )
 }
