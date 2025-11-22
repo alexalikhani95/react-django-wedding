@@ -348,7 +348,7 @@ const RsvpScreen = ({ access }: Props) => {
             className={`grid grid-cols-1 sm:grid-cols-2 py-15 px-10 bg-cover bg-center bg-no-repeat ${
               nightBeforeAccess
                 ? "bg-[url(@/assets/Menu-beige.jpg)]"
-                : "bg-[url(@/assets/Menu-green.jpg)]"
+                : "bg-[url(@/assets/Menu-Green.jpg)]"
             }`}
           >
             {/* Menu Card */}
