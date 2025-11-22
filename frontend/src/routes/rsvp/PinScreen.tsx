@@ -15,6 +15,10 @@ export const PinScreen = ({ setAccess }: Props) => {
     if (code === "140826") {
       setAccess("weddingDay")
       localStorage.setItem("accessCode", "weddingDay")
+    }
+    if (code === "charlotte") {
+      setAccess("nightBefore")
+      localStorage.setItem("accessCode", "charlotte")
     } else if (code === "alikhaniwedding") {
       setAccess("nightBefore")
       localStorage.setItem("accessCode", "nightBefore")
@@ -24,7 +28,7 @@ export const PinScreen = ({ setAccess }: Props) => {
   }
 
   return (
-    <div className="bg-forest-green text-beige min-h-screen flex flex-col items-center gap-6 px-5 text-center">
+    <div className="bg-forest-green text-beige min-h-screen flex flex-col items-center gap-6 px-5 text-center justify-center">
       <img src={LogoBeige} className="w-[120px] opacity-80" />
 
       <h2 className="text-5xl font-mattedly">Welcome</h2>
@@ -32,26 +36,31 @@ export const PinScreen = ({ setAccess }: Props) => {
         Please enter the password on your invitation to continue
       </p>
 
-      <Input
-        value={code}
-        onChange={(e) => {
-          setCode(e.target.value)
-          setError("")
-        }}
-        placeholder="Enter password"
-        className="bg-white max-w-[240px] text-forest-green font-evafiya"
-      />
-
-      {error && <p className="text-red-600 text-sm font-adega">{error}</p>}
-
-      <Button
-        variant="primary"
-        size="lg"
-        className="w-[200px] font-adega text-xl"
-        onClick={handleSubmit}
+      <form
+        onSubmit={handleSubmit}
+        className="flex flex-col items-center gap-6"
       >
-        Continue
-      </Button>
+        <Input
+          value={code}
+          onChange={(e) => {
+            setCode(e.target.value)
+            setError("")
+          }}
+          placeholder="Enter password"
+          className="bg-white max-w-[240px] text-forest-green font-evafiya"
+        />
+
+        {error && <p className="text-red-600 text-sm font-adega">{error}</p>}
+
+        <Button
+          type="submit"
+          variant="primary"
+          size="lg"
+          className="w-[200px] font-adega text-xl"
+        >
+          Continue
+        </Button>
+      </form>
     </div>
   )
 }
