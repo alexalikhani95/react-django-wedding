@@ -104,7 +104,7 @@ const RsvpScreen = ({ access }: Props) => {
     submittedRef.current?.scrollIntoView({ behavior: "smooth", block: "start" })
   }
 
-  const nightBeforeAccess = access === "nightBefore"
+  const nightBeforeAccess = access === "nightBefore" || access === "charlotte"
 
   return (
     <>

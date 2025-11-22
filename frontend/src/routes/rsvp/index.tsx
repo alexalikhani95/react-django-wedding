@@ -2,16 +2,18 @@ import { useState } from "react"
 import { PinScreen } from "./PinScreen"
 import RsvpScreen from "./RsvpScreen"
 
-function Rsvp() {
-  const accessCode = localStorage.getItem("accessCode")
-  const [access, setAccess] = useState<string | null>(accessCode)
+type Props = {
+  accessCode: string | null
+  setAccessCode: React.Dispatch<React.SetStateAction<string | null>>
+}
 
+function Rsvp({ accessCode, setAccessCode }: Props) {
   return (
     <>
-      {!access ? (
-        <PinScreen setAccess={setAccess} />
+      {!accessCode ? (
+        <PinScreen setAccess={setAccessCode} />
       ) : (
-        <RsvpScreen access={access} />
+        <RsvpScreen access={accessCode} />
       )}
     </>
   )

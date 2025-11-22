@@ -17,7 +17,7 @@ export const PinScreen = ({ setAccess }: Props) => {
       localStorage.setItem("accessCode", "weddingDay")
     }
     if (code === "charlotte") {
-      setAccess("nightBefore")
+      setAccess("charlotte")
       localStorage.setItem("accessCode", "charlotte")
     } else if (code === "alikhaniwedding") {
       setAccess("nightBefore")
