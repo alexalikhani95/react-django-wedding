@@ -1,4 +1,3 @@
-import { useState } from "react"
 import { PinScreen } from "./PinScreen"
 import RsvpScreen from "./RsvpScreen"
 

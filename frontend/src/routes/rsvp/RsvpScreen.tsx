@@ -53,7 +53,6 @@ const RsvpScreen = ({ access }: Props) => {
     handleSubmit,
     reset,
     watch,
-    formState: { errors },
   } = useForm<Inputs>({
     defaultValues: {
       guestName: "",
