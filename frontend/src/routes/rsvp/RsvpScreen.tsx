@@ -1,24 +1,15 @@
 import HomeImage from "@/assets/Burley-Manor-Home.png"
-// import GreenCar from "@/assets/Green-Car.png"
-// import WeddingDayGreen from "@/assets/Green-Church-Wedding-day.png"
+import WeddingDayGreen from "@/assets/Green-Church-Wedding-day.png"
 import GreenCheers from "@/assets/Green-cheers-Thankyou.png"
-// import GreenGlasses from "@/assets/Green-Glasses-Taxi.png"
 import GreenMelvin from "@/assets/Green-Melvin.png"
 import LogoBeige from "@/assets/Logo-Biege.png"
 import LogoGreen from "@/assets/Logo-Green.png"
-// import MenuBeige from "@/assets/Menu-biege.jpg"
-// import MenuGreen from "@/assets/Menu-Green.jpg"
 import NightBeforeGreen from "@/assets/Night-before-green.png"
-// import PaperTexture from "@/assets/Paper-texture.jpeg"
 import WeddingLiner from "@/assets/Wedding-liner.png"
 import WhiteCar from "@/assets/White-Car.png"
 import WeddingDayWhite from "@/assets/White-Church-Wedding-day.png"
-import WeddingDayGreen from "@/assets/Green-Church-Wedding-day.png"
 import WhiteCheers from "@/assets/White-cheers-Thankyou.png"
 import WhiteGlasses from "@/assets/White-Glasses-Taxi.png"
-
-// import WhiteMelvin from "@/assets/White-Melvin.png"
-
 import { useMutation, useQueryClient } from "@tanstack/react-query"
 import { useRef, useState } from "react"
 import { Controller, type SubmitHandler, useForm } from "react-hook-form"
@@ -113,7 +104,7 @@ const RsvpScreen = ({ access }: Props) => {
         submittedRef.current?.scrollIntoView({ behavior: "smooth", block: "start" })
     }
 
-    const nightBeforeAccess = access === 'nightBefore'
+    const nightBeforeAccess = access === "nightBefore"
 
     return (
         <>
@@ -133,7 +124,6 @@ const RsvpScreen = ({ access }: Props) => {
                 <p className="font-evafiya text-xl">
                     Kindly respond by 14.05.26 by filling out the form below
                 </p>
-
 
                 <Button
                     variant="secondary"
@@ -156,7 +146,8 @@ const RsvpScreen = ({ access }: Props) => {
                 <h2 className="text-6xl font-mattedly mb-4">Your Details</h2>
 
                 <p className="font-evafiya text-xl mb-4">
-                    After submitting this form, you'll be prompted to complete it again for each additional guest
+                    After submitting this form, you'll be prompted to complete it again
+                    for each additional guest
                 </p>
 
                 <div className="flex flex-col gap-4 w-full max-w-[360px] items-center text-center">
@@ -196,36 +187,37 @@ const RsvpScreen = ({ access }: Props) => {
             {/* Main RSVP Form */}
             <form onSubmit={handleSubmit(onSubmit)}>
                 {/* Night before */}
-                {nightBeforeAccess && <div className="grid grid-cols-1 sm:grid-cols-2 bg-beige py-15">
-                    <div className="flex flex-col items-center text-center gap-5">
-                        <p className="font-mattedly text-6xl">The Night Before</p>
-                        <p className="font-adega">THURSDAY 13TH AUGUST 2026</p>
+                {nightBeforeAccess && (
+                    <div className="grid grid-cols-1 sm:grid-cols-2 bg-beige py-15">
+                        <div className="flex flex-col items-center text-center gap-5">
+                            <p className="font-mattedly text-6xl">The Night Before</p>
+                            <p className="font-adega">THURSDAY 13TH AUGUST 2026</p>
 
-                        <img
-                            src={NightBeforeGreen}
-                            alt="Night before scene"
-                            className="w-[300px] h-[200px]"
-                        />
+                            <img
+                                src={NightBeforeGreen}
+                                alt="Night before scene"
+                                className="w-[300px] h-[200px]"
+                            />
 
-                        <p className="font-evafiya text-xl">
-                            Please let us know if you&apos;ll be joining us the night before
-                        </p>
-                    </div>
+                            <p className="font-evafiya text-xl">
+                                Please let us know if you&apos;ll be joining us the night before
+                            </p>
+                        </div>
 
-                    <div className="flex flex-col items-center justify-center w-full font-adega">
-                        <Controller
-                            name="nightBefore"
-                            control={control}
-                            render={({ field }) => (
-                                <RadioGroup
-                                    className="flex flex-col gap-4 w-full max-w-[320px] mt-2"
-                                    value={field.value ?? ""}
-                                    onValueChange={field.onChange}
-                                >
-                                    {/* Joyfully Accepts */}
-                                    <Label
-                                        htmlFor="nb-accept"
-                                        className="
+                        <div className="flex flex-col items-center justify-center w-full font-adega">
+                            <Controller
+                                name="nightBefore"
+                                control={control}
+                                render={({ field }) => (
+                                    <RadioGroup
+                                        className="flex flex-col gap-4 w-full max-w-[320px] mt-2"
+                                        value={field.value ?? ""}
+                                        onValueChange={field.onChange}
+                                    >
+                                        {/* Joyfully Accepts */}
+                                        <Label
+                                            htmlFor="nb-accept"
+                                            className="
             flex items-center gap-4 w-full
             px-5 py-3
             border border-forest-green/30
@@ -233,21 +225,21 @@ const RsvpScreen = ({ access }: Props) => {
             shadow-sm
             cursor-pointer
           "
-                                    >
-                                        <RadioGroupItem
-                                            id="nb-accept"
-                                            value="accept"
-                                            className="border-forest-green text-forest-green"
-                                        />
-                                        <span className="text-sm tracking-wide">
-                                            Joyfully Accepts
-                                        </span>
-                                    </Label>
+                                        >
+                                            <RadioGroupItem
+                                                id="nb-accept"
+                                                value="accept"
+                                                className="border-forest-green text-forest-green"
+                                            />
+                                            <span className="text-sm tracking-wide">
+                                                Joyfully Accepts
+                                            </span>
+                                        </Label>
 
-                                    {/* Regretfully Declines */}
-                                    <Label
-                                        htmlFor="nb-decline"
-                                        className="
+                                        {/* Regretfully Declines */}
+                                        <Label
+                                            htmlFor="nb-decline"
+                                            className="
             flex items-center gap-4 w-full
             px-5 py-3
             border border-forest-green/30
@@ -255,24 +247,27 @@ const RsvpScreen = ({ access }: Props) => {
             shadow-sm
             cursor-pointer
           "
-                                    >
-                                        <RadioGroupItem
-                                            id="nb-decline"
-                                            value="decline"
-                                            className="border-forest-green text-forest-green"
-                                        />
-                                        <span className="text-sm tracking-wide">
-                                            Regretfully Declines
-                                        </span>
-                                    </Label>
-                                </RadioGroup>
-                            )}
-                        />
+                                        >
+                                            <RadioGroupItem
+                                                id="nb-decline"
+                                                value="decline"
+                                                className="border-forest-green text-forest-green"
+                                            />
+                                            <span className="text-sm tracking-wide">
+                                                Regretfully Declines
+                                            </span>
+                                        </Label>
+                                    </RadioGroup>
+                                )}
+                            />
+                        </div>
                     </div>
-                </div>}
+                )}
 
                 {/* Wedding Day */}
-                <div className={`grid gap-3 grid-cols-1 sm:grid-cols-2 ${nightBeforeAccess ? 'bg-forest-green text-beige' : 'bg-beige text-forest-green'} py-15`}>
+                <div
+                    className={`grid gap-3 grid-cols-1 sm:grid-cols-2 ${nightBeforeAccess ? "bg-forest-green text-beige" : "bg-beige text-forest-green"} py-15`}
+                >
                     <div className="flex flex-col items-center text-center gap-5">
                         <p className="text-6xl font-mattedly">Our Wedding Day</p>
                         <p className="font-adega">FRIDAY 14TH AUGUST 2026</p>
@@ -305,7 +300,7 @@ const RsvpScreen = ({ access }: Props) => {
             flex items-center gap-4 w-full
             px-5 py-3
             border
-            ${nightBeforeAccess ? 'bg-beige/95 text-forest-green' : 'bg-forest-green/95 text-beige'}
+            ${nightBeforeAccess ? "bg-beige/95 text-forest-green" : "bg-forest-green/95 text-beige"}
             shadow-sm
             cursor-pointer
           `}
@@ -327,7 +322,7 @@ const RsvpScreen = ({ access }: Props) => {
             flex items-center gap-4 w-full
             px-5 py-3
             border
-            ${nightBeforeAccess ? 'bg-beige/95 text-forest-green' : 'bg-forest-green/95 text-beige'}
+            ${nightBeforeAccess ? "bg-beige/95 text-forest-green" : "bg-forest-green/95 text-beige"}
             shadow-sm
             cursor-pointer
           `}
@@ -350,8 +345,8 @@ const RsvpScreen = ({ access }: Props) => {
                 {/* Menu */}
                 <div
                     className={`grid grid-cols-1 sm:grid-cols-2 py-15 px-10 bg-cover bg-center bg-no-repeat ${nightBeforeAccess
-                        ? 'bg-[url(@/assets/Menu-beige.jpg)]'
-                        : 'bg-[url(@/assets/Menu-green.jpg)]'
+                            ? "bg-[url(@/assets/Menu-beige.jpg)]"
+                            : "bg-[url(@/assets/Menu-green.jpg)]"
                         }`}
                 >
                     {/* Menu Card */}
@@ -524,7 +519,7 @@ const RsvpScreen = ({ access }: Props) => {
                     {/* Allergies & Intolerances Section */}
                     <div className="flex flex-col justify-center items-center mt-10 sm:mt-0">
                         <div
-                            className={`${nightBeforeAccess ? 'bg-forest-green text-beige' : 'bg-beige text-forest-green'} flex flex-col items-center gap-5
+                            className={`${nightBeforeAccess ? "bg-forest-green text-beige" : "bg-beige text-forest-green"} flex flex-col items-center gap-5
                  py-8 px-6 max-w-[400px] font-metropolis shadow-md text-center`}
                         >
                             {/* Header */}
@@ -537,8 +532,11 @@ const RsvpScreen = ({ access }: Props) => {
                                     eggs.
                                 </p>
 
-                                <p className="max-w-[360px] mx-auto text-xl font-evafiya">                 If you have any other food allergies or intolerances, please
-                                    let us know below.</p>
+                                <p className="max-w-[360px] mx-auto text-xl font-evafiya">
+                                    {" "}
+                                    If you have any other food allergies or intolerances, please
+                                    let us know below.
+                                </p>
                             </div>
 
                             {/* Allergies Radios */}
@@ -592,7 +590,9 @@ const RsvpScreen = ({ access }: Props) => {
                 </div>
 
                 {/* Submit your RSVP */}
-                <div className={`${nightBeforeAccess ? 'bg-forest-green text-beige' : 'bg-beige text-forest-green'} flex items-center justify-center py-10`}>
+                <div
+                    className={`${nightBeforeAccess ? "bg-forest-green text-beige" : "bg-beige text-forest-green"} flex items-center justify-center py-10`}
+                >
                     <Button
                         type="submit"
                         variant={nightBeforeAccess ? "primary" : "secondary"}
@@ -604,7 +604,10 @@ const RsvpScreen = ({ access }: Props) => {
             </form>
 
             {/* Thank you */}
-            <div className={`${nightBeforeAccess ? 'bg-beige text-forest-green' : 'bg-forest-green text-beige'} py-10 text-center`} ref={submittedRef}>
+            <div
+                className={`${nightBeforeAccess ? "bg-beige text-forest-green" : "bg-forest-green text-beige"} py-10 text-center`}
+                ref={submittedRef}
+            >
                 {showSubmitted && (
                     <div className="animate-fade-in duration-700 flex flex-col items-center gap-5">
                         <p className="text-7xl font-mattedly">Thank you!</p>
@@ -642,7 +645,9 @@ const RsvpScreen = ({ access }: Props) => {
                 ref={detailsRef}
             >
                 {/* GIFTS */}
-                <div className={`${nightBeforeAccess ? 'bg-forest-green text-beige' : 'bg-beige text-forest-green'} flex flex-col items-center py-14 px-10 text-center`}>
+                <div
+                    className={`${nightBeforeAccess ? "bg-forest-green text-beige" : "bg-beige text-forest-green"} flex flex-col items-center py-14 px-10 text-center`}
+                >
                     <h2 className="text-6xl font-mattedly mb-4">Gifts</h2>
                     <p className="max-w-[450px] text-lg font-evafiya mb-6">
                         The most important thing to us is having you there to celebrate our
@@ -652,17 +657,22 @@ const RsvpScreen = ({ access }: Props) => {
                 </div>
 
                 {/* Contribute */}
-                <div className={`${nightBeforeAccess ? 'bg-forest-green text-beige' : 'bg-beige text-forest-green'} flex flex-col items-center py-0 sm:py-14 text-center`}>
-
+                <div
+                    className={`${nightBeforeAccess ? "bg-forest-green text-beige" : "bg-beige text-forest-green"} flex flex-col items-center py-0 sm:py-14 text-center`}
+                >
                     <a
                         href="https://app.collectionpot.com/pot/3417854"
                         target="_blank"
                         className="w-[200px] font-adega text-xl border-2 border-beige p-2"
+                        rel="noopener"
                     >
                         CONTRIBUTE
                     </a>
 
-                    <img src={nightBeforeAccess ? LogoBeige : LogoGreen} className="w-[150px] h-[150px] mt-6" />
+                    <img
+                        src={nightBeforeAccess ? LogoBeige : LogoGreen}
+                        className="w-[150px] h-[150px] mt-6"
+                    />
                 </div>
 
                 {/* Accommodation */}
@@ -689,7 +699,9 @@ const RsvpScreen = ({ access }: Props) => {
                     <img src={WhiteCar} className="w-[120px] opacity-80 mb-4" />
 
                     <p className="text-lg font-evafiya">
-                        Please note parking at the church is very limited, so we recommend parking at Burley Manor and following the tarmacked path through the field to the church
+                        Please note parking at the church is very limited, so we recommend
+                        parking at Burley Manor and following the tarmacked path through the
+                        field to the church
                     </p>
                 </div>
 
@@ -704,9 +716,7 @@ const RsvpScreen = ({ access }: Props) => {
 
                     <p className="text-md font-adega">NEW FOREST TAXIS:</p>
                     <p className=" font-adega mb-2">01425 600 222</p>
-                    <p className=" font-adega text-md font-adega">
-                        BROCKENHURST TAXIS:
-                    </p>
+                    <p className=" font-adega text-md font-adega">BROCKENHURST TAXIS:</p>
                     <p className="font-adega">01590 615141</p>
                 </div>
 
