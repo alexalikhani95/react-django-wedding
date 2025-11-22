@@ -12,10 +12,10 @@ export const PinScreen = ({ setAccess }: Props) => {
     const [error, setError] = useState("")
 
     const handleSubmit = () => {
-        if (code === "ALIKHANIWEDDING") {
+        if (code === "140826") {
             setAccess("weddingDay")
             localStorage.setItem("accessCode", "weddingDay")
-        } else if (code === "14-08-26") {
+        } else if (code === "alikhaniwedding") {
             setAccess("nightBefore")
             localStorage.setItem("accessCode", "nightBefore")
         } else {
@@ -29,7 +29,7 @@ export const PinScreen = ({ setAccess }: Props) => {
 
             <h2 className="text-5xl font-mattedly">Welcome</h2>
             <p className="text-md font-evafiya max-w-[260px]">
-                Please enter your access code to continue
+                Please enter the password on your invitation to continue
             </p>
 
             <Input
@@ -38,8 +38,8 @@ export const PinScreen = ({ setAccess }: Props) => {
                     setCode(e.target.value)
                     setError("")
                 }}
-                placeholder="Enter code..."
-                className="bg-white max-w-[240px] text-forest-green"
+                placeholder="Enter password"
+                className="bg-white max-w-[240px] text-forest-green font-evafiya"
             />
 
             {error && <p className="text-red-600 text-sm font-adega">{error}</p>}

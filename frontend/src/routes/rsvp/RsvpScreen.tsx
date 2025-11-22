@@ -130,6 +130,11 @@ const RsvpScreen = ({ access }: Props) => {
 
                 <p className="text-2xl font-adega">BURLEY MANOR</p>
 
+                <p className="font-evafiya text-xl">
+                    Kindly respond by 14.05.26 by filling out the form below
+                </p>
+
+
                 <Button
                     variant="secondary"
                     size="lg"
@@ -148,30 +153,34 @@ const RsvpScreen = ({ access }: Props) => {
                 className="flex flex-col items-center justify-center text-center py-12 bg-beige"
                 ref={rsvpRef}
             >
-                <h2 className="text-4xl font-mattedly mb-4">Your Details</h2>
+                <h2 className="text-6xl font-mattedly mb-4">Your Details</h2>
 
-                <div className="flex flex-col gap-4 w-full max-w-[360px] items-center">
+                <p className="font-evafiya text-xl mb-4">
+                    After submitting this form, you'll be prompted to complete it again for each additional guest
+                </p>
+
+                <div className="flex flex-col gap-4 w-full max-w-[360px] items-center text-center">
                     <Label
                         htmlFor="guestName"
-                        className="w-full text-left text-md font-adega"
+                        className="w-full flex justify-center text-md font-adega"
                     >
-                        Guest Name
+                        GUEST NAME
                     </Label>
+                    <p className="font-evafiya">(First Name, Surname)</p>
                     <Input
                         id="guestName"
-                        placeholder="First Name, Surname"
-                        className="bg-white"
+                        className="bg-white font-evafiya text-forest-green"
                         {...register("guestName")}
                     />
                 </div>
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 bg-forest-green text-beige py-5">
+            <div className="grid grid-cols-1 md:grid-cols-2 bg-forest-green text-beige pt-10 pb-5 px-5">
                 {/* Image column */}
                 <div className="flex justify-center relative order-2 md:order-1">
                     <img
                         src={WeddingLiner}
-                        className="w-[250px] h-[250px] absolute -bottom-12 drop-shadow-md/70"
+                        className="w-[250px] h-[250px] sm:h-[350px] sm:w-[350px] absolute -bottom-12 drop-shadow-md/70"
                     />
                 </div>
 
@@ -180,15 +189,7 @@ const RsvpScreen = ({ access }: Props) => {
                     <p className="font-adega tracking-[0.15em]">WE CAN&apos;T WAIT TO</p>
 
                     <p className="text-6xl font-mattedly">Celebrate with you</p>
-                    <p className="font-evafiya block sm:hidden mb-10">
-                        Kindly respond by 14.05.26 by filling out the form below
-                    </p>
-
                     <img src={LogoBeige} className="w-[150px] h-[150px]" />
-
-                    <p className="font-evafiya hidden sm:block">
-                        Kindly respond by 14.05.26 by filling out the form below
-                    </p>
                 </div>
             </div>
 
@@ -206,8 +207,8 @@ const RsvpScreen = ({ access }: Props) => {
                             className="w-[300px] h-[200px]"
                         />
 
-                        <p className="font-evafiya">
-                            Please let us know if you&apos;ll be joining us the evening before
+                        <p className="font-evafiya text-xl">
+                            Please let us know if you&apos;ll be joining us the night before
                         </p>
                     </div>
 
@@ -282,7 +283,7 @@ const RsvpScreen = ({ access }: Props) => {
                             className="w-[200px] h-[200px]"
                         />
 
-                        <p className="font-evafiya">
+                        <p className="font-evafiya text-xl">
                             Please let us know if you’ll be joining us on the day
                         </p>
                     </div>
@@ -367,7 +368,7 @@ const RsvpScreen = ({ access }: Props) => {
 
                             {/* To Begin */}
                             <section className="flex flex-col gap-2">
-                                <h2 className="text-3xl font-mattedly mb-1">To Begin</h2>
+                                <h2 className="text-4xl font-mattedly mb-1">To Begin</h2>
 
                                 <Controller
                                     name="starter"
@@ -379,7 +380,7 @@ const RsvpScreen = ({ access }: Props) => {
                                             onValueChange={field.onChange}
                                         >
                                             <Label
-                                                className="flex items-center gap-3 text-sm leading-snug cursor-pointer"
+                                                className="flex items-center gap-3 leading-snug cursor-pointer"
                                                 htmlFor="starter-tomato"
                                             >
                                                 <RadioGroupItem
@@ -387,18 +388,18 @@ const RsvpScreen = ({ access }: Props) => {
                                                     value="tomato"
                                                     className="mt-1"
                                                 />
-                                                <span>
+                                                <span className="text-xl">
                                                     Isle of Wight heritage tomatoes, vegan mozzarella,
                                                     leaf, basil oil, ciabatta bread
                                                 </span>
                                             </Label>
 
-                                            <p className="text-center text-xs italic my-1 opacity-70">
+                                            <p className="text-center text-xl italic my-1 opacity-70">
                                                 OR
                                             </p>
 
                                             <Label
-                                                className="flex items-center gap-3 text-sm leading-snug cursor-pointer"
+                                                className="flex items-center gap-3  leading-snug cursor-pointer"
                                                 htmlFor="starter-antipasti"
                                             >
                                                 <RadioGroupItem
@@ -406,7 +407,7 @@ const RsvpScreen = ({ access }: Props) => {
                                                     value="antipasti"
                                                     className="mt-1"
                                                 />
-                                                <span>
+                                                <span className="text-xl">
                                                     Vegetable antipasti board, chargrilled pepper,
                                                     courgette, olives, balsamic onions, sourdough, vegan
                                                     pesto
@@ -419,7 +420,7 @@ const RsvpScreen = ({ access }: Props) => {
 
                             {/* The Main Event */}
                             <section className="flex flex-col gap-2 mt-3">
-                                <h2 className="text-3xl font-mattedly mb-1">The Main Event</h2>
+                                <h2 className="text-4xl font-mattedly mb-1">The Main Event</h2>
 
                                 <Controller
                                     name="main"
@@ -431,7 +432,7 @@ const RsvpScreen = ({ access }: Props) => {
                                             onValueChange={field.onChange}
                                         >
                                             <Label
-                                                className="flex items-center gap-3 text-sm leading-snug cursor-pointer"
+                                                className="flex items-center gap-3 leading-snug cursor-pointer"
                                                 htmlFor="main-croute"
                                             >
                                                 <RadioGroupItem
@@ -439,18 +440,18 @@ const RsvpScreen = ({ access }: Props) => {
                                                     value="croute"
                                                     className="mt-1"
                                                 />
-                                                <span>
+                                                <span className="text-xl">
                                                     Butternut squash, spinach & mushroom en croûte, roast
                                                     tomato sauce, tenderstem broccoli, fondant potato
                                                 </span>
                                             </Label>
 
-                                            <p className="text-center text-xs italic my-1 opacity-70">
+                                            <p className="text-center text-xl italic my-1 opacity-70">
                                                 OR
                                             </p>
 
                                             <Label
-                                                className="flex items-center gap-3 text-sm leading-snug cursor-pointer"
+                                                className="flex items-center gap-3 leading-snug cursor-pointer"
                                                 htmlFor="main-risotto"
                                             >
                                                 <RadioGroupItem
@@ -458,7 +459,7 @@ const RsvpScreen = ({ access }: Props) => {
                                                     value="risotto"
                                                     className="mt-1"
                                                 />
-                                                <span>
+                                                <span className="text-xl">
                                                     Spelt leek & pea risotto, oyster mushroom, vegan
                                                     parmesan
                                                 </span>
@@ -470,7 +471,7 @@ const RsvpScreen = ({ access }: Props) => {
 
                             {/* Something Sweet */}
                             <section className="flex flex-col gap-2 mt-3">
-                                <h2 className="text-3xl font-mattedly mb-1">Something Sweet</h2>
+                                <h2 className="text-4xl font-mattedly mb-1">Something Sweet</h2>
 
                                 <Controller
                                     name="dessert"
@@ -482,7 +483,7 @@ const RsvpScreen = ({ access }: Props) => {
                                             onValueChange={field.onChange}
                                         >
                                             <Label
-                                                className="flex items-center gap-3 text-sm leading-snug cursor-pointer"
+                                                className="flex items-center gap-3 leading-snug cursor-pointer"
                                                 htmlFor="dessert-tart"
                                             >
                                                 <RadioGroupItem
@@ -490,13 +491,13 @@ const RsvpScreen = ({ access }: Props) => {
                                                     value="tart"
                                                     className="mt-1"
                                                 />
-                                                <span>
+                                                <span className="text-xl">
                                                     Chocolate tart, passion fruit sorbet, chocolate sauce,
                                                     passion fruit crumb
                                                 </span>
                                             </Label>
 
-                                            <p className="text-center text-xs italic my-1 opacity-70">
+                                            <p className="text-center text-xl italic my-1 opacity-70">
                                                 OR
                                             </p>
 
@@ -509,8 +510,8 @@ const RsvpScreen = ({ access }: Props) => {
                                                     value="jelly"
                                                     className="mt-1"
                                                 />
-                                                <span>
-                                                    Elderflower jelly, summer fruits, crème fraîche
+                                                <span className="text-xl">
+                                                    Elderflower jelly, summer fruits, vegan crème fraîche
                                                 </span>
                                             </Label>
                                         </RadioGroup>
@@ -528,16 +529,16 @@ const RsvpScreen = ({ access }: Props) => {
                         >
                             {/* Header */}
                             <div>
-                                <h2 className="uppercase tracking-[0.15em] text-base font-adega mb-2">
+                                <h2 className="text-5xl font-mattedly mb-4">
                                     Allergies and Intolerances
                                 </h2>
-                                <p className="max-w-[360px] mx-auto text-sm  font-evafiya">
+                                <p className="max-w-[360px] mx-auto text-xl font-evafiya mb-2">
                                     The menu is plant-based and therefore free from dairy and
                                     eggs.
-                                    <br />
-                                    If you have any other food allergies or intolerances, please
-                                    let us know below.
                                 </p>
+
+                                <p className="max-w-[360px] mx-auto text-xl font-evafiya">                 If you have any other food allergies or intolerances, please
+                                    let us know below.</p>
                             </div>
 
                             {/* Allergies Radios */}
@@ -551,7 +552,7 @@ const RsvpScreen = ({ access }: Props) => {
                                         onValueChange={field.onChange}
                                     >
                                         <Label
-                                            className="flex flex-col items-center gap-1 text-sm cursor-pointer"
+                                            className="flex flex-col items-center gap-1 text-lg cursor-pointer"
                                             htmlFor="allergy-none"
                                         >
                                             <RadioGroupItem id="allergy-none" value="none" />
@@ -559,7 +560,7 @@ const RsvpScreen = ({ access }: Props) => {
                                         </Label>
 
                                         <Label
-                                            className="flex flex-col items-center gap-1 text-sm cursor-pointer"
+                                            className="flex flex-col items-center gap-1 text-lg cursor-pointer"
                                             htmlFor="allergy-yes"
                                         >
                                             <RadioGroupItem id="allergy-yes" value="yes" />
@@ -574,13 +575,13 @@ const RsvpScreen = ({ access }: Props) => {
                                 <div className="flex flex-col items-start w-full mt-3 text-left">
                                     <Label
                                         htmlFor="allergyNotes"
-                                        className="mb-1 text-sm font-evafiya"
+                                        className="mb-1 text-lg font-evafiya"
                                     >
                                         Please specify:
                                     </Label>
                                     <Input
                                         id="allergyNotes"
-                                        placeholder="Type here..."
+                                        placeholder="Type here"
                                         {...register("allergyNotes")}
                                         className="bg-white text-forest-green placeholder:text-forest-green/50 w-full h-[36px]"
                                     />
@@ -643,22 +644,23 @@ const RsvpScreen = ({ access }: Props) => {
                 {/* GIFTS */}
                 <div className={`${nightBeforeAccess ? 'bg-forest-green text-beige' : 'bg-beige text-forest-green'} flex flex-col items-center py-14 px-10 text-center`}>
                     <h2 className="text-6xl font-mattedly mb-4">Gifts</h2>
-                    <p className="max-w-[450px] text-md font-evafiya mb-6">
+                    <p className="max-w-[450px] text-lg font-evafiya mb-6">
                         The most important thing to us is having you there to celebrate our
                         wedding day. However if you wish to give a gift, we’d greatly
-                        appreciate a contribution to our honeymoon.
+                        appreciate a contribution to our honeymoon
                     </p>
                 </div>
 
                 {/* Contribute */}
                 <div className={`${nightBeforeAccess ? 'bg-forest-green text-beige' : 'bg-beige text-forest-green'} flex flex-col items-center py-0 sm:py-14 text-center`}>
-                    <Button
-                        variant={nightBeforeAccess ? "primary" : "secondary"}
-                        className="w-[200px] font-adega text-xl"
-                        size="lg"
+
+                    <a
+                        href="https://app.collectionpot.com/pot/3417854"
+                        target="_blank"
+                        className="w-[200px] font-adega text-xl border-2 border-beige p-2"
                     >
                         CONTRIBUTE
-                    </Button>
+                    </a>
 
                     <img src={nightBeforeAccess ? LogoBeige : LogoGreen} className="w-[150px] h-[150px] mt-6" />
                 </div>
@@ -669,15 +671,15 @@ const RsvpScreen = ({ access }: Props) => {
 
                     <img src={HomeImage} className="w-[280px] opacity-70 mb-4" />
 
-                    <p className="max-w-[420px] text-md font-evafiya mb-4">
+                    <p className="max-w-[420px] text-lg font-evafiya mb-4">
                         If you would like to book a room at Burley Manor please quote
                     </p>
 
-                    <div className="border border-forest-green rounded-full px-6 py-4 tracking-[0.15em] text-md mb-2 font-adega">
+                    <div className="border border-forest-green rounded-full px-6 py-4 tracking-[0.15em] text-lg mb-2 font-adega">
                         BMW140626
                     </div>
 
-                    <p className="text-md font-evafiya">when making your reservation</p>
+                    <p className="text-lg font-evafiya">when making your reservation</p>
                 </div>
 
                 {/* Parking */}
@@ -686,8 +688,8 @@ const RsvpScreen = ({ access }: Props) => {
 
                     <img src={WhiteCar} className="w-[120px] opacity-80 mb-4" />
 
-                    <p className="text-md font-adega uppercase">
-                        Please note parking at the church is very limited
+                    <p className="text-lg font-evafiya">
+                        Please note parking at the church is very limited, so we recommend parking at Burley Manor and following the tarmacked path through the field to the church
                     </p>
                 </div>
 
@@ -700,10 +702,12 @@ const RsvpScreen = ({ access }: Props) => {
 
                     <img src={WhiteGlasses} className="w-[120px] opacity-80 mb-4" />
 
-                    <p className="text-md font-adega">NEW FOREST TAXIS – 01425 600 222</p>
-                    <p className="text-md font-adega">
-                        BROCKENHURST TAXIS – 01590 615141
+                    <p className="text-md font-adega">NEW FOREST TAXIS:</p>
+                    <p className=" font-adega mb-2">01425 600 222</p>
+                    <p className=" font-adega text-md font-adega">
+                        BROCKENHURST TAXIS:
                     </p>
+                    <p className="font-adega">01590 615141</p>
                 </div>
 
                 {/* Plus-ones */}
@@ -715,8 +719,8 @@ const RsvpScreen = ({ access }: Props) => {
 
                     <img src={GreenMelvin} className="w-[140px] opacity-70 mb-4" />
 
-                    <p className="max-w-[420px] text-md leading-relaxed font-evafiya">
-                        Seating has been reserved for only those named on your invitation.
+                    <p className="max-w-[420px] text-lg leading-relaxed font-evafiya">
+                        Seating has been reserved for only those named on your invitation
                     </p>
                 </div>
             </div>
