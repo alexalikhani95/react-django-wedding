@@ -47,13 +47,7 @@ const RsvpScreen = ({ access }: Props) => {
 
   const queryClient = useQueryClient()
 
-  const {
-    control,
-    register,
-    handleSubmit,
-    reset,
-    watch,
-  } = useForm<Inputs>({
+  const { control, register, handleSubmit, reset, watch } = useForm<Inputs>({
     defaultValues: {
       guestName: "",
       nightBefore: null,
@@ -226,11 +220,7 @@ const RsvpScreen = ({ access }: Props) => {
             cursor-pointer
           "
                     >
-                      <RadioGroupItem
-                        id="nb-accept"
-                        value="accept"
-                        className="border-forest-green text-forest-green"
-                      />
+                      <RadioGroupItem id="nb-accept" value="accept" />
                       <span className="text-sm tracking-wide">
                         Joyfully Accepts
                       </span>
@@ -248,11 +238,7 @@ const RsvpScreen = ({ access }: Props) => {
             cursor-pointer
           "
                     >
-                      <RadioGroupItem
-                        id="nb-decline"
-                        value="decline"
-                        className="border-forest-green text-forest-green"
-                      />
+                      <RadioGroupItem id="nb-decline" value="decline" />
                       <span className="text-sm tracking-wide">
                         Regretfully Declines
                       </span>
@@ -305,11 +291,7 @@ const RsvpScreen = ({ access }: Props) => {
             cursor-pointer
           `}
                   >
-                    <RadioGroupItem
-                      id="wd-accept"
-                      value="accept"
-                      className="border-forest-green text-forest-green"
-                    />
+                    <RadioGroupItem id="wd-accept" value="accept" />
                     <span className="text-sm tracking-wide">
                       Joyfully Accepts
                     </span>
@@ -574,7 +556,7 @@ const RsvpScreen = ({ access }: Props) => {
                         <RadioGroupItem id="allergy-yes" value="yes" />
                         <span>Yes, I have allergies</span>
                       </Label>
-                     </RadioGroup>
+                    </RadioGroup>
                   )}
                 />
 
