@@ -15,7 +15,7 @@ function App() {
 
   return (
     <BrowserRouter>
-      {accessCode === "charlotte" && <Header />}
+      {accessCode === "charlotte" && <Header setAccessCode={setAccessCode} />}
       <Routes>
         <Route
           path="/"
