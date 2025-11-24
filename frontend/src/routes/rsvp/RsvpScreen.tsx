@@ -33,7 +33,6 @@ type Props = {
 }
 
 const RsvpScreen = ({ access }: Props) => {
-  const rsvpRef = useRef<HTMLDivElement | null>(null)
   const detailsRef = useRef<HTMLDivElement | null>(null)
   const submittedRef = useRef<HTMLDivElement | null>(null)
   const [showSubmitted, setShowSubmitted] = useState(false)
