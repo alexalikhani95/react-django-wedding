@@ -4,6 +4,7 @@ import { type SubmitHandler, useForm } from "react-hook-form"
 import { toast } from "react-toastify"
 import { CelebrateSection } from "./components/CelebrateSection"
 import { DetailsSection } from "./components/DetailsSection"
+import GuestViewTabs from "./components/GuestViewTabs"
 import { IntroSection } from "./components/IntroSection"
 import { MenuAndAllergies } from "./components/MenuAndAllergies"
 import { NightBeforeSection } from "./components/NightBeforeSection"
@@ -50,6 +51,12 @@ const RsvpScreen = ({ access }: Props) => {
     shouldFocusError: false, // Stop screen jumping up when submitting
   })
 
+  const [guestView, setGuestView] = useState<"nightBefore" | "weddingDay">(
+    access === "nightBefore" || access === "charlotte"
+      ? "nightBefore"
+      : "weddingDay",
+  )
+
   const allergiesValue = watch("allergies")
   const weddingDayValue = watch("weddingDay")
 
@@ -90,10 +97,14 @@ const RsvpScreen = ({ access }: Props) => {
     mutation.mutate(data)
   }
 
-  const nightBeforeAccess = access === "nightBefore" || access === "charlotte"
+  const nightBeforeAccess = guestView === "nightBefore"
 
   return (
     <>
+      {access === "charlotte" && (
+        <GuestViewTabs guestView={guestView} setGuestView={setGuestView} />
+      )}
+
       <IntroSection
         onScroll={() =>
           detailsRef.current?.scrollIntoView({
