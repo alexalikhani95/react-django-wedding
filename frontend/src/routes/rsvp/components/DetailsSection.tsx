@@ -24,21 +24,20 @@ export const DetailsSection = ({ nightBeforeAccess, ref }: Props) => {
           wedding day. However if you wish to give a gift, we’d greatly
           appreciate a contribution to our honeymoon
         </p>
+        <a
+          href="https://app.collectionpot.com/pot/3417854"
+          target="_blank"
+          className={`w-[200px] font-adega text-xl border-2 p-2 ${nightBeforeAccess ? "border-beige" : "border-forest-green"}`}
+          rel="noopener"
+        >
+          CONTRIBUTE
+        </a>
       </div>
 
       {/* Contribute */}
       <div
         className={`${nightBeforeAccess ? "bg-forest-green text-beige" : "bg-beige text-forest-green"} flex flex-col items-center py-0 sm:py-14 text-center`}
       >
-        <a
-          href="https://app.collectionpot.com/pot/3417854"
-          target="_blank"
-          className="w-[200px] font-adega text-xl border-2 border-beige p-2"
-          rel="noopener"
-        >
-          CONTRIBUTE
-        </a>
-
         <img
           src={nightBeforeAccess ? LogoBeige : LogoGreen}
           className="w-[150px] h-[150px] mt-6"
@@ -68,10 +67,13 @@ export const DetailsSection = ({ nightBeforeAccess, ref }: Props) => {
 
         <img src={WhiteCar} className="w-[120px] opacity-80 mb-4" />
 
+        <p className="text-lg font-evafiya uppercase">
+          Please note parking at the church is very limited
+        </p>
         <p className="text-lg font-evafiya">
-          Please note parking at the church is very limited, so we recommend
-          parking at Burley Manor and following the tarmacked path through the
-          field to the church
+          However, Burley Manor offers ample parking and is just a five-minute
+          walk from St. John the Baptist Church. We recommend parking at Burley
+          Manor and following the tarmacked path through the field to the church
         </p>
       </div>
 
@@ -100,7 +102,7 @@ export const DetailsSection = ({ nightBeforeAccess, ref }: Props) => {
         <img src={GreenMelvin} className="w-[140px] opacity-70 mb-4" />
 
         <p className="max-w-[420px] text-lg leading-relaxed font-evafiya">
-          Seating has been reserved for only those named on your invitation
+          Seating has been reserved for only those named on your invitation envelope
         </p>
       </div>
     </div>

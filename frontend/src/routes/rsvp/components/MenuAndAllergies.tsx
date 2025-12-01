@@ -36,6 +36,9 @@ export const MenuAndAllergies = ({
             {/* Header */}
             <div className="text-center">
               <p className="text-5xl font-mattedly leading-tight">The Menu</p>
+              <p className="font-evafiya text-xl">
+                To reflect our values, our wedding menu is entirely plant-based
+              </p>
             </div>
 
             {/* To Begin */}
