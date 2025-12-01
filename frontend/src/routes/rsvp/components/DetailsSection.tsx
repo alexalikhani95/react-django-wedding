@@ -54,7 +54,7 @@ export const DetailsSection = ({ nightBeforeAccess, ref }: Props) => {
           If you would like to book a room at Burley Manor please quote
         </p>
 
-        <div className="border border-forest-green rounded-full px-6 py-4 tracking-[0.15em] text-lg mb-2 font-adega">
+        <div className="border border-forest-green  px-6 py-4 tracking-[0.15em] text-lg mb-2 font-adega">
           BMW<span className="text-xl">140626</span>
         </div>
 
@@ -67,7 +67,7 @@ export const DetailsSection = ({ nightBeforeAccess, ref }: Props) => {
 
         <img src={WhiteCar} className="w-[120px] opacity-80 mb-4" />
 
-        <p className="text-lg font-evafiya uppercase">
+        <p className="text-lg font-adega uppercase">
           Please note parking at the church is very limited
         </p>
         <p className="text-lg font-evafiya">
@@ -102,7 +102,8 @@ export const DetailsSection = ({ nightBeforeAccess, ref }: Props) => {
         <img src={GreenMelvin} className="w-[140px] opacity-70 mb-4" />
 
         <p className="max-w-[420px] text-lg leading-relaxed font-evafiya">
-          Seating has been reserved for only those named on your invitation envelope
+          Seating has been reserved for only those named on your invitation
+          envelope
         </p>
       </div>
     </div>

@@ -57,7 +57,7 @@ export const WeddingDaysection = ({ nightBeforeAccess, control }: Props) => {
           `}
               >
                 <RadioGroupItem id="wd-accept" value="accept" />
-                <span className="text-sm tracking-wide">Joyfully Accepts</span>
+                <span className="text-lg tracking-wide">Joyfully Accepts</span>
               </Label>
 
               {/* Decline */}
@@ -77,7 +77,7 @@ export const WeddingDaysection = ({ nightBeforeAccess, control }: Props) => {
                   value="decline"
                   className="border-forest-green text-forest-green"
                 />
-                <span className="text-sm tracking-wide">
+                <span className="text-lg tracking-wide">
                   Regretfully Declines
                 </span>
               </Label>

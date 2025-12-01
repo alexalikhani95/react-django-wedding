@@ -48,7 +48,7 @@ export const NightBeforeSection = ({ control }: NightBeforeSectionProps) => {
                 className="flex items-center gap-4 w-full px-5 py-3 border border-forest-green/30 bg-white/95 text-forest-green shadow-sm cursor-pointer"
               >
                 <RadioGroupItem id="nb-accept" value="accept" />
-                <span className="text-sm tracking-wide">Joyfully Accepts</span>
+                <span className="text-lg tracking-wide">Joyfully Accepts</span>
               </Label>
 
               <Label
@@ -56,7 +56,7 @@ export const NightBeforeSection = ({ control }: NightBeforeSectionProps) => {
                 className="flex items-center gap-4 w-full px-5 py-3 border border-forest-green/30 bg-white/95 text-forest-green shadow-sm cursor-pointer"
               >
                 <RadioGroupItem id="nb-decline" value="decline" />
-                <span className="text-sm tracking-wide">
+                <span className="text-lg tracking-wide">
                   Regretfully Declines
                 </span>
               </Label>

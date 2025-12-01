@@ -12,8 +12,8 @@ export const SubmitSection = ({ nightBeforeAccess, errors }: Props) => {
     <div
       className={`${nightBeforeAccess ? "bg-forest-green text-beige" : "bg-beige text-forest-green"} flex flex-col justify-center items-center justify-center py-10 gap-5`}
     >
-      <div className="w-full max-w-[420px] mx-auto mb-6">
-        {Object.values(errors).length > 0 && (
+      {Object.values(errors).length > 0 && (
+        <div className="w-full max-w-[420px] mx-auto mb-6">
           <div
             className="
         bg-white 
@@ -37,8 +37,8 @@ export const SubmitSection = ({ nightBeforeAccess, errors }: Props) => {
               ))}
             </ul>
           </div>
-        )}
-      </div>
+        </div>
+      )}
 
       <Button
         type="submit"

@@ -34,12 +34,12 @@ export const ThankyouSection = ({
             />
 
             <p className="text-2xl font-adega">WITH LOVE,</p>
-            <p className="text-4xl font-mattedly">Alexander & Charlotte</p>
+            <p className="text-6xl font-mattedly">Alexander & Charlotte</p>
 
             <Button
               variant={nightBeforeAccess ? "secondary" : "primary"}
               size="lg"
-              className="max-w-[300px] font-adega text-xl mt-10"
+              className="max-w-[300px] font-adega text-xl"
               onClick={onScroll}
             >
               GIFTS & FINER DETAILS
