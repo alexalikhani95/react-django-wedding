@@ -42,7 +42,7 @@ export const ThankyouSection = ({
               className="max-w-[300px] font-adega text-xl mt-10"
               onClick={onScroll}
             >
-              FINER DETAILS
+              GIFTS & FINER DETAILS
             </Button>
           </div>
         )}
