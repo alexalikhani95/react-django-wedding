@@ -19,7 +19,6 @@ export const SubmitSection = ({ nightBeforeAccess, errors }: Props) => {
         bg-white 
         text-[#9b1c1c]            /* warm muted red */
         border-2 border-forest-green 
-        rounded-xl 
         px-5 py-4 
         shadow-md 
         font-adega 
