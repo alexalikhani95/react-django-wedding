@@ -20,10 +20,11 @@ export const MenuAndAllergies = ({
   return (
     <div>
       <div
-        className={`grid grid-cols-1 sm:grid-cols-2 py-15 px-10 bg-cover bg-center bg-no-repeat ${nightBeforeAccess
-            ? "bg-[url(@/assets/Menu-bg-beige.jpg)]"
-            : "bg-[url(@/assets/Menu-bg-green.jpg)]"
-          }`}
+        className={`grid grid-cols-1 sm:grid-cols-2 py-15 px-10 bg-cover bg-center bg-no-repeat ${
+          nightBeforeAccess
+            ? "bg-[url(@/assets/Menu-beige.jpg)]"
+            : "bg-[url(@/assets/Menu-Green.jpg)]"
+        }`}
       >
         {/* Menu Card */}
         <div className="flex justify-center">
