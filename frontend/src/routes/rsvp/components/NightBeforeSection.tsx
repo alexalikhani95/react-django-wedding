@@ -13,7 +13,7 @@ export const NightBeforeSection = ({ control }: NightBeforeSectionProps) => {
     <div className="grid grid-cols-1 sm:grid-cols-2 bg-beige py-15">
       <div className="flex flex-col items-center text-center gap-5">
         <p className="font-mattedly text-6xl">The Night Before</p>
-        <p className="font-adega">THURSDAY 13TH AUGUST 2026</p>
+        <p className="font-adega">THURSDAY <span className="text-xl">13</span>TH AUGUST <span className="text-xl">2026</span></p>
 
         <img
           src={NightBeforeGreen}

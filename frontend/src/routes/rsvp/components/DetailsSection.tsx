@@ -56,7 +56,7 @@ export const DetailsSection = ({ nightBeforeAccess, ref }: Props) => {
         </p>
 
         <div className="border border-forest-green rounded-full px-6 py-4 tracking-[0.15em] text-lg mb-2 font-adega">
-          BMW140626
+          BMW<span className="text-xl">140626</span>
         </div>
 
         <p className="text-lg font-evafiya">when making your reservation</p>
@@ -85,9 +85,9 @@ export const DetailsSection = ({ nightBeforeAccess, ref }: Props) => {
         <img src={WhiteGlasses} className="w-[120px] opacity-80 mb-4" />
 
         <p className="text-md font-adega">NEW FOREST TAXIS:</p>
-        <p className=" font-adega mb-2">01425 600 222</p>
+        <p className=" font-adega mb-2 text-xl">01425 600 222</p>
         <p className=" font-adega text-md font-adega">BROCKENHURST TAXIS:</p>
-        <p className="font-adega">01590 615141</p>
+        <p className="font-adega text-xl">01590 615141</p>
       </div>
 
       {/* Plus-ones */}

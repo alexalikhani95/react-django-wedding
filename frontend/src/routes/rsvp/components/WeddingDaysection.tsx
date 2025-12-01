@@ -17,7 +17,7 @@ export const WeddingDaysection = ({ nightBeforeAccess, control }: Props) => {
     >
       <div className="flex flex-col items-center text-center gap-5">
         <p className="text-6xl font-mattedly">Our Wedding Day</p>
-        <p className="font-adega">FRIDAY 14TH AUGUST 2026</p>
+        <p className="font-adega">FRIDAY <span className="text-xl">14</span>TH AUGUST <span className="text-xl">2026</span></p>
 
         <img
           src={nightBeforeAccess ? WeddingDayWhite : WeddingDayGreen}
