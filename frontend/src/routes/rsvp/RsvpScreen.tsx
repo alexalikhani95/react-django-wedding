@@ -34,6 +34,7 @@ type Props = {
 }
 
 const RsvpScreen = ({ access }: Props) => {
+  const yourDetailsRef = useRef<HTMLDivElement | null>(null)
   const detailsRef = useRef<HTMLDivElement | null>(null)
   const submittedRef = useRef<HTMLDivElement | null>(null)
   const [showSubmitted, setShowSubmitted] = useState(false)
@@ -107,14 +108,14 @@ const RsvpScreen = ({ access }: Props) => {
 
       <IntroSection
         onScroll={() =>
-          detailsRef.current?.scrollIntoView({
+          yourDetailsRef.current?.scrollIntoView({
             behavior: "smooth",
             block: "start",
           })
         }
       />
       <form onSubmit={handleSubmit(onSubmit)}>
-        <YourDetails ref={detailsRef} register={register} />
+        <YourDetails ref={yourDetailsRef} register={register} />
 
         <CelebrateSection />
 
@@ -142,11 +143,19 @@ const RsvpScreen = ({ access }: Props) => {
         nightBeforeAccess={nightBeforeAccess}
         ref={submittedRef}
         showSubmitted={showSubmitted}
-        onScroll={() =>
+        onScrollToDetails={() =>
           detailsRef.current?.scrollIntoView({
             behavior: "smooth",
             block: "start",
           })
+        }
+        onScrollToYourDetails={() => {
+          yourDetailsRef.current?.scrollIntoView({
+            behavior: "smooth",
+            block: "start",
+          })
+          setShowSubmitted(false)
+        }
         }
       />
 

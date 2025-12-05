@@ -7,14 +7,16 @@ type Props = {
   nightBeforeAccess: boolean
   ref: Ref<HTMLDivElement> | undefined
   showSubmitted: boolean
-  onScroll: () => void
+  onScrollToDetails: () => void
+  onScrollToYourDetails: () => void
 }
 
 export const ThankyouSection = ({
   nightBeforeAccess,
   ref,
   showSubmitted,
-  onScroll,
+  onScrollToDetails,
+  onScrollToYourDetails,
 }: Props) => {
   return (
     <div>
@@ -36,13 +38,26 @@ export const ThankyouSection = ({
             <p className="text-2xl font-adega">WITH LOVE,</p>
             <p className="text-6xl font-mattedly">Alexander & Charlotte</p>
 
+            {/* Scroll to Details */}
             <Button
               variant={nightBeforeAccess ? "secondary" : "primary"}
               size="lg"
               className="max-w-[300px] font-adega text-xl"
-              onClick={onScroll}
+              onClick={onScrollToDetails}
             >
               GIFTS & FINER DETAILS
+            </Button>
+
+            <p className="text-xl italic">OR</p>
+
+            {/* Scroll to Your Details */}
+            <Button
+              variant={nightBeforeAccess ? "secondary" : "primary"}
+              size="lg"
+              className="max-w-[300px] font-adega text-xl"
+              onClick={onScrollToYourDetails}
+            >
+              ADD NEXT GUEST
             </Button>
           </div>
         )}
