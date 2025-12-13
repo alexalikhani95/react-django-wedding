@@ -7,6 +7,7 @@ import { Guests } from "./routes/guests/index.tsx"
 import Rsvp from "./routes/rsvp/index.tsx"
 import { RsvpList } from "./routes/rsvpList/index.tsx"
 import { Seating } from "./routes/seating/index.tsx"
+import { MealCounts } from "./routes/mealCounts/index.tsx"
 
 function App() {
   const [accessCode, setAccessCode] = useState<string | null>(
@@ -24,6 +25,7 @@ function App() {
           }
         />
         <Route path="/rsvp-list" element={<RsvpList />} />
+        <Route path="/meal-counts" element={<MealCounts />} />
         <Route path="/guests" element={<Guests />} />
         <Route path="/seating" element={<Seating />} />
       </Routes>

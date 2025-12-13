@@ -85,6 +85,7 @@ const RsvpScreen = ({ access }: Props) => {
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["rsvps"] })
+      queryClient.invalidateQueries({ queryKey: ["meal-counts"] })
       reset()
       setShowSubmitted(true)
       toast.success("RSVP sent!")
