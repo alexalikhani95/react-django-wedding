@@ -10,11 +10,12 @@ export const Header = ({ setAccessCode }: Props) => {
   const navigate = useNavigate()
   return (
     <div className="bg-primary p-5 text-primary-foreground">
-      <div className="flex justify-between items-center">
+      <div className="flex justify-between items-center flex-wrap gap-4">
         {/* Navigation Links */}
-        <div className="flex gap-4 items-center">
+        <div className="flex gap-4 items-center flex-wrap">
           <Link to="/">Home</Link>
           <Link to="/rsvp-list">RSVP List</Link>
+          <Link to="/meal-counts">Meal Counts</Link>
           <Link to="/guests">Guests</Link>
           <Link to="/seating">Seating</Link>
           <Button
