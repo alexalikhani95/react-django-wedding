@@ -1,5 +1,6 @@
 export type Inputs = {
-  guestName: string
+  firstName: string
+  lastName: string
 
   nightBefore: "accept" | "decline" | null
   weddingDay: "accept" | "decline" | null

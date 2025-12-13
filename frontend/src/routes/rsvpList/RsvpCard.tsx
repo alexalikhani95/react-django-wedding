@@ -59,7 +59,7 @@ export const RsvpCard = ({ rsvp }: { rsvp: Rsvp }) => {
     >
       {/* NAME */}
       <p className="text-forest-green text-2xl font-['ADega Serif'] leading-tight">
-        {rsvp.name}
+        {rsvp.first_name} {rsvp.last_name}
       </p>
 
       {/* ATTENDANCE */}

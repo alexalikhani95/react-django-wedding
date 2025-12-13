@@ -48,7 +48,7 @@ export const ThankyouSection = ({
               GIFTS & FINER DETAILS
             </Button>
 
-            <p className="text-xl italic">OR</p>
+            <p className="text-2xl font-adega">OR</p>
 
             {/* Scroll to Your Details */}
             <Button

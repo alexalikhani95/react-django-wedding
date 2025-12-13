@@ -19,7 +19,7 @@ export const DetailsSection = ({ nightBeforeAccess, ref }: Props) => {
         className={`${nightBeforeAccess ? "bg-forest-green text-beige" : "bg-beige text-forest-green"} flex flex-col items-center py-14 px-10 text-center`}
       >
         <h2 className="text-6xl font-mattedly mb-4">Gifts</h2>
-        <p className="max-w-[450px] text-lg font-evafiya mb-6">
+        <p className="max-w-[450px] text-xl font-evafiya mb-6">
           The most important thing to us is having you there to celebrate our
           wedding day. However if you wish to give a gift, we’d greatly
           appreciate a contribution to our honeymoon
@@ -27,7 +27,7 @@ export const DetailsSection = ({ nightBeforeAccess, ref }: Props) => {
         <a
           href="https://app.collectionpot.com/pot/3417854"
           target="_blank"
-          className={`w-[200px] font-adega text-xl border-2 p-2 ${nightBeforeAccess ? "border-beige" : "border-forest-green"}`}
+          className={`w-[200px] font-adega text-xl border-1 p-2 ${nightBeforeAccess ? "border-beige" : "border-forest-green"}`}
           rel="noopener"
         >
           CONTRIBUTE
@@ -50,15 +50,19 @@ export const DetailsSection = ({ nightBeforeAccess, ref }: Props) => {
 
         <img src={HomeImage} className="w-[280px] opacity-70 mb-4" />
 
-        <p className="max-w-[420px] text-lg font-evafiya mb-4">
-          If you would like to book a room at Burley Manor please quote
+        <p className="max-w-[420px] text-xl font-evafiya mb-4">
+          If you would like to book a room at Burley Manor please quote: BMW140626 when making your reservation by calling the reservations team on: 0800444441, or click the link below
         </p>
 
-        <div className="border border-forest-green  px-6 py-4 tracking-[0.15em] text-lg mb-2 font-adega">
-          BMW<span className="text-xl">140626</span>
-        </div>
+        <a
+          href="https://booking.eu.guestline.app/newforest/availability?hotel=NFHBURLEY&_gl=1*1kd9o4x*_gcl_aw*R0NMLjE3NjU1NzY3NTguQ2p3S0NBaUFsLV9KQmhCakVpd0FuM3JON1RpdnE2SE9NQlVoaWpiT0RRd1JUbzhMWTQtaFpmc041N2lLR0RUWm9mUUx1cm5jaFBOX25ob0NvOE1RQXZEX0J3RQ..*_gcl_au*MTc2MzE4MjMzNC4xNzYwMzgwNTAw*_ga*MTAzMzI5Mjk5OC4xNzUxNTM4ODE4*_ga_G26ZD2NZVJ*czE3NjU1NzY3NTgkbzE5JGcwJHQxNzY1NTc2NzU4JGo2MCRsMCRoMTI4NDAzNTQzNQ.."
+          target="_blank"
+          className={`w-[200px] font-adega text-xl border-1 p-2 ${nightBeforeAccess ? "border-forest-green" : "border-beige"}`}
+          rel="noopener"
+        >
+          BURLEY MANOR BOOKINGS
+        </a>
 
-        <p className="text-lg font-evafiya">when making your reservation</p>
       </div>
 
       {/* Parking */}
@@ -67,10 +71,10 @@ export const DetailsSection = ({ nightBeforeAccess, ref }: Props) => {
 
         <img src={WhiteCar} className="w-[120px] opacity-80 mb-4" />
 
-        <p className="text-lg font-adega uppercase">
+        <p className="text-xl font-adega uppercase">
           Please note parking at the church is very limited
         </p>
-        <p className="text-lg font-evafiya">
+        <p className="text-xl font-evafiya">
           However, Burley Manor offers ample parking and is just a five-minute
           walk from St. John the Baptist Church. We recommend parking at Burley
           Manor and following the tarmacked path through the field to the church
@@ -87,7 +91,7 @@ export const DetailsSection = ({ nightBeforeAccess, ref }: Props) => {
         <img src={WhiteGlasses} className="w-[120px] opacity-80 mb-4" />
 
         <p className="text-md font-adega">NEW FOREST TAXIS:</p>
-        <p className=" font-adega mb-2 text-xl">01425 600 222</p>
+        <p className=" font-adega mb-5 text-xl">01425 600 222</p>
         <p className=" font-adega text-md font-adega">BROCKENHURST TAXIS:</p>
         <p className="font-adega text-xl">01590 615141</p>
       </div>
@@ -101,7 +105,7 @@ export const DetailsSection = ({ nightBeforeAccess, ref }: Props) => {
 
         <img src={GreenMelvin} className="w-[140px] opacity-70 mb-4" />
 
-        <p className="max-w-[420px] text-lg leading-relaxed font-evafiya">
+        <p className="max-w-[420px] text-xl leading-relaxed font-evafiya">
           Seating has been reserved for only those named on your invitation
           envelope
         </p>

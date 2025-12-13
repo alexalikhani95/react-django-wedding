@@ -35,7 +35,7 @@ export const NightBeforeSection = ({ control }: NightBeforeSectionProps) => {
           name="nightBefore"
           control={control}
           rules={{
-            required: "Confirm night before attendance",
+            required: "Select night before attendance",
           }}
           render={({ field }) => (
             <RadioGroup

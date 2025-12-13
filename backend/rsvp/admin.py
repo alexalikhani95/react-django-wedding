@@ -5,7 +5,8 @@ from .models import Rsvp
 @admin.register(Rsvp)
 class RsvpAdmin(admin.ModelAdmin):
     list_display = [
-        "name",
+        "first_name",
+        "last_name",
         "night_before",
         "wedding_day",
         "starter",
@@ -15,5 +16,5 @@ class RsvpAdmin(admin.ModelAdmin):
         "created_at",
     ]
     list_filter = ["night_before", "wedding_day", "allergies", "created_at"]
-    search_fields = ["name"]
+    search_fields = ["first_name", "last_name"]
     readonly_fields = ["created_at"]

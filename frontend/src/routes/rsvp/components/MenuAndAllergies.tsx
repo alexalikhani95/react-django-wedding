@@ -20,11 +20,10 @@ export const MenuAndAllergies = ({
   return (
     <div>
       <div
-        className={`grid grid-cols-1 sm:grid-cols-2 py-15 px-10 bg-cover bg-center bg-no-repeat ${
-          nightBeforeAccess
-            ? "bg-[url(@/assets/Menu-beige.jpg)]"
-            : "bg-[url(@/assets/Menu-Green.jpg)]"
-        }`}
+        className={`grid grid-cols-1 sm:grid-cols-2 py-15 px-10 bg-cover bg-center bg-no-repeat ${nightBeforeAccess
+          ? "bg-[url(@/assets/Menu-beige.jpg)]"
+          : "bg-[url(@/assets/Menu-Green.jpg)]"
+          }`}
       >
         {/* Menu Card */}
         <div className="flex justify-center">
@@ -48,7 +47,7 @@ export const MenuAndAllergies = ({
               <Controller
                 name="starter"
                 control={control}
-                rules={{ required: "Confirm starter option from menu" }}
+                rules={{ required: "Select starter choice from menu" }}
                 render={({ field }) => (
                   <RadioGroup
                     className="flex flex-col gap-2 font-evafiya"
@@ -101,7 +100,7 @@ export const MenuAndAllergies = ({
               <Controller
                 name="main"
                 control={control}
-                rules={{ required: "Confirm main option from menu" }}
+                rules={{ required: "Select main choice from menu" }}
                 render={({ field }) => (
                   <RadioGroup
                     className="flex flex-col gap-2 font-evafiya"
@@ -153,7 +152,7 @@ export const MenuAndAllergies = ({
               <Controller
                 name="dessert"
                 control={control}
-                rules={{ required: "Confirm desert option from menu" }}
+                rules={{ required: "Select dessert choice from menu" }}
                 render={({ field }) => (
                   <RadioGroup
                     className="flex flex-col gap-2 font-evafiya"
@@ -225,7 +224,7 @@ export const MenuAndAllergies = ({
             <Controller
               name="allergies"
               control={control}
-              rules={{ required: "Confirm If you have any allergies" }}
+              rules={{ required: "Confirm if you have allergies/intolerances" }}
               render={({ field }) => (
                 <RadioGroup
                   className="flex flex-row gap-8 justify-center mt-2 font-evafiya"
@@ -266,7 +265,7 @@ export const MenuAndAllergies = ({
                   {...register("allergyNotes", {
                     required:
                       allergiesValue === "yes" &&
-                      "Confirm your allergies/ intolerances",
+                      "Please specify allergies/intolerances",
                   })}
                   className="bg-white text-forest-green placeholder:text-forest-green/50 w-full h-[36px]"
                 />

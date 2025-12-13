@@ -5,7 +5,8 @@ export type DessertCode = "tart" | "jelly"
 
 export type Rsvp = {
   id: number
-  name: string
+  first_name: string
+  last_name: string
   night_before: "accept" | "decline" | null
   wedding_day: "accept" | "decline" | null
 

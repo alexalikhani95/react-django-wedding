@@ -16,7 +16,8 @@ import { YourDetails } from "./components/YourDetails"
 const API_URL = import.meta.env.VITE_API_URL
 
 type Inputs = {
-  guestName: string
+  firstName: string
+  lastName: string
 
   nightBefore: "accept" | "decline" | null
   weddingDay: "accept" | "decline" | null
@@ -67,7 +68,8 @@ const RsvpScreen = ({ access }: Props) => {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          name: data.guestName,
+          first_name: data.firstName,
+          last_name: data.lastName,
           night_before: data.nightBefore,
           wedding_day: data.weddingDay,
 

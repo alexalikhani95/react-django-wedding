@@ -19,22 +19,32 @@ export const YourDetails = ({ ref, register }: YourDetailsProps) => {
 
       <p className="font-evafiya text-xl mb-4">
         After submitting this form, you'll be prompted to complete it again for
-        each additional guest
+        each additional guest named on your invitation envelope
       </p>
 
       <div className="flex flex-col gap-4 w-full max-w-[360px] items-center text-center">
         <Label
-          htmlFor="guestName"
+          htmlFor="firstName"
           className="w-full flex justify-center text-md font-adega"
         >
-          GUEST NAME
+          FIRST NAME
         </Label>
-        <p className="font-evafiya">(First Name, Surname)</p>
-
         <Input
-          id="guestName"
-          className="bg-white font-evafiya text-forest-green"
-          {...register("guestName", { required: "Please add name" })}
+          id="firstName"
+          className="bg-white font-evafiya text-forest-green leading"
+          {...register("firstName", { required: "Please add your first name" })}
+        />
+
+        <Label
+          htmlFor="lastName"
+          className="w-full flex justify-center text-md font-adega mt-2"
+        >
+          LAST NAME
+        </Label>
+        <Input
+          id="lastName"
+          className="bg-white font-evafiya text-forest-green leading"
+          {...register("lastName", { required: "Please add your last name" })}
         />
       </div>
     </div>

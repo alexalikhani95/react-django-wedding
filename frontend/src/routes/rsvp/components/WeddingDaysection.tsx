@@ -37,7 +37,7 @@ export const WeddingDaysection = ({ nightBeforeAccess, control }: Props) => {
         <Controller
           name="weddingDay"
           control={control}
-          rules={{ required: "Confirm Wedding attendance" }}
+          rules={{ required: "Select wedding day attendance" }}
           render={({ field }) => (
             <RadioGroup
               value={field.value ?? ""}

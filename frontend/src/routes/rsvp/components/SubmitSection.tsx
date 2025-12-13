@@ -13,7 +13,7 @@ export const SubmitSection = ({ nightBeforeAccess, errors }: Props) => {
       className={`${nightBeforeAccess ? "bg-forest-green text-beige" : "bg-beige text-forest-green"} flex flex-col justify-center items-center justify-center py-10 gap-5`}
     >
       {Object.values(errors).length > 0 && (
-        <div className="w-full max-w-[420px] mx-auto mb-6">
+        <div className="w-full max-w-[550px] mx-auto mb-6">
           <div
             className="
         bg-white 
@@ -26,9 +26,11 @@ export const SubmitSection = ({ nightBeforeAccess, errors }: Props) => {
         tracking-wide
       "
           >
-            <p className="text-3xl mb-2 font-mattedly">
-              Please check the following:
-            </p>
+            <div className="flex w-full justify-center">
+              <p className="text-5xl mb-2 font-mattedly">
+                Please check the following
+              </p>
+            </div>
 
             <ul className="list-disc list-inside space-y-1 font-evafiya text-lg">
               {Object.values(errors).map((error, index) => (
