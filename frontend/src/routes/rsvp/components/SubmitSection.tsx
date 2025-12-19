@@ -1,13 +1,15 @@
 import type { FieldErrors } from "react-hook-form"
 import { Button } from "@/components/ui/button"
 import type { Inputs } from "../types"
+import { Loader2 } from "lucide-react"
 
 type Props = {
   nightBeforeAccess: boolean
   errors: FieldErrors<Inputs>
+  isSubmitting?: boolean
 }
 
-export const SubmitSection = ({ nightBeforeAccess, errors }: Props) => {
+export const SubmitSection = ({ nightBeforeAccess, errors, isSubmitting = false }: Props) => {
   return (
     <div
       className={`${nightBeforeAccess ? "bg-forest-green text-beige" : "bg-beige text-forest-green"} flex flex-col justify-center items-center justify-center py-10 gap-5`}
@@ -45,8 +47,16 @@ export const SubmitSection = ({ nightBeforeAccess, errors }: Props) => {
         type="submit"
         variant={nightBeforeAccess ? "primary" : "secondary"}
         className="w-[300px] px-10 py-5 font-adega text-xl"
+        disabled={isSubmitting}
       >
-        SUBMIT YOUR RSVP
+        {isSubmitting ? (
+          <>
+            <Loader2 className="mr-2 h-5 w-5 animate-spin" />
+            SUBMITTING...
+          </>
+        ) : (
+          "SUBMIT YOUR RSVP"
+        )}
       </Button>
     </div>
   )
