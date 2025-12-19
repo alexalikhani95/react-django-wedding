@@ -29,16 +29,6 @@ export const ThankyouSection = ({
             <p className="text-7xl font-mattedly">Thank you!</p>
             <p className="text-2xl font-adega">YOUR RSVP HAS BEEN RECEIVED</p>
 
-            <img
-              src={nightBeforeAccess ? GreenCheers : WhiteCheers}
-              alt="Thank you"
-              className="w-[200px] h-[200px] mx-auto my-6"
-            />
-
-            <p className="text-2xl font-adega">WITH LOVE,</p>
-            <p className="text-6xl font-mattedly">Alexander & Charlotte</p>
-
-            {/* Scroll to Details */}
             <Button
               variant={nightBeforeAccess ? "secondary" : "primary"}
               size="lg"
@@ -47,8 +37,6 @@ export const ThankyouSection = ({
             >
               GIFTS & FINER DETAILS
             </Button>
-
-            <p className="text-2xl font-adega">OR</p>
 
             {/* Scroll to Your Details */}
             <Button
@@ -59,6 +47,17 @@ export const ThankyouSection = ({
             >
               ADD NEXT GUEST
             </Button>
+
+            <img
+              src={nightBeforeAccess ? GreenCheers : WhiteCheers}
+              alt="Thank you"
+              className="w-[200px] h-[200px] mx-auto my-6"
+            />
+
+            <p className="text-2xl font-adega">WITH LOVE,</p>
+            <p className="text-6xl font-mattedly">Alexander & Charlotte</p>
+
+            {/* Scroll to Details */}
           </div>
         )}
       </div>
