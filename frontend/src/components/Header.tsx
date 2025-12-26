@@ -18,7 +18,7 @@ export const Header = ({ setAccessCode }: Props) => {
           <Link to="/meal-counts">Meal Counts</Link>
           <Link to="/guests">Guests</Link>
           <Link to="/seating">Seating</Link>
-          <Button
+          <Link to="/costs">Costs</Link><Button
             variant={"primary"}
             onClick={() => {
               localStorage.removeItem("accessCode")

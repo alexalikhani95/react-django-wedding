@@ -8,6 +8,7 @@ import Rsvp from "./routes/rsvp/index.tsx"
 import { RsvpList } from "./routes/rsvpList/index.tsx"
 import { Seating } from "./routes/seating/index.tsx"
 import { MealCounts } from "./routes/mealCounts/index.tsx"
+import { Costs } from "./routes/costs/index.tsx"
 
 function App() {
   const [accessCode, setAccessCode] = useState<string | null>(
@@ -28,6 +29,7 @@ function App() {
         <Route path="/meal-counts" element={<MealCounts />} />
         <Route path="/guests" element={<Guests />} />
         <Route path="/seating" element={<Seating />} />
+        <Route path="/costs" element={<Costs />} />
       </Routes>
       <ToastContainer />
     </BrowserRouter>
