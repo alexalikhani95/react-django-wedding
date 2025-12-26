@@ -30,7 +30,8 @@ INSTALLED_APPS = [
     "rest_framework_simplejwt",
     "rsvp",
     "guests",
-    "tables"
+    "tables",
+    "costs"
 ]
 
 MIDDLEWARE = [
