@@ -24,9 +24,7 @@ type Inputs = {
 export const Costs = () => {
   const {
     register,
-    handleSubmit,
     formState: { errors, isValid },
-    reset,
   } = useForm<Inputs>({ defaultValues: { name: "" } })
 
   const {
@@ -73,7 +71,7 @@ export const Costs = () => {
       </div>
     )
 
-  const onSubmit = () => {}
+  const onSubmit = () => { }
 
   return (
     <div>
