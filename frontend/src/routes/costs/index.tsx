@@ -73,7 +73,7 @@ export const Costs = () => {
       </div>
     )
 
-  const onSubmit = () => { }
+  const onSubmit = () => {}
 
   return (
     <div>

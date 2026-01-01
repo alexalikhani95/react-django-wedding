@@ -18,18 +18,23 @@ export const NightBeforeSection = ({ control }: NightBeforeSectionProps) => {
           <span className="text-xl">2026</span>
         </p>
 
+        <p className="font-evafiya text-xl font-bold">7.00pm - 10.00pm</p>
+
         <img
           src={NightBeforeGreen}
           alt="Night before scene"
           className="w-[300px] h-[200px]"
         />
 
-        <p className="font-evafiya text-xl">
+        <p className="font-evafiya text-xl font-bold">
+          23 High Street, Lyndhurst, SO43 7BE
+        </p>
+
+        <p className="font-evafiya text-xl font-bold">
           Please let us know if you&apos;ll be joining us the night before
         </p>
       </div>
 
-      {/* Right side - Radio buttons */}
       <div className="flex flex-col items-center justify-center w-full font-adega">
         <Controller
           name="nightBefore"

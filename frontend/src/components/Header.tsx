@@ -9,7 +9,7 @@ type Props = {
 export const Header = ({ setAccessCode }: Props) => {
   const navigate = useNavigate()
   return (
-    <div className="bg-primary p-5 text-primary-foreground">
+    <div className="bg-primary p-5 text-primary-foreground border-b border-primary-foreground">
       <div className="flex justify-between items-center flex-wrap gap-4">
         {/* Navigation Links */}
         <div className="flex gap-4 items-center flex-wrap">

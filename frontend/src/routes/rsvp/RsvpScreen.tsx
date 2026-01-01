@@ -2,6 +2,7 @@ import { useMutation, useQueryClient } from "@tanstack/react-query"
 import { useRef, useState } from "react"
 import { type SubmitHandler, useForm } from "react-hook-form"
 import { toast } from "react-toastify"
+import { Button } from "@/components/ui/button"
 import { CelebrateSection } from "./components/CelebrateSection"
 import { DetailsSection } from "./components/DetailsSection"
 import GuestViewTabs from "./components/GuestViewTabs"
@@ -105,6 +106,49 @@ const RsvpScreen = ({ access }: Props) => {
 
   return (
     <>
+      <div className="bg-primary p-5 text-primary-foreground flex gap-4 justify-center">
+        <Button
+          className="font-adega"
+          variant="primary"
+          onClick={() => {
+            //scroll to details section
+            detailsRef.current?.scrollIntoView({
+              behavior: "smooth",
+              block: "start",
+            })
+          }}
+        >
+          Gifts
+        </Button>
+
+        <Button
+          className="font-adega"
+          variant="primary"
+          onClick={() => {
+            //scroll to details section
+            detailsRef.current?.scrollIntoView({
+              behavior: "smooth",
+              block: "start",
+            })
+          }}
+        >
+          Accommodation
+        </Button>
+
+        <Button
+          className="font-adega"
+          variant="primary"
+          onClick={() => {
+            //scroll to details section
+            detailsRef.current?.scrollIntoView({
+              behavior: "smooth",
+              block: "start",
+            })
+          }}
+        >
+          Parking
+        </Button>
+      </div>
       {access === "charlotte" && (
         <GuestViewTabs guestView={guestView} setGuestView={setGuestView} />
       )}
