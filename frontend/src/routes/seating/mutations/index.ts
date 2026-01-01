@@ -2,6 +2,7 @@ import { useMutation, useQueryClient } from "@tanstack/react-query"
 import { toast } from "react-toastify"
 import type { Guest } from "@/routes/guests"
 import type { Table } from "../types"
+import { guests } from "@/guests/queries/queryKeys"
 
 const API_URL = import.meta.env.VITE_API_URL
 
@@ -71,7 +72,7 @@ export const useRemoveFromSeat = () => {
     },
     onMutate: async (guestId) => {
       await queryClient.cancelQueries({ queryKey: ["tables"] })
-      await queryClient.cancelQueries({ queryKey: ["guests"] })
+      await queryClient.cancelQueries({ queryKey: guests })
 
       const previousTables = queryClient.getQueryData<Table[]>(["tables"])
 
@@ -88,7 +89,7 @@ export const useRemoveFromSeat = () => {
         queryClient.setQueryData(["tables"], newtables)
       }
 
-      const previousGuests = queryClient.getQueryData<Guest[]>(["guests"])
+      const previousGuests = queryClient.getQueryData<Guest[]>(guests)
       if (previousGuests) {
         const newGuests = previousGuests.map((guest) => {
           if (guest.id === guestId) {
@@ -96,14 +97,14 @@ export const useRemoveFromSeat = () => {
           }
           return guest
         })
-        queryClient.setQueryData(["guests"], newGuests)
+        queryClient.setQueryData(guests, newGuests)
       }
 
       return { previousTables, previousGuests }
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["tables"] })
-      queryClient.invalidateQueries({ queryKey: ["guests"] })
+      queryClient.invalidateQueries({ queryKey: guests })
       toast.success("Removed guest from seat!")
     },
     onError: (_err, _guestId, context) => {
@@ -111,7 +112,7 @@ export const useRemoveFromSeat = () => {
         queryClient.setQueryData(["tables"], context.previousTables)
       }
       if (context?.previousGuests) {
-        queryClient.setQueryData(["guests"], context.previousGuests)
+        queryClient.setQueryData(guests, context.previousGuests)
       }
       toast.error("Error removing guest from seat!")
     },
@@ -139,7 +140,7 @@ export const useAssignSeat = () => {
     },
     onMutate: async ({ guestId, seatId }) => {
       await queryClient.cancelQueries({ queryKey: ["tables"] })
-      await queryClient.cancelQueries({ queryKey: ["guests"] })
+      await queryClient.cancelQueries({ queryKey: guests })
 
       const previousTables = queryClient.getQueryData<Table[]>(["tables"])
 
@@ -159,7 +160,7 @@ export const useAssignSeat = () => {
         queryClient.setQueryData(["tables"], newTables)
       }
 
-      const previousGuests = queryClient.getQueryData<Guest[]>(["guests"])
+      const previousGuests = queryClient.getQueryData<Guest[]>(guests)
 
       if (previousGuests) {
         const newGuests = previousGuests.map((guest) => {
@@ -171,21 +172,21 @@ export const useAssignSeat = () => {
           }
           return guest
         })
-        queryClient.setQueryData(["guests"], newGuests)
+        queryClient.setQueryData(guests, newGuests)
       }
 
       return { previousTables, previousGuests }
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["tables"] })
-      queryClient.invalidateQueries({ queryKey: ["guests"] })
+      queryClient.invalidateQueries({ queryKey: guests })
     },
     onError: (err, _variables, context) => {
       if (context?.previousTables) {
         queryClient.setQueryData(["tables"], context.previousTables)
       }
       if (context?.previousGuests) {
-        queryClient.setQueryData(["guests"], context.previousGuests)
+        queryClient.setQueryData(guests, context.previousGuests)
       }
       toast.error(`Failed to assign guest: ${err.message}`)
     },

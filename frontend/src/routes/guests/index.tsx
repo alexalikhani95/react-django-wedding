@@ -1,16 +1,14 @@
-import { useMutation, useQueryClient } from "@tanstack/react-query"
 import { Trash2Icon } from "lucide-react"
 import { useForm } from "react-hook-form"
 import { useSearchParams } from "react-router"
-import { toast } from "react-toastify"
 import { SearchGuests } from "@/components/SearchGuests"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Skeleton } from "@/components/ui/skeleton"
 import { useGuests } from "@/guests/queries"
-import type { Table } from "../seating/types"
+import type { Table } from "@/routes/seating/types"
+import { useAddGuest, useDeleteGuest } from "@/guests/queries/mutations"
 
-const API_URL = import.meta.env.VITE_API_URL
 
 export type Guest = {
   id: number
@@ -83,7 +81,6 @@ export const Guests = () => {
     reset,
   } = useForm<Inputs>({ defaultValues: { name: "", party: "bride" } })
 
-  const queryClient = useQueryClient()
   const [searchParams, setSearchParams] = useSearchParams()
   const search = searchParams.get("search") || ""
 
@@ -94,49 +91,16 @@ export const Guests = () => {
 
   const { data: guests, isLoading, isError } = useGuests()
 
-  const addMutation = useMutation({
-    mutationFn: async (data: Inputs) => {
-      const response = await fetch(`${API_URL}/api/guests/create/`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(data),
-      })
-      if (!response.ok) throw new Error("Failed to add guest")
-    },
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["guests"] })
-      reset()
-      toast.success("Guest added")
-    },
-    onError: () => toast.error("Error adding guest. Please try again."),
-  })
 
-  const deleteMutation = useMutation<void, Error, number>({
-    mutationFn: async (id: number) => {
-      const res = await fetch(`${API_URL}/api/guests/${id}/delete/`, {
-        method: "DELETE",
-      })
-      if (!res.ok) throw new Error("Failed to delete guest")
-    },
-    onMutate: async (guestId) => {
-      await queryClient.cancelQueries({ queryKey: ["guests"] })
-      const previousGuests = queryClient.getQueryData<Guest[]>(["guests"])
-      if (previousGuests) {
-        queryClient.setQueryData(
-          ["guests"],
-          previousGuests.filter((g) => g.id !== guestId),
-        )
-      }
-      return previousGuests
-    },
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["guests"] })
-      toast.success("Deleted guest!")
-    },
-    onError: () => toast.error("Error deleting guest!"),
-  })
 
-  const onSubmit = handleSubmit((data) => addMutation.mutate(data))
+  const addMutation = useAddGuest()
+  const deleteMutation = useDeleteGuest()
+
+  const onSubmit = handleSubmit((data) => {
+    addMutation.mutate(data, {
+      onSuccess: () => reset(),
+    })
+  })
 
   if (isError)
     return (
