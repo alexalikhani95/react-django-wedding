@@ -106,10 +106,10 @@ const RsvpScreen = ({ access }: Props) => {
 
   return (
     <>
-      <div className="bg-primary p-5 text-primary-foreground flex gap-4 justify-center">
+      <div className="bg-primary p-5 text-primary-foreground flex gap-4 justify-center w-full max-w-full overflow-x-hidden">
         <Button
-          className="font-adega"
-          variant="primary"
+          className="font-adega text-[14px] sm:text-sm !shrink min-w-0 px-1 sm:px-4 underline underline-offset-4"
+          variant="ghost"
           onClick={() => {
             //scroll to details section
             detailsRef.current?.scrollIntoView({
@@ -122,8 +122,8 @@ const RsvpScreen = ({ access }: Props) => {
         </Button>
 
         <Button
-          className="font-adega"
-          variant="primary"
+          className="font-adega text-[14px] sm:text-sm !shrink min-w-0 px-1 sm:px-4 underline underline-offset-4"
+          variant="ghost"
           onClick={() => {
             //scroll to details section
             detailsRef.current?.scrollIntoView({
@@ -136,8 +136,8 @@ const RsvpScreen = ({ access }: Props) => {
         </Button>
 
         <Button
-          className="font-adega"
-          variant="primary"
+          className="font-adega text-[14px] sm:text-sm !shrink min-w-0 px-1 sm:px-4 underline underline-offset-4"
+          variant="ghost"
           onClick={() => {
             //scroll to details section
             detailsRef.current?.scrollIntoView({

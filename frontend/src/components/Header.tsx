@@ -1,5 +1,4 @@
 import { Link, useNavigate } from "react-router"
-import { ThemeToggle } from "./ThemeToggle"
 import { Button } from "./ui/button"
 
 type Props = {
@@ -9,10 +8,10 @@ type Props = {
 export const Header = ({ setAccessCode }: Props) => {
   const navigate = useNavigate()
   return (
-    <div className="bg-primary p-5 text-primary-foreground border-b border-primary-foreground">
-      <div className="flex justify-between items-center flex-wrap gap-4">
+    <div className="bg-primary p-5 text-primary-foreground border-b border-primary-foreground w-full max-w-full overflow-x-hidden">
+      <div className="flex justify-between items-center flex-wrap gap-4 w-full max-w-full">
         {/* Navigation Links */}
-        <div className="flex gap-4 items-center flex-wrap">
+        <div className="flex gap-4 items-center flex-wrap min-w-0 flex-1">
           <Link to="/">Home</Link>
           <Link to="/rsvp-list">RSVP List</Link>
           <Link to="/meal-counts">Meal Counts</Link>
@@ -30,7 +29,6 @@ export const Header = ({ setAccessCode }: Props) => {
             Logout
           </Button>
         </div>
-        <ThemeToggle />
       </div>
     </div>
   )
