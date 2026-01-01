@@ -6,9 +6,8 @@ import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Skeleton } from "@/components/ui/skeleton"
 import { useGuests } from "@/guests/queries"
-import type { Table } from "@/routes/seating/types"
 import { useAddGuest, useDeleteGuest } from "@/guests/queries/mutations"
-
+import type { Table } from "@/routes/seating/types"
 
 export type Guest = {
   id: number
@@ -90,8 +89,6 @@ export const Guests = () => {
   }
 
   const { data: guests, isLoading, isError } = useGuests()
-
-
 
   const addMutation = useAddGuest()
   const deleteMutation = useDeleteGuest()

@@ -1,8 +1,8 @@
-import { useState } from "react"
 import { useQuery } from "@tanstack/react-query"
-import { Skeleton } from "@/components/ui/skeleton"
-import { Button } from "@/components/ui/button"
 import { ChevronDown, ChevronUp } from "lucide-react"
+import { useState } from "react"
+import { Button } from "@/components/ui/button"
+import { Skeleton } from "@/components/ui/skeleton"
 
 const API_URL = import.meta.env.VITE_API_URL
 
@@ -89,7 +89,8 @@ export const MealCounts = () => {
       </div>
     )
 
-  const totalCount = mealCounts?.reduce((sum, combo) => sum + combo.count, 0) || 0
+  const totalCount =
+    mealCounts?.reduce((sum, combo) => sum + combo.count, 0) || 0
 
   return (
     <div className="min-h-screen p-10 bg-[#F6F2E9] font-metropolis">
@@ -179,4 +180,3 @@ export const MealCounts = () => {
     </div>
   )
 }
-

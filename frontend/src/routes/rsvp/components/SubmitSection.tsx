@@ -1,7 +1,7 @@
+import { Loader2 } from "lucide-react"
 import type { FieldErrors } from "react-hook-form"
 import { Button } from "@/components/ui/button"
 import type { Inputs } from "../types"
-import { Loader2 } from "lucide-react"
 
 type Props = {
   nightBeforeAccess: boolean
@@ -9,7 +9,11 @@ type Props = {
   isSubmitting?: boolean
 }
 
-export const SubmitSection = ({ nightBeforeAccess, errors, isSubmitting = false }: Props) => {
+export const SubmitSection = ({
+  nightBeforeAccess,
+  errors,
+  isSubmitting = false,
+}: Props) => {
   return (
     <div
       className={`${nightBeforeAccess ? "bg-forest-green text-beige" : "bg-beige text-forest-green"} flex flex-col justify-center items-center justify-center py-10 gap-5`}

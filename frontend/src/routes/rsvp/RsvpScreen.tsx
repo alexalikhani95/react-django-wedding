@@ -139,9 +139,9 @@ const RsvpScreen = ({ access }: Props) => {
         )}
 
         {/* Submit your RSVP */}
-        <SubmitSection 
-          nightBeforeAccess={nightBeforeAccess} 
-          errors={errors} 
+        <SubmitSection
+          nightBeforeAccess={nightBeforeAccess}
+          errors={errors}
           isSubmitting={mutation.isPending}
         />
       </form>
@@ -162,8 +162,7 @@ const RsvpScreen = ({ access }: Props) => {
             block: "start",
           })
           setShowSubmitted(false)
-        }
-        }
+        }}
       />
 
       <DetailsSection nightBeforeAccess={nightBeforeAccess} ref={detailsRef} />

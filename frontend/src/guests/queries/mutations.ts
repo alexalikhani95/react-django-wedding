@@ -27,7 +27,7 @@ export const useAddGuest = () => {
       toast.success("Guest added")
     },
     onError: () => toast.error("Error adding guest. Please try again."),
-  })  
+  })
 }
 
 export const useDeleteGuest = () => {

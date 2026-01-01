@@ -1,1 +1,1 @@
-export const guests = ['guests']
+export const guests = ["guests"]

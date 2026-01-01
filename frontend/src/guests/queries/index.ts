@@ -1,6 +1,7 @@
 import { useQuery } from "@tanstack/react-query"
 import type { Guest } from "@/routes/guests"
 import { guests } from "./queryKeys"
+
 const API_URL = import.meta.env.VITE_API_URL
 
 export const useGuests = () => {
