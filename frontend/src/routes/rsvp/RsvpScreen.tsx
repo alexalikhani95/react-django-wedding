@@ -196,6 +196,7 @@ const RsvpScreen = ({ access }: Props) => {
         nightBeforeAccess={nightBeforeAccess}
         ref={submittedRef}
         showSubmitted={showSubmitted}
+        weddingDayValue={weddingDayValue}
         onScrollToDetails={() =>
           detailsRef.current?.scrollIntoView({
             behavior: "smooth",

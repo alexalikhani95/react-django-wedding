@@ -7,6 +7,7 @@ type Props = {
   nightBeforeAccess: boolean
   ref: Ref<HTMLDivElement> | undefined
   showSubmitted: boolean
+  weddingDayValue?: "accept" | "decline" | null
   onScrollToDetails: () => void
   onScrollToYourDetails: () => void
 }
@@ -15,6 +16,7 @@ export const ThankyouSection = ({
   nightBeforeAccess,
   ref,
   showSubmitted,
+  weddingDayValue,
   onScrollToDetails,
   onScrollToYourDetails,
 }: Props) => {
@@ -35,7 +37,7 @@ export const ThankyouSection = ({
               className="max-w-[300px] font-adega text-xl"
               onClick={onScrollToDetails}
             >
-              GIFTS & FINER DETAILS
+              {weddingDayValue === "decline" ? "GIFTS" : "GIFTS & FINER DETAILS"}
             </Button>
 
             {/* Scroll to Your Details */}
