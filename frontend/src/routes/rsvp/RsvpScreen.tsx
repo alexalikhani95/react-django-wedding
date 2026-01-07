@@ -173,7 +173,7 @@ const RsvpScreen = ({ access }: Props) => {
           control={control}
         />
 
-        {weddingDayValue !== "decline" && (
+        {weddingDayValue === "accept" && (
           <MenuAndAllergies
             nightBeforeAccess={nightBeforeAccess}
             control={control}

@@ -19,13 +19,13 @@ export const SubmitSection = ({
   // Filter out menu and allergy errors if wedding day is declined
   const filteredErrors = weddingDayValue === "decline"
     ? Object.fromEntries(
-        Object.entries(errors).filter(
-          ([key]) =>
-            !["starter", "main", "dessert", "allergies", "allergyNotes"].includes(
-              key,
-            ),
-        ),
-      )
+      Object.entries(errors).filter(
+        ([key]) =>
+          !["starter", "main", "dessert", "allergies", "allergyNotes"].includes(
+            key,
+          ),
+      ),
+    )
     : errors
 
   return (
