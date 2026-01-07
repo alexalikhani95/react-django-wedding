@@ -40,6 +40,9 @@ const RsvpScreen = ({ access }: Props) => {
   const detailsRef = useRef<HTMLDivElement | null>(null)
   const submittedRef = useRef<HTMLDivElement | null>(null)
   const [showSubmitted, setShowSubmitted] = useState(false)
+  const [submittedWeddingDayValue, setSubmittedWeddingDayValue] = useState<
+    "accept" | "decline" | null
+  >(null)
 
   const queryClient = useQueryClient()
 
@@ -84,9 +87,10 @@ const RsvpScreen = ({ access }: Props) => {
       })
       if (!response.ok) throw new Error("Failed to add Rsvp")
     },
-    onSuccess: () => {
+    onSuccess: (_, variables) => {
       queryClient.invalidateQueries({ queryKey: ["rsvps"] })
       queryClient.invalidateQueries({ queryKey: ["meal-counts"] })
+      setSubmittedWeddingDayValue(variables.weddingDay)
       reset()
       setShowSubmitted(true)
       toast.success("RSVP sent!")
@@ -196,7 +200,7 @@ const RsvpScreen = ({ access }: Props) => {
         nightBeforeAccess={nightBeforeAccess}
         ref={submittedRef}
         showSubmitted={showSubmitted}
-        weddingDayValue={weddingDayValue}
+        weddingDayValue={submittedWeddingDayValue}
         onScrollToDetails={() =>
           detailsRef.current?.scrollIntoView({
             behavior: "smooth",
@@ -209,6 +213,7 @@ const RsvpScreen = ({ access }: Props) => {
             block: "start",
           })
           setShowSubmitted(false)
+          setSubmittedWeddingDayValue(null)
         }}
       />
 
