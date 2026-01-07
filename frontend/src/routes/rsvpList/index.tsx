@@ -39,8 +39,18 @@ export const RsvpList = () => {
       </div>
     )
 
-  const attending = rsvps.filter((r: Rsvp) => r.wedding_day === "accept")
-  const notAttending = rsvps.filter((r: Rsvp) => r.wedding_day === "decline")
+  const attending = rsvps
+    .filter((r: Rsvp) => r.wedding_day === "accept")
+    .sort(
+      (a: Rsvp, b: Rsvp) =>
+        new Date(b.created_at).getTime() - new Date(a.created_at).getTime(),
+    )
+  const notAttending = rsvps
+    .filter((r: Rsvp) => r.wedding_day === "decline")
+    .sort(
+      (a: Rsvp, b: Rsvp) =>
+        new Date(b.created_at).getTime() - new Date(a.created_at).getTime(),
+    )
 
   return (
     <div className="min-h-screen p-10 bg-[#F6F2E9] font-metropolis">
