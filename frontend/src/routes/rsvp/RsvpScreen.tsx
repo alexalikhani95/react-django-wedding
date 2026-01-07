@@ -179,6 +179,7 @@ const RsvpScreen = ({ access }: Props) => {
             control={control}
             register={register}
             allergiesValue={allergiesValue}
+            weddingDayValue={weddingDayValue}
           />
         )}
 
@@ -187,6 +188,7 @@ const RsvpScreen = ({ access }: Props) => {
           nightBeforeAccess={nightBeforeAccess}
           errors={errors}
           isSubmitting={mutation.isPending}
+          weddingDayValue={weddingDayValue}
         />
       </form>
 

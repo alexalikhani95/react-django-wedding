@@ -9,6 +9,7 @@ type Props = {
   control: Control<Inputs>
   register: UseFormRegister<Inputs>
   allergiesValue: string | null
+  weddingDayValue: "accept" | "decline" | null
 }
 
 export const MenuAndAllergies = ({
@@ -16,6 +17,7 @@ export const MenuAndAllergies = ({
   control,
   register,
   allergiesValue,
+  weddingDayValue,
 }: Props) => {
   return (
     <div>
@@ -48,7 +50,12 @@ export const MenuAndAllergies = ({
               <Controller
                 name="starter"
                 control={control}
-                rules={{ required: "Select starter choice from menu" }}
+                rules={{
+                  required:
+                    weddingDayValue === "accept"
+                      ? "Select starter choice from menu"
+                      : false,
+                }}
                 render={({ field }) => (
                   <RadioGroup
                     className="flex flex-col gap-2 font-evafiya"
@@ -101,7 +108,12 @@ export const MenuAndAllergies = ({
               <Controller
                 name="main"
                 control={control}
-                rules={{ required: "Select main choice from menu" }}
+                rules={{
+                  required:
+                    weddingDayValue === "accept"
+                      ? "Select main choice from menu"
+                      : false,
+                }}
                 render={({ field }) => (
                   <RadioGroup
                     className="flex flex-col gap-2 font-evafiya"
@@ -153,7 +165,12 @@ export const MenuAndAllergies = ({
               <Controller
                 name="dessert"
                 control={control}
-                rules={{ required: "Select dessert choice from menu" }}
+                rules={{
+                  required:
+                    weddingDayValue === "accept"
+                      ? "Select dessert choice from menu"
+                      : false,
+                }}
                 render={({ field }) => (
                   <RadioGroup
                     className="flex flex-col gap-2 font-evafiya"
@@ -225,7 +242,12 @@ export const MenuAndAllergies = ({
             <Controller
               name="allergies"
               control={control}
-              rules={{ required: "Confirm if you have allergies/intolerances" }}
+              rules={{
+                required:
+                  weddingDayValue === "accept"
+                    ? "Confirm if you have allergies/intolerances"
+                    : false,
+              }}
               render={({ field }) => (
                 <RadioGroup
                   className="flex flex-row gap-8 justify-center mt-2 font-evafiya"

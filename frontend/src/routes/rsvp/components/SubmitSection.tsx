@@ -7,18 +7,32 @@ type Props = {
   nightBeforeAccess: boolean
   errors: FieldErrors<Inputs>
   isSubmitting?: boolean
+  weddingDayValue?: "accept" | "decline" | null
 }
 
 export const SubmitSection = ({
   nightBeforeAccess,
   errors,
   isSubmitting = false,
+  weddingDayValue,
 }: Props) => {
+  // Filter out menu and allergy errors if wedding day is declined
+  const filteredErrors = weddingDayValue === "decline"
+    ? Object.fromEntries(
+        Object.entries(errors).filter(
+          ([key]) =>
+            !["starter", "main", "dessert", "allergies", "allergyNotes"].includes(
+              key,
+            ),
+        ),
+      )
+    : errors
+
   return (
     <div
       className={`${nightBeforeAccess ? "bg-forest-green text-beige" : "bg-beige text-forest-green"} flex flex-col justify-center items-center justify-center py-10 gap-5`}
     >
-      {Object.values(errors).length > 0 && (
+      {Object.values(filteredErrors).length > 0 && (
         <div className="w-full max-w-[550px] mx-auto mb-6">
           <div
             className="
@@ -39,7 +53,7 @@ export const SubmitSection = ({
             </div>
 
             <ul className="list-disc list-inside space-y-1 font-evafiya text-lg">
-              {Object.values(errors).map((error, index) => (
+              {Object.values(filteredErrors).map((error, index) => (
                 <li key={index}>{error.message}</li>
               ))}
             </ul>
