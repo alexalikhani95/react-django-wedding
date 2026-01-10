@@ -1,5 +1,5 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query"
-import { useRef, useState } from "react"
+import { useRef, useState, useEffect } from "react"
 import { type SubmitHandler, useForm } from "react-hook-form"
 import { toast } from "react-toastify"
 import { Button } from "@/components/ui/button"
@@ -66,6 +66,16 @@ const RsvpScreen = ({ access }: Props) => {
   const allergiesValue = watch("allergies")
   const weddingDayValue = watch("weddingDay")
 
+  // Scroll to thank you section when it becomes visible
+  useEffect(() => {
+    if (showSubmitted && submittedRef.current) {
+      submittedRef.current.scrollIntoView({
+        behavior: "smooth",
+        block: "start",
+      })
+    }
+  }, [showSubmitted])
+
   const mutation = useMutation({
     mutationFn: async (data: Inputs) => {
       const response = await fetch(`${API_URL}/api/rsvp/create/`, {
@@ -94,10 +104,6 @@ const RsvpScreen = ({ access }: Props) => {
       reset()
       setShowSubmitted(true)
       toast.success("RSVP sent!")
-      submittedRef.current?.scrollIntoView({
-        behavior: "smooth",
-        block: "start",
-      })
     },
     onError: () => toast.error("Error sending RSVP. Please try again."),
   })
