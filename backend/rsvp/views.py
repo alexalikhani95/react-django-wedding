@@ -1,12 +1,41 @@
+import logging
 from rest_framework import generics
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
+from django.core.mail import send_mail
+from django.conf import settings
+import smtplib
 from .models import Rsvp
 from .serializers import RsvpSerializer
+
+logger = logging.getLogger(__name__)
 
 class RsvpCreate(generics.CreateAPIView):
     queryset = Rsvp.objects.all()
     serializer_class = RsvpSerializer
+
+    def perform_create(self, serializer):
+        # Save the RSVP to the database
+        rsvp = serializer.save()
+        
+        # Send email notification after RSVP is saved
+        try:
+            # Get the person's full name
+            name = f"{rsvp.first_name} {rsvp.last_name}"
+            
+            # Send email to notify about the new RSVP
+            send_mail(
+                subject=f'New RSVP from {name}',
+                message=f'{name} has submitted an RSVP.',
+                from_email=settings.DEFAULT_FROM_EMAIL,
+                recipient_list=settings.RSVP_NOTIFICATION_EMAILS,
+                fail_silently=False,
+            )
+        except (smtplib.SMTPException, ValueError) as e:
+            # If email fails, log the error but don't stop the RSVP from being saved
+            # ValueError = header injection attempt (Django blocks this automatically)
+            # SMTPException = email server connection/auth errors
+            logger.error(f"Failed to send RSVP notification email: {e}", exc_info=True)
 
 class RsvpList(generics.ListAPIView):
     queryset = Rsvp.objects.all()

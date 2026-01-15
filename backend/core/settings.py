@@ -142,3 +142,27 @@ CORS_ALLOWED_ORIGINS = [
     "https://react-django-wedding.vercel.app",
     "https://www.alikhani-wedding.info"
 ]
+
+# Email configuration
+# In development, print emails to console. In production, send via SMTP
+EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend" if DEBUG else "django.core.mail.backends.smtp.EmailBackend"
+# Gmail SMTP server settings
+EMAIL_HOST = "smtp.gmail.com"
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+# Gmail account to send emails from
+EMAIL_HOST_USER = os.getenv("EMAIL_HOST_USER")
+# Gmail App Password (not your regular password)
+EMAIL_HOST_PASSWORD = os.getenv("EMAIL_HOST_PASSWORD", "")
+# Email address that appears as the sender
+DEFAULT_FROM_EMAIL = os.getenv("DEFAULT_FROM_EMAIL")
+
+# RSVP notification recipients
+# Get the comma-separated list of emails from environment variable
+rsvp_emails = os.getenv("RSVP_NOTIFICATION_EMAILS")
+# If emails are set, split them by comma and remove any spaces
+if rsvp_emails:
+    RSVP_NOTIFICATION_EMAILS = [email.strip() for email in rsvp_emails.split(",")]
+# If no emails set, use empty list (no emails will be sent)
+else:
+    RSVP_NOTIFICATION_EMAILS = []
