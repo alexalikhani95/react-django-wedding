@@ -23,10 +23,42 @@ class RsvpCreate(generics.CreateAPIView):
             # Get the person's full name
             name = f"{rsvp.first_name} {rsvp.last_name}"
             
+            # Build email message with RSVP details
+            message_lines = [
+                f"{name} has submitted an RSVP.",
+                "",
+                "Details:",
+                f"Night Before: {rsvp.night_before.title() if rsvp.night_before else 'Not specified'}",
+                f"Wedding Day: {rsvp.wedding_day.title() if rsvp.wedding_day else 'Not specified'}",
+            ]
+            
+            # Add menu choices if they exist
+            if rsvp.starter or rsvp.main or rsvp.dessert:
+                message_lines.extend([
+                    "",
+                    "Menu Choices:",
+                    f"Starter: {rsvp.starter.title() if rsvp.starter else 'Not specified'}",
+                    f"Main: {rsvp.main.title() if rsvp.main else 'Not specified'}",
+                    f"Dessert: {rsvp.dessert.title() if rsvp.dessert else 'Not specified'}",
+                ])
+            
+            # Add allergy information if provided
+            if rsvp.allergies:
+                message_lines.extend([
+                    "",
+                    "Allergies:",
+                    f"Has Allergies: {rsvp.allergies.title()}",
+                ])
+                if rsvp.allergy_notes:
+                    message_lines.append(f"Notes: {rsvp.allergy_notes}")
+            
+            # Join all lines into the email message
+            message = "\n".join(message_lines)
+            
             # Send email to notify about the new RSVP
             send_mail(
                 subject=f'New RSVP from {name}',
-                message=f'{name} has submitted an RSVP.',
+                message=message,
                 from_email=settings.DEFAULT_FROM_EMAIL,
                 recipient_list=settings.RSVP_NOTIFICATION_EMAILS,
                 fail_silently=False,
