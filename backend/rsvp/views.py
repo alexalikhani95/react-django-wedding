@@ -10,6 +10,22 @@ from .serializers import RsvpSerializer
 
 logger = logging.getLogger(__name__)
 
+# Food menu descriptions mapping
+MENU_DESCRIPTIONS = {
+    "starter": {
+        "tomato": "Isle of Wight heritage tomatoes, vegan mozzarella, leaf, basil oil, ciabatta bread",
+        "antipasti": "Vegetable antipasti board, chargrilled pepper, courgette, olives, balsamic onions, sourdough, vegan pesto",
+    },
+    "main": {
+        "croute": "Butternut squash, spinach & mushroom en croûte, roast tomato sauce, tenderstem broccoli, fondant potato",
+        "risotto": "Spelt leek & pea risotto, oyster mushroom, vegan parmesan",
+    },
+    "dessert": {
+        "tart": "Chocolate tart, passion fruit sorbet, chocolate sauce, passion fruit crumb",
+        "jelly": "Elderflower jelly, summer fruits, crème fraîche",
+    },
+}
+
 class RsvpCreate(generics.CreateAPIView):
     queryset = Rsvp.objects.all()
     serializer_class = RsvpSerializer
@@ -37,10 +53,27 @@ class RsvpCreate(generics.CreateAPIView):
                 message_lines.extend([
                     "",
                     "Menu Choices:",
-                    f"Starter: {rsvp.starter.title() if rsvp.starter else 'Not specified'}",
-                    f"Main: {rsvp.main.title() if rsvp.main else 'Not specified'}",
-                    f"Dessert: {rsvp.dessert.title() if rsvp.dessert else 'Not specified'}",
                 ])
+                # Starter with full description
+                if rsvp.starter:
+                    starter_desc = MENU_DESCRIPTIONS["starter"].get(rsvp.starter, rsvp.starter)
+                    message_lines.append(f"Starter: {starter_desc}")
+                else:
+                    message_lines.append("Starter: Not specified")
+                
+                # Main with full description
+                if rsvp.main:
+                    main_desc = MENU_DESCRIPTIONS["main"].get(rsvp.main, rsvp.main)
+                    message_lines.append(f"Main: {main_desc}")
+                else:
+                    message_lines.append("Main: Not specified")
+                
+                # Dessert with full description
+                if rsvp.dessert:
+                    dessert_desc = MENU_DESCRIPTIONS["dessert"].get(rsvp.dessert, rsvp.dessert)
+                    message_lines.append(f"Dessert: {dessert_desc}")
+                else:
+                    message_lines.append("Dessert: Not specified")
             
             # Add allergy information if provided
             if rsvp.allergies:
