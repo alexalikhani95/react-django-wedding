@@ -7,9 +7,8 @@ import { RsvpList } from "."
 test("RsvpList page renders", async () => {
   render(<RsvpList />)
 
-  expect(await screen.findByText("Attending (1)")).toBeInTheDocument()
-  expect(await screen.findByText("Not Attending (1)")).toBeInTheDocument()
-
-  expect(await screen.findByText("Eze")).toBeInTheDocument()
-  expect(await screen.findByText("Saka")).toBeInTheDocument()
+  expect(await screen.findByText("Wedding Day — Attending")).toBeInTheDocument()
+  expect(await screen.findByText("Wedding Day — Not Attending")).toBeInTheDocument()
+  expect(await screen.findByText(/Ebereche Eze/)).toBeInTheDocument()
+  expect(await screen.findByText(/Bukayo Saka/)).toBeInTheDocument()
 })
