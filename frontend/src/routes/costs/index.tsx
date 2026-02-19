@@ -1,5 +1,5 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query"
-import { useState } from "react"
+import { useId, useState } from "react"
 import { type SubmitHandler, useForm } from "react-hook-form"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
@@ -31,6 +31,9 @@ type UpdateInputs = {
 const CostCard = ({ cost }: { cost: Cost }) => {
   const queryClient = useQueryClient()
   const [isEditing, setIsEditing] = useState(false)
+  const editNameId = useId()
+  const editTotalId = useId()
+  const editPaidId = useId()
   const {
     register,
     handleSubmit,
@@ -99,19 +102,27 @@ const CostCard = ({ cost }: { cost: Cost }) => {
         </header>
         <div className="p-4 space-y-4">
           <div>
-            <label className="mb-2 block text-sm font-medium text-foreground">
+            <label
+              htmlFor={editNameId}
+              className="mb-2 block text-sm font-medium text-foreground"
+            >
               Name
             </label>
             <Input
+              id={editNameId}
               {...register("name", { required: true })}
               className="w-full"
             />
           </div>
           <div>
-            <label className="mb-2 block text-sm font-medium text-foreground">
+            <label
+              htmlFor={editTotalId}
+              className="mb-2 block text-sm font-medium text-foreground"
+            >
               Total Amount
             </label>
             <Input
+              id={editTotalId}
               type="number"
               step="0.01"
               {...register("total_amount", {
@@ -122,10 +133,14 @@ const CostCard = ({ cost }: { cost: Cost }) => {
             />
           </div>
           <div>
-            <label className="mb-2 block text-sm font-medium text-foreground">
+            <label
+              htmlFor={editPaidId}
+              className="mb-2 block text-sm font-medium text-foreground"
+            >
               Paid Amount
             </label>
             <Input
+              id={editPaidId}
               type="number"
               step="0.01"
               {...register("paid_amount", {
