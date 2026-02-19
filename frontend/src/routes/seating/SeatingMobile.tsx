@@ -25,7 +25,7 @@ import {
   useRemoveFromSeat,
 } from "./mutations"
 import { useTables } from "./queries"
-import type { Inputs, Table } from "./types"
+import type { Inputs, Seat, Table } from "./types"
 
 const LoadingSkeleton = () => (
   <div className="space-y-4">
@@ -280,7 +280,7 @@ export const SeatingMobile = () => {
               const topSeats = table.seats.slice(1, 5)
               const bottomSeats = table.seats.slice(5, 9)
 
-              const renderSeat = (seat: any) => {
+              const renderSeat = (seat: Seat) => {
                 const guest = guests?.find((g) => g.id === seat.guest_id)
                 const isGuestConfirming =
                   guest && confirmingGuestToRemove?.guest.id === guest.id
@@ -385,7 +385,7 @@ export const SeatingMobile = () => {
                               <p className="text-sm font-medium text-destructive">
                                 Remove{" "}
                                 <span className="font-bold">
-                                  {confirmingGuestToRemove!.guest.name}
+                                  {confirmingGuestToRemove?.guest.name}
                                 </span>
                                 ?
                               </p>
@@ -402,11 +402,12 @@ export const SeatingMobile = () => {
                               <Button
                                 variant="destructive"
                                 size="sm"
-                                onClick={() =>
-                                  confirmRemoveGuest(
-                                    confirmingGuestToRemove!.guest.id,
-                                  )
-                                }
+                                onClick={() => {
+                                  const guestId =
+                                    confirmingGuestToRemove?.guest.id
+                                  if (guestId != null)
+                                    confirmRemoveGuest(guestId)
+                                }}
                                 disabled={removeFromSeatMutation.isPending}
                                 className="h-7 text-xs"
                               >

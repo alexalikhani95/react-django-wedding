@@ -188,7 +188,7 @@ export const SeatingDesktop = () => {
   const handleDragStart = (event: DragStartEvent) => {
     const id = String(event.active.id)
     if (id.startsWith("guest-")) {
-      const guestId = parseInt(id.replace("guest-", ""))
+      const guestId = parseInt(id.replace("guest-", ""), 10)
       const guest = guests?.find((g) => g.id === guestId) || null
       setActiveGuest(guest)
     }
@@ -203,8 +203,8 @@ export const SeatingDesktop = () => {
 
     if (!activeId.startsWith("guest-") || !overId.startsWith("seat-")) return
 
-    const guestId = parseInt(activeId.replace("guest-", ""))
-    const seatId = parseInt(overId.replace("seat-", ""))
+    const guestId = parseInt(activeId.replace("guest-", ""), 10)
+    const seatId = parseInt(overId.replace("seat-", ""), 10)
     assignSeatMutation.mutate({ guestId, seatId })
   }
 

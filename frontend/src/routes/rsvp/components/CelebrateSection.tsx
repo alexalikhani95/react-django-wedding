@@ -8,6 +8,7 @@ export const CelebrateSection = () => {
       <div className="flex justify-center relative order-2 md:order-1">
         <img
           src={WeddingLiner}
+          alt=""
           className="w-[250px] h-[250px] sm:h-[350px] sm:w-[350px] absolute -bottom-12 drop-shadow-md/70"
         />
       </div>
@@ -17,7 +18,7 @@ export const CelebrateSection = () => {
         <p className="font-adega tracking-[0.15em]">WE CAN&apos;T WAIT TO</p>
 
         <p className="text-6xl font-mattedly">Celebrate with you</p>
-        <img src={LogoBeige} className="w-[150px] h-[150px]" />
+        <img src={LogoBeige} alt="" className="w-[150px] h-[150px]" />
       </div>
     </div>
   )

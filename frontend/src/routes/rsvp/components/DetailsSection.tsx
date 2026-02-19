@@ -40,6 +40,7 @@ export const DetailsSection = ({ nightBeforeAccess, ref }: Props) => {
       >
         <img
           src={nightBeforeAccess ? LogoBeige : LogoGreen}
+          alt=""
           className="w-[150px] h-[150px] mt-6"
         />
       </div>
@@ -48,7 +49,7 @@ export const DetailsSection = ({ nightBeforeAccess, ref }: Props) => {
       <div className="bg-beige text-forest-green flex flex-col items-center py-14 px-10 text-center">
         <h2 className="text-6xl font-mattedly mb-4">Accommodation</h2>
 
-        <img src={HomeImage} className="w-[280px] opacity-70 mb-4" />
+        <img src={HomeImage} alt="" className="w-[280px] opacity-70 mb-4" />
 
         <p className="max-w-[420px] text-xl font-evafiya mb-4">
           If you would like to book a room at Burley Manor please quote:
@@ -70,7 +71,7 @@ export const DetailsSection = ({ nightBeforeAccess, ref }: Props) => {
       <div className="bg-forest-green text-beige flex flex-col gap-4 items-center py-14 px-10 text-center">
         <h2 className="text-6xl font-mattedly">Parking</h2>
 
-        <img src={WhiteCar} className="w-[120px] opacity-80 mb-4" />
+        <img src={WhiteCar} alt="" className="w-[120px] opacity-80 mb-4" />
 
         <p className="text-xl font-adega uppercase">
           Please note parking at the church is very limited
@@ -89,7 +90,7 @@ export const DetailsSection = ({ nightBeforeAccess, ref }: Props) => {
       >
         <h2 className="text-6xl font-mattedly mb-4">Taxi’s</h2>
 
-        <img src={WhiteGlasses} className="w-[120px] opacity-80 mb-4" />
+        <img src={WhiteGlasses} alt="" className="w-[120px] opacity-80 mb-4" />
 
         <p className="text-md font-adega">NEW FOREST TAXIS:</p>
         <p className=" font-adega mb-5 text-xl">01425 600 222</p>
@@ -104,7 +105,7 @@ export const DetailsSection = ({ nightBeforeAccess, ref }: Props) => {
       >
         <h2 className="text-6xl font-mattedly mb-4">Plus-ones & Children</h2>
 
-        <img src={GreenMelvin} className="w-[140px] opacity-70 mb-4" />
+        <img src={GreenMelvin} alt="" className="w-[140px] opacity-70 mb-4" />
 
         <p className="max-w-[420px] text-xl leading-relaxed font-evafiya">
           Seating has been reserved for only those named on your invitation

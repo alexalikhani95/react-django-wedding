@@ -41,7 +41,7 @@ export const PinScreen = ({ setAccess }: Props) => {
 
   return (
     <div className="bg-forest-green text-beige min-h-screen flex flex-col items-center gap-6 px-5 text-center justify-center">
-      <img src={LogoBeige} className="w-[120px] opacity-80" />
+      <img src={LogoBeige} alt="" className="w-[120px] opacity-80" />
       <h2 className="text-5xl font-mattedly">Welcome</h2>
       <p className="text-md font-evafiya max-w-[260px]">
         Please enter the password on your invitation to continue
