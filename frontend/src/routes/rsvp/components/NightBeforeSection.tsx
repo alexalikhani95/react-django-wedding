@@ -1,3 +1,4 @@
+import { useId } from "react"
 import { type Control, Controller } from "react-hook-form"
 import NightBeforeGreen from "@/assets/Night-before-green.png"
 import { Label } from "@/components/ui/label"
@@ -9,6 +10,8 @@ type NightBeforeSectionProps = {
 }
 
 export const NightBeforeSection = ({ control }: NightBeforeSectionProps) => {
+  const nbAcceptId = useId()
+  const nbDeclineId = useId()
   return (
     <div className="grid grid-cols-1 sm:grid-cols-2 bg-beige py-15">
       <div className="flex flex-col items-center text-center gap-5">
@@ -49,18 +52,18 @@ export const NightBeforeSection = ({ control }: NightBeforeSectionProps) => {
               onValueChange={field.onChange}
             >
               <Label
-                htmlFor="nb-accept"
+                htmlFor={nbAcceptId}
                 className="flex items-center gap-4 w-full px-5 py-3 border border-forest-green/30 bg-white/95 text-forest-green shadow-sm cursor-pointer"
               >
-                <RadioGroupItem id="nb-accept" value="accept" />
+                <RadioGroupItem id={nbAcceptId} value="accept" />
                 <span className="text-lg tracking-wide">Joyfully Accepts</span>
               </Label>
 
               <Label
-                htmlFor="nb-decline"
+                htmlFor={nbDeclineId}
                 className="flex items-center gap-4 w-full px-5 py-3 border border-forest-green/30 bg-white/95 text-forest-green shadow-sm cursor-pointer"
               >
-                <RadioGroupItem id="nb-decline" value="decline" />
+                <RadioGroupItem id={nbDeclineId} value="decline" />
                 <span className="text-lg tracking-wide">
                   Regretfully Declines
                 </span>

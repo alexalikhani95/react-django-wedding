@@ -1,3 +1,4 @@
+import { useId } from "react"
 import { type Control, Controller, type UseFormRegister } from "react-hook-form"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
@@ -19,6 +20,15 @@ export const MenuAndAllergies = ({
   allergiesValue,
   weddingDayValue,
 }: Props) => {
+  const starterTomatoId = useId()
+  const starterAntipastiId = useId()
+  const mainCrouteId = useId()
+  const mainRisottoId = useId()
+  const dessertTartId = useId()
+  const dessertJellyId = useId()
+  const allergyNoneId = useId()
+  const allergyYesId = useId()
+  const allergyNotesId = useId()
   return (
     <div>
       <div
@@ -64,10 +74,10 @@ export const MenuAndAllergies = ({
                   >
                     <Label
                       className="flex items-center gap-3 leading-snug cursor-pointer"
-                      htmlFor="starter-tomato"
+                      htmlFor={starterTomatoId}
                     >
                       <RadioGroupItem
-                        id="starter-tomato"
+                        id={starterTomatoId}
                         value="tomato"
                         className="mt-1"
                       />
@@ -83,10 +93,10 @@ export const MenuAndAllergies = ({
 
                     <Label
                       className="flex items-center gap-3  leading-snug cursor-pointer"
-                      htmlFor="starter-antipasti"
+                      htmlFor={starterAntipastiId}
                     >
                       <RadioGroupItem
-                        id="starter-antipasti"
+                        id={starterAntipastiId}
                         value="antipasti"
                         className="mt-1"
                       />
@@ -122,10 +132,10 @@ export const MenuAndAllergies = ({
                   >
                     <Label
                       className="flex items-center gap-3 leading-snug cursor-pointer"
-                      htmlFor="main-croute"
+                      htmlFor={mainCrouteId}
                     >
                       <RadioGroupItem
-                        id="main-croute"
+                        id={mainCrouteId}
                         value="croute"
                         className="mt-1"
                       />
@@ -141,10 +151,10 @@ export const MenuAndAllergies = ({
 
                     <Label
                       className="flex items-center gap-3 leading-snug cursor-pointer"
-                      htmlFor="main-risotto"
+                      htmlFor={mainRisottoId}
                     >
                       <RadioGroupItem
-                        id="main-risotto"
+                        id={mainRisottoId}
                         value="risotto"
                         className="mt-1"
                       />
@@ -179,10 +189,10 @@ export const MenuAndAllergies = ({
                   >
                     <Label
                       className="flex items-center gap-3 leading-snug cursor-pointer"
-                      htmlFor="dessert-tart"
+                      htmlFor={dessertTartId}
                     >
                       <RadioGroupItem
-                        id="dessert-tart"
+                        id={dessertTartId}
                         value="tart"
                         className="mt-1"
                       />
@@ -198,10 +208,10 @@ export const MenuAndAllergies = ({
 
                     <Label
                       className="flex items-center gap-3 text-sm leading-snug cursor-pointer"
-                      htmlFor="dessert-jelly"
+                      htmlFor={dessertJellyId}
                     >
                       <RadioGroupItem
-                        id="dessert-jelly"
+                        id={dessertJellyId}
                         value="jelly"
                         className="mt-1"
                       />
@@ -256,17 +266,17 @@ export const MenuAndAllergies = ({
                 >
                   <Label
                     className="flex flex-col items-center gap-1 text-lg cursor-pointer"
-                    htmlFor="allergy-none"
+                    htmlFor={allergyNoneId}
                   >
-                    <RadioGroupItem id="allergy-none" value="none" />
+                    <RadioGroupItem id={allergyNoneId} value="none" />
                     <span>None / Not applicable</span>
                   </Label>
 
                   <Label
                     className="flex flex-col items-center gap-1 text-lg cursor-pointer"
-                    htmlFor="allergy-yes"
+                    htmlFor={allergyYesId}
                   >
-                    <RadioGroupItem id="allergy-yes" value="yes" />
+                    <RadioGroupItem id={allergyYesId} value="yes" />
                     <span>Yes, I have allergies</span>
                   </Label>
                 </RadioGroup>
@@ -277,13 +287,13 @@ export const MenuAndAllergies = ({
             {allergiesValue === "yes" && (
               <div className="flex flex-col items-start w-full mt-3 text-left">
                 <Label
-                  htmlFor="allergyNotes"
+                  htmlFor={allergyNotesId}
                   className="mb-1 text-lg font-evafiya"
                 >
                   Please specify:
                 </Label>
                 <Input
-                  id="allergyNotes"
+                  id={allergyNotesId}
                   placeholder="Type here"
                   {...register("allergyNotes", {
                     required:

@@ -1,4 +1,4 @@
-import type { Ref } from "react"
+import { type Ref, useId } from "react"
 import type { UseFormRegister } from "react-hook-form"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
@@ -10,6 +10,8 @@ type YourDetailsProps = {
 }
 
 export const YourDetails = ({ ref, register }: YourDetailsProps) => {
+  const firstNameId = useId()
+  const lastNameId = useId()
   return (
     <div
       className="flex flex-col items-center justify-center text-center py-12 bg-beige"
@@ -24,25 +26,25 @@ export const YourDetails = ({ ref, register }: YourDetailsProps) => {
 
       <div className="flex flex-col gap-4 w-full max-w-[360px] items-center text-center">
         <Label
-          htmlFor="firstName"
+          htmlFor={firstNameId}
           className="w-full flex justify-center text-md font-adega"
         >
           FIRST NAME
         </Label>
         <Input
-          id="firstName"
+          id={firstNameId}
           className="bg-white font-evafiya text-forest-green leading"
           {...register("firstName", { required: "Please add your first name" })}
         />
 
         <Label
-          htmlFor="lastName"
+          htmlFor={lastNameId}
           className="w-full flex justify-center text-md font-adega mt-2"
         >
           LAST NAME
         </Label>
         <Input
-          id="lastName"
+          id={lastNameId}
           className="bg-white font-evafiya text-forest-green leading"
           {...register("lastName", { required: "Please add your last name" })}
         />

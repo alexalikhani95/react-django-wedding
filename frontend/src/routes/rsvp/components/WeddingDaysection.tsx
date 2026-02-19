@@ -1,3 +1,4 @@
+import { useId } from "react"
 import { type Control, Controller } from "react-hook-form"
 import WeddingDayGreen from "@/assets/Green-Church-Wedding-day.png"
 import WeddingDayWhite from "@/assets/White-Church-Wedding-day.png"
@@ -11,6 +12,8 @@ type Props = {
 }
 
 export const WeddingDaysection = ({ nightBeforeAccess, control }: Props) => {
+  const wdAcceptId = useId()
+  const wdDeclineId = useId()
   return (
     <div
       className={`grid gap-3 grid-cols-1 sm:grid-cols-2 ${nightBeforeAccess ? "bg-forest-green text-beige" : "bg-beige text-forest-green"} py-15`}
@@ -63,7 +66,7 @@ export const WeddingDaysection = ({ nightBeforeAccess, control }: Props) => {
             >
               {/* Accept */}
               <Label
-                htmlFor="wd-accept"
+                htmlFor={wdAcceptId}
                 className={`
             flex items-center gap-4 w-full
             px-5 py-3
@@ -73,13 +76,13 @@ export const WeddingDaysection = ({ nightBeforeAccess, control }: Props) => {
             cursor-pointer
           `}
               >
-                <RadioGroupItem id="wd-accept" value="accept" />
+                <RadioGroupItem id={wdAcceptId} value="accept" />
                 <span className="text-lg tracking-wide">Joyfully Accepts</span>
               </Label>
 
               {/* Decline */}
               <Label
-                htmlFor="wd-decline"
+                htmlFor={wdDeclineId}
                 className={`
             flex items-center gap-4 w-full
             px-5 py-3
@@ -90,7 +93,7 @@ export const WeddingDaysection = ({ nightBeforeAccess, control }: Props) => {
           `}
               >
                 <RadioGroupItem
-                  id="wd-decline"
+                  id={wdDeclineId}
                   value="decline"
                   className="border-forest-green text-forest-green"
                 />

@@ -74,6 +74,7 @@ const LoadingSkeleton = () => {
 }
 
 export const Guests = () => {
+  const guestNameId = useId()
   const partyBrideId = useId()
   const partyGroomId = useId()
   const {
@@ -134,13 +135,13 @@ export const Guests = () => {
 
         <div className="mb-4">
           <label
-            htmlFor="guest-name"
+            htmlFor={guestNameId}
             className="mb-2 block text-sm font-medium text-foreground"
           >
             Guest name
           </label>
           <Input
-            id="guest-name"
+            id={guestNameId}
             {...register("name", { required: true })}
             placeholder="Enter name here"
             inputMode="text"
