@@ -8,7 +8,9 @@ test("RsvpList page renders", async () => {
   render(<RsvpList />)
 
   expect(await screen.findByText("Wedding Day — Attending")).toBeInTheDocument()
-  expect(await screen.findByText("Wedding Day — Not Attending")).toBeInTheDocument()
+  expect(
+    await screen.findByText("Wedding Day — Not Attending"),
+  ).toBeInTheDocument()
   expect(await screen.findByText(/Ebereche Eze/)).toBeInTheDocument()
   expect(await screen.findByText(/Bukayo Saka/)).toBeInTheDocument()
 })

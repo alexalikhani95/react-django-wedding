@@ -1,9 +1,9 @@
 import { useQuery } from "@tanstack/react-query"
+import { useSearchParams } from "react-router"
 import { Skeleton } from "@/components/ui/skeleton"
+import RsvpListTabs from "../rsvp/components/RsvpListTabs"
 import { RsvpCard } from "./RsvpCard"
 import type { Rsvp } from "./types"
-import RsvpListTabs from "../rsvp/components/RsvpListTabs"
-import { useSearchParams } from "react-router"
 
 const API_URL = import.meta.env.VITE_API_URL
 
@@ -22,7 +22,7 @@ export const RsvpList = () => {
   })
 
   const [searchParams] = useSearchParams()
-  const view = (searchParams.get("view") || "weddingDay")
+  const view = searchParams.get("view") || "weddingDay"
 
   if (isError)
     return (
@@ -92,7 +92,9 @@ export const RsvpList = () => {
 
             <div className="mt-6 space-y-6">
               {attending.length === 0 && (
-                <p className="text-sm text-forest-green/70">No attendees yet.</p>
+                <p className="text-sm text-forest-green/70">
+                  No attendees yet.
+                </p>
               )}
 
               {attending.map((r: Rsvp) => (
@@ -140,7 +142,9 @@ export const RsvpList = () => {
 
             <div className="mt-6 space-y-6">
               {nightBeforeAttending.length === 0 && (
-                <p className="text-sm text-forest-green/70">No attendees yet.</p>
+                <p className="text-sm text-forest-green/70">
+                  No attendees yet.
+                </p>
               )}
 
               {nightBeforeAttending.map((r: Rsvp) => (

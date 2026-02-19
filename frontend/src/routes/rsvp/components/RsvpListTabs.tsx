@@ -1,9 +1,9 @@
-import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { useSearchParams } from "react-router"
+import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs"
 
 const RsvpListTabs = () => {
   const [searchParams, setSearchParams] = useSearchParams()
-  const rsvpView = (searchParams.get("view") || "weddingDay")
+  const rsvpView = searchParams.get("view") || "weddingDay"
 
   const handleTabChange = (value: string) => {
     if (value === "nightBefore" || value === "weddingDay") {

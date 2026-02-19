@@ -215,8 +215,9 @@ const CostCard = ({ cost }: { cost: Cost }) => {
         </div>
         <div className="pt-2 mt-2 border-t border-border/60">
           <span
-            className={`text-sm font-medium ${cost.is_fully_paid ? "text-green-600" : "text-orange-600"
-              }`}
+            className={`text-sm font-medium ${
+              cost.is_fully_paid ? "text-green-600" : "text-orange-600"
+            }`}
           >
             {cost.is_fully_paid ? "✓ Fully Paid" : "Pending Payment"}
           </span>

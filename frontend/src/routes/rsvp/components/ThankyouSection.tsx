@@ -40,7 +40,9 @@ export const ThankyouSection = ({
                 className="max-w-[300px] font-adega text-xl"
                 onClick={onScrollToDetails}
               >
-                {weddingDayValue === "decline" ? "GIFTS" : "GIFTS & FINER DETAILS"}
+                {weddingDayValue === "decline"
+                  ? "GIFTS"
+                  : "GIFTS & FINER DETAILS"}
               </Button>
 
               {/* Scroll to Your Details */}
