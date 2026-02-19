@@ -1,4 +1,5 @@
 import { Trash2Icon } from "lucide-react"
+import { useId } from "react"
 import { useForm } from "react-hook-form"
 import { useSearchParams } from "react-router"
 import { SearchGuests } from "@/components/SearchGuests"
@@ -73,6 +74,8 @@ const LoadingSkeleton = () => {
 }
 
 export const Guests = () => {
+  const partyBrideId = useId()
+  const partyGroomId = useId()
   const {
     register,
     handleSubmit,
@@ -156,8 +159,12 @@ export const Guests = () => {
             Party
           </legend>
           <div className="flex items-center gap-6">
-            <label className="inline-flex items-center gap-2 text-sm">
+            <label
+              htmlFor={partyBrideId}
+              className="inline-flex items-center gap-2 text-sm"
+            >
               <Input
+                id={partyBrideId}
                 type="radio"
                 value="bride"
                 {...register("party", { required: true })}
@@ -165,8 +172,12 @@ export const Guests = () => {
               />
               Bride
             </label>
-            <label className="inline-flex items-center gap-2 text-sm">
+            <label
+              htmlFor={partyGroomId}
+              className="inline-flex items-center gap-2 text-sm"
+            >
               <Input
+                id={partyGroomId}
                 type="radio"
                 value="groom"
                 {...register("party", { required: true })}

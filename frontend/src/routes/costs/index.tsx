@@ -244,6 +244,8 @@ const CostCard = ({ cost }: { cost: Cost }) => {
 
 export const Costs = () => {
   const queryClient = useQueryClient()
+  const addNameId = useId()
+  const addTotalId = useId()
   const {
     register,
     handleSubmit,
@@ -371,13 +373,13 @@ export const Costs = () => {
 
         <div className="mb-4">
           <label
-            htmlFor="cost-name"
+            htmlFor={addNameId}
             className="mb-2 block text-sm font-medium text-foreground"
           >
             Cost name
           </label>
           <Input
-            id="cost-name"
+            id={addNameId}
             {...register("name", { required: true })}
             placeholder="Enter name here"
             inputMode="text"
@@ -393,13 +395,13 @@ export const Costs = () => {
 
         <div className="mb-4">
           <label
-            htmlFor="cost-total"
+            htmlFor={addTotalId}
             className="mb-2 block text-sm font-medium text-foreground"
           >
             Total amount
           </label>
           <Input
-            id="cost-total"
+            id={addTotalId}
             type="number"
             step="0.01"
             {...register("total_amount", {
