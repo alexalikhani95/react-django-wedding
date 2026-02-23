@@ -1,4 +1,5 @@
 import type { Meta, StoryObj } from "@storybook/react-vite"
+import { useId } from "react"
 
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
@@ -19,21 +20,27 @@ export const Default: Story = {
 }
 
 export const WithInput: Story = {
-  render: () => (
-    <div className="grid w-full max-w-sm gap-2">
-      <Label htmlFor="name">Name</Label>
-      <Input id="name" placeholder="Your name" />
-    </div>
-  ),
+  render: () => {
+    const id = useId()
+    return (
+      <div className="grid w-full max-w-sm gap-2">
+        <Label htmlFor={id}>Name</Label>
+        <Input id={id} placeholder="Your name" />
+      </div>
+    )
+  },
 }
 
 export const Required: Story = {
-  render: () => (
-    <div className="grid w-full max-w-sm gap-2">
-      <Label htmlFor="email">
-        Email <span className="text-destructive">*</span>
-      </Label>
-      <Input id="email" type="email" placeholder="you@example.com" required />
-    </div>
-  ),
+  render: () => {
+    const id = useId()
+    return (
+      <div className="grid w-full max-w-sm gap-2">
+        <Label htmlFor={id}>
+          Email <span className="text-destructive">*</span>
+        </Label>
+        <Input id={id} type="email" placeholder="you@example.com" required />
+      </div>
+    )
+  },
 }

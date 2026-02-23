@@ -1,4 +1,5 @@
 import type { Meta, StoryObj } from "@storybook/react-vite"
+import { useId } from "react"
 
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
@@ -29,12 +30,15 @@ type Story = StoryObj<typeof meta>
 export const Default: Story = {}
 
 export const WithLabel: Story = {
-  render: (args) => (
-    <div className="grid w-full max-w-sm gap-2">
-      <Label htmlFor="email">Email</Label>
-      <Input id="email" type="email" {...args} />
-    </div>
-  ),
+  render: (args) => {
+    const id = useId()
+    return (
+      <div className="grid w-full max-w-sm gap-2">
+        <Label htmlFor={id}>Email</Label>
+        <Input id={id} type="email" {...args} />
+      </div>
+    )
+  },
   args: { placeholder: "you@example.com" },
 }
 

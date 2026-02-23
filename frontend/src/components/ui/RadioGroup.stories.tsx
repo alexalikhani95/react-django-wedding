@@ -1,4 +1,5 @@
 import type { Meta, StoryObj } from "@storybook/react-vite"
+import { useId } from "react"
 
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group"
 
@@ -38,65 +39,80 @@ type Story = StoryObj<typeof meta>
  * Default vertical radio group with three options.
  */
 export const Default: Story = {
-  render: (args) => (
-    <RadioGroup {...args} defaultValue="option-one">
-      <div className="flex items-center gap-3">
-        <RadioGroupItem value="option-one" id="option-one" />
-        <label
-          htmlFor="option-one"
-          className="text-sm font-medium cursor-pointer"
-        >
-          Option one
-        </label>
-      </div>
-      <div className="flex items-center gap-3">
-        <RadioGroupItem value="option-two" id="option-two" />
-        <label
-          htmlFor="option-two"
-          className="text-sm font-medium cursor-pointer"
-        >
-          Option two
-        </label>
-      </div>
-      <div className="flex items-center gap-3">
-        <RadioGroupItem value="option-three" id="option-three" />
-        <label
-          htmlFor="option-three"
-          className="text-sm font-medium cursor-pointer"
-        >
-          Option three
-        </label>
-      </div>
-    </RadioGroup>
-  ),
+  render: (args) => {
+    const baseId = useId()
+    return (
+      <RadioGroup {...args} defaultValue="option-one">
+        <div className="flex items-center gap-3">
+          <RadioGroupItem value="option-one" id={`${baseId}-option-one`} />
+          <label
+            htmlFor={`${baseId}-option-one`}
+            className="text-sm font-medium cursor-pointer"
+          >
+            Option one
+          </label>
+        </div>
+        <div className="flex items-center gap-3">
+          <RadioGroupItem value="option-two" id={`${baseId}-option-two`} />
+          <label
+            htmlFor={`${baseId}-option-two`}
+            className="text-sm font-medium cursor-pointer"
+          >
+            Option two
+          </label>
+        </div>
+        <div className="flex items-center gap-3">
+          <RadioGroupItem value="option-three" id={`${baseId}-option-three`} />
+          <label
+            htmlFor={`${baseId}-option-three`}
+            className="text-sm font-medium cursor-pointer"
+          >
+            Option three
+          </label>
+        </div>
+      </RadioGroup>
+    )
+  },
 }
 
 /**
  * Horizontal layout using flex row.
  */
 export const Horizontal: Story = {
-  render: (args) => (
-    <RadioGroup {...args} defaultValue="yes" className="flex flex-row gap-4">
-      <div className="flex items-center gap-2">
-        <RadioGroupItem value="yes" id="yes" />
-        <label htmlFor="yes" className="text-sm font-medium cursor-pointer">
-          Yes
-        </label>
-      </div>
-      <div className="flex items-center gap-2">
-        <RadioGroupItem value="no" id="no" />
-        <label htmlFor="no" className="text-sm font-medium cursor-pointer">
-          No
-        </label>
-      </div>
-      <div className="flex items-center gap-2">
-        <RadioGroupItem value="maybe" id="maybe" />
-        <label htmlFor="maybe" className="text-sm font-medium cursor-pointer">
-          Maybe
-        </label>
-      </div>
-    </RadioGroup>
-  ),
+  render: (args) => {
+    const baseId = useId()
+    return (
+      <RadioGroup {...args} defaultValue="yes" className="flex flex-row gap-4">
+        <div className="flex items-center gap-2">
+          <RadioGroupItem value="yes" id={`${baseId}-yes`} />
+          <label
+            htmlFor={`${baseId}-yes`}
+            className="text-sm font-medium cursor-pointer"
+          >
+            Yes
+          </label>
+        </div>
+        <div className="flex items-center gap-2">
+          <RadioGroupItem value="no" id={`${baseId}-no`} />
+          <label
+            htmlFor={`${baseId}-no`}
+            className="text-sm font-medium cursor-pointer"
+          >
+            No
+          </label>
+        </div>
+        <div className="flex items-center gap-2">
+          <RadioGroupItem value="maybe" id={`${baseId}-maybe`} />
+          <label
+            htmlFor={`${baseId}-maybe`}
+            className="text-sm font-medium cursor-pointer"
+          >
+            Maybe
+          </label>
+        </div>
+      </RadioGroup>
+    )
+  },
 }
 
 /**
@@ -106,26 +122,38 @@ export const Disabled: Story = {
   args: {
     disabled: true,
   },
-  render: (args) => (
-    <RadioGroup {...args} defaultValue="one">
-      <div className="flex items-center gap-2">
-        <RadioGroupItem value="one" id="one" />
-        <label htmlFor="one" className="text-sm font-medium cursor-pointer">
-          One
-        </label>
-      </div>
-      <div className="flex items-center gap-2">
-        <RadioGroupItem value="two" id="two" />
-        <label htmlFor="two" className="text-sm font-medium cursor-pointer">
-          Two
-        </label>
-      </div>
-      <div className="flex items-center gap-2">
-        <RadioGroupItem value="three" id="three" />
-        <label htmlFor="three" className="text-sm font-medium cursor-pointer">
-          Three
-        </label>
-      </div>
-    </RadioGroup>
-  ),
+  render: (args) => {
+    const baseId = useId()
+    return (
+      <RadioGroup {...args} defaultValue="one">
+        <div className="flex items-center gap-2">
+          <RadioGroupItem value="one" id={`${baseId}-one`} />
+          <label
+            htmlFor={`${baseId}-one`}
+            className="text-sm font-medium cursor-pointer"
+          >
+            One
+          </label>
+        </div>
+        <div className="flex items-center gap-2">
+          <RadioGroupItem value="two" id={`${baseId}-two`} />
+          <label
+            htmlFor={`${baseId}-two`}
+            className="text-sm font-medium cursor-pointer"
+          >
+            Two
+          </label>
+        </div>
+        <div className="flex items-center gap-2">
+          <RadioGroupItem value="three" id={`${baseId}-three`} />
+          <label
+            htmlFor={`${baseId}-three`}
+            className="text-sm font-medium cursor-pointer"
+          >
+            Three
+          </label>
+        </div>
+      </RadioGroup>
+    )
+  },
 }
