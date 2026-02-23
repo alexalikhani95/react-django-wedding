@@ -1,17 +1,17 @@
-import type { Meta, StoryObj } from "@storybook/react-vite";
+import type { Meta, StoryObj } from "@storybook/react-vite"
 
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 
 const meta: Meta<typeof Tabs> = {
   title: "ui/Tabs",
   component: Tabs,
   tags: ["autodocs"],
   parameters: { layout: "centered" },
-} satisfies Meta<typeof Tabs>;
+} satisfies Meta<typeof Tabs>
 
-export default meta;
+export default meta
 
-type Story = StoryObj<typeof meta>;
+type Story = StoryObj<typeof meta>
 
 export const Default: Story = {
   render: () => (
@@ -32,7 +32,7 @@ export const Default: Story = {
       </TabsContent>
     </Tabs>
   ),
-};
+}
 
 export const ThreeTabs: Story = {
   render: () => (
@@ -53,4 +53,4 @@ export const ThreeTabs: Story = {
       </TabsContent>
     </Tabs>
   ),
-};
+}

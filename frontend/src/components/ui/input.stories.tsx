@@ -1,7 +1,7 @@
-import type { Meta, StoryObj } from "@storybook/react-vite";
+import type { Meta, StoryObj } from "@storybook/react-vite"
 
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
+import { Input } from "@/components/ui/input"
+import { Label } from "@/components/ui/label"
 
 const meta: Meta<typeof Input> = {
   title: "ui/Input",
@@ -20,13 +20,13 @@ const meta: Meta<typeof Input> = {
     placeholder: "Placeholder",
     disabled: false,
   },
-} satisfies Meta<typeof Input>;
+} satisfies Meta<typeof Input>
 
-export default meta;
+export default meta
 
-type Story = StoryObj<typeof meta>;
+type Story = StoryObj<typeof meta>
 
-export const Default: Story = {};
+export const Default: Story = {}
 
 export const WithLabel: Story = {
   render: (args) => (
@@ -36,12 +36,12 @@ export const WithLabel: Story = {
     </div>
   ),
   args: { placeholder: "you@example.com" },
-};
+}
 
 export const Password: Story = {
   args: { type: "password", placeholder: "Enter password" },
-};
+}
 
 export const Disabled: Story = {
   args: { disabled: true, placeholder: "Disabled input" },
-};
+}

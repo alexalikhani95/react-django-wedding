@@ -1,22 +1,22 @@
-import type { Meta, StoryObj } from "@storybook/react-vite";
+import type { Meta, StoryObj } from "@storybook/react-vite"
 
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
+import { Input } from "@/components/ui/input"
+import { Label } from "@/components/ui/label"
 
 const meta: Meta<typeof Label> = {
   title: "ui/Label",
   component: Label,
   tags: ["autodocs"],
   parameters: { layout: "centered" },
-} satisfies Meta<typeof Label>;
+} satisfies Meta<typeof Label>
 
-export default meta;
+export default meta
 
-type Story = StoryObj<typeof meta>;
+type Story = StoryObj<typeof meta>
 
 export const Default: Story = {
   render: () => <Label>Label text</Label>,
-};
+}
 
 export const WithInput: Story = {
   render: () => (
@@ -25,7 +25,7 @@ export const WithInput: Story = {
       <Input id="name" placeholder="Your name" />
     </div>
   ),
-};
+}
 
 export const Required: Story = {
   render: () => (
@@ -36,4 +36,4 @@ export const Required: Story = {
       <Input id="email" type="email" placeholder="you@example.com" required />
     </div>
   ),
-};
+}

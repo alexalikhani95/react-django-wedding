@@ -1,7 +1,7 @@
-import type { Meta, StoryObj } from "@storybook/react-vite";
-import { Loader2, Mail } from "lucide-react";
+import type { Meta, StoryObj } from "@storybook/react-vite"
+import { Loader2, Mail } from "lucide-react"
 
-import { Button } from "@/components/ui/button";
+import { Button } from "@/components/ui/button"
 
 /**
  * Displays a button or a component that looks like a button.
@@ -49,51 +49,49 @@ const meta: Meta<typeof Button> = {
     children: "Button",
     disabled: false,
   },
-} satisfies Meta<typeof Button>;
+} satisfies Meta<typeof Button>
 
-export default meta;
+export default meta
 
-type Story = StoryObj<typeof meta>;
+type Story = StoryObj<typeof meta>
 
-
-export const Default: Story = {};
+export const Default: Story = {}
 
 export const Primary: Story = {
   args: {
     variant: "primary",
   },
-};
+}
 
 export const Outline: Story = {
   args: {
     variant: "outline",
   },
-};
+}
 
 export const Ghost: Story = {
   args: {
     variant: "ghost",
   },
-};
-
+}
 
 export const Secondary: Story = {
   args: {
     variant: "secondary",
   },
-};
+}
 
 export const Destructive: Story = {
   args: {
     variant: "destructive",
   },
-};
+}
 
 export const Link: Story = {
   args: {
     variant: "link",
   },
-};
+}
 
 export const Loading: Story = {
   render: (args) => (
@@ -106,7 +104,7 @@ export const Loading: Story = {
     ...Outline.args,
     disabled: true,
   },
-};
+}
 
 export const WithIcon: Story = {
   render: (args) => (
@@ -117,19 +115,19 @@ export const WithIcon: Story = {
   args: {
     ...Secondary.args,
   },
-};
+}
 
 export const Small: Story = {
   args: {
     size: "sm",
   },
-};
+}
 
 export const Large: Story = {
   args: {
     size: "lg",
   },
-};
+}
 
 export const Icon: Story = {
   args: {
@@ -138,10 +136,10 @@ export const Icon: Story = {
     title: "Mail",
     children: <Mail />,
   },
-};
+}
 
 export const Disabled: Story = {
   args: {
     disabled: true,
   },
-};
+}

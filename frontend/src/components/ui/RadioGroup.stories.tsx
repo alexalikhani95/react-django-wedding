@@ -1,6 +1,6 @@
-import type { Meta, StoryObj } from "@storybook/react-vite";
+import type { Meta, StoryObj } from "@storybook/react-vite"
 
-import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
+import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group"
 
 /**
  * A set of checkable buttons—known as radio items—where no more than one of
@@ -13,7 +13,8 @@ const meta: Meta<typeof RadioGroup> = {
   argTypes: {
     disabled: {
       control: "boolean",
-      description: "When true, prevents the user from interacting with the group.",
+      description:
+        "When true, prevents the user from interacting with the group.",
     },
     orientation: {
       control: "select",
@@ -27,11 +28,11 @@ const meta: Meta<typeof RadioGroup> = {
   args: {
     disabled: false,
   },
-} satisfies Meta<typeof RadioGroup>;
+} satisfies Meta<typeof RadioGroup>
 
-export default meta;
+export default meta
 
-type Story = StoryObj<typeof meta>;
+type Story = StoryObj<typeof meta>
 
 /**
  * Default vertical radio group with three options.
@@ -41,25 +42,34 @@ export const Default: Story = {
     <RadioGroup {...args} defaultValue="option-one">
       <div className="flex items-center gap-3">
         <RadioGroupItem value="option-one" id="option-one" />
-        <label htmlFor="option-one" className="text-sm font-medium cursor-pointer">
+        <label
+          htmlFor="option-one"
+          className="text-sm font-medium cursor-pointer"
+        >
           Option one
         </label>
       </div>
       <div className="flex items-center gap-3">
         <RadioGroupItem value="option-two" id="option-two" />
-        <label htmlFor="option-two" className="text-sm font-medium cursor-pointer">
+        <label
+          htmlFor="option-two"
+          className="text-sm font-medium cursor-pointer"
+        >
           Option two
         </label>
       </div>
       <div className="flex items-center gap-3">
         <RadioGroupItem value="option-three" id="option-three" />
-        <label htmlFor="option-three" className="text-sm font-medium cursor-pointer">
+        <label
+          htmlFor="option-three"
+          className="text-sm font-medium cursor-pointer"
+        >
           Option three
         </label>
       </div>
     </RadioGroup>
   ),
-};
+}
 
 /**
  * Horizontal layout using flex row.
@@ -87,7 +97,7 @@ export const Horizontal: Story = {
       </div>
     </RadioGroup>
   ),
-};
+}
 
 /**
  * Entire group is disabled.
@@ -118,4 +128,4 @@ export const Disabled: Story = {
       </div>
     </RadioGroup>
   ),
-};
+}

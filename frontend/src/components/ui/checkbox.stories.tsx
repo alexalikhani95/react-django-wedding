@@ -1,7 +1,7 @@
-import type { Meta, StoryObj } from "@storybook/react-vite";
+import type { Meta, StoryObj } from "@storybook/react-vite"
 
-import { Checkbox } from "@/components/ui/checkbox";
-import { Label } from "@/components/ui/label";
+import { Checkbox } from "@/components/ui/checkbox"
+import { Label } from "@/components/ui/label"
 
 const meta: Meta<typeof Checkbox> = {
   title: "ui/Checkbox",
@@ -12,25 +12,25 @@ const meta: Meta<typeof Checkbox> = {
     disabled: { control: "boolean" },
   },
   parameters: { layout: "centered" },
-} satisfies Meta<typeof Checkbox>;
+} satisfies Meta<typeof Checkbox>
 
-export default meta;
+export default meta
 
-type Story = StoryObj<typeof meta>;
+type Story = StoryObj<typeof meta>
 
-export const Default: Story = {};
+export const Default: Story = {}
 
 export const Checked: Story = {
   args: { checked: true },
-};
+}
 
 export const Disabled: Story = {
   args: { disabled: true },
-};
+}
 
 export const DisabledChecked: Story = {
   args: { disabled: true, checked: true },
-};
+}
 
 export const WithLabel: Story = {
   render: (args) => (
@@ -41,4 +41,4 @@ export const WithLabel: Story = {
       </Label>
     </div>
   ),
-};
+}
