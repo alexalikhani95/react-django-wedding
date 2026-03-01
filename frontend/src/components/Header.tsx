@@ -33,7 +33,12 @@ export const Header = ({ setAccessCode }: Props) => {
         <div className="flex flex-1 justify-between">
           <div className="flex gap-3">
             {links.map(({ to, label }) => (
-              <NavLink key={to} to={to} className={navLinkClass} end={to === "/"}>
+              <NavLink
+                key={to}
+                to={to}
+                className={navLinkClass}
+                end={to === "/"}
+              >
                 {label}
               </NavLink>
             ))}
