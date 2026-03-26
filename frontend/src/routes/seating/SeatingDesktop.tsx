@@ -44,6 +44,23 @@ const GuestItem = ({ guest }: { guest: Guest }) => {
   )
 }
 
+const SeatedGuestItem = ({ guest }: { guest: Guest }) => {
+  const { attributes, listeners, setNodeRef, isDragging } = useDraggable({
+    id: `guest-${guest.id}`,
+  })
+
+  return (
+    <div
+      ref={setNodeRef}
+      {...listeners}
+      {...attributes}
+      className={`text-card-foreground text-sm cursor-grab active:cursor-grabbing ${isDragging ? "opacity-60" : ""}`}
+    >
+      {guest.name}
+    </div>
+  )
+}
+
 const LoadingSkeleton = () => {
   return (
     <div className="flex gap-8 h-[calc(100vh-180px)] overflow-hidden px-4">
@@ -120,7 +137,7 @@ const SeatBox = ({
         ref={setNodeRef}
         className={`bg-card border border-border cursor-pointer p-3 mx-1 rounded-lg shadow-md h-[50px] relative w-[80px] flex items-center justify-center ${isOver ? "border-primary" : ""}`}
       >
-        <p className="text-card-foreground text-sm">{guest.name}</p>
+        <SeatedGuestItem guest={guest} />
         {onRemoveGuest && (
           <button
             onClick={() => onRemoveGuest(guest.id)}
@@ -187,25 +204,32 @@ export const SeatingDesktop = () => {
 
   const handleDragStart = (event: DragStartEvent) => {
     const id = String(event.active.id)
-    if (id.startsWith("guest-")) {
-      const guestId = parseInt(id.replace("guest-", ""), 10)
-      const guest = guests?.find((g) => g.id === guestId) || null
-      setActiveGuest(guest)
-    }
+    if (!id.startsWith("guest-")) return
+
+    const guestId = parseInt(id.replace("guest-", ""), 10)
+    const guest = guests?.find((g) => g.id === guestId) || null
+    setActiveGuest(guest)
   }
 
   const handleDragEnd = (event: DragEndEvent) => {
     const { active, over } = event
-    if (!over) return
+    if (!over) {
+      setActiveGuest(null)
+      return
+    }
 
     const activeId = String(active.id)
     const overId = String(over.id)
 
-    if (!activeId.startsWith("guest-") || !overId.startsWith("seat-")) return
+    if (!activeId.startsWith("guest-") || !overId.startsWith("seat-")) {
+      setActiveGuest(null)
+      return
+    }
 
     const guestId = parseInt(activeId.replace("guest-", ""), 10)
     const seatId = parseInt(overId.replace("seat-", ""), 10)
     assignSeatMutation.mutate({ guestId, seatId })
+    setActiveGuest(null)
   }
 
   const handleRemoveGuest = (guestId: number) => {
