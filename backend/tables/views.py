@@ -39,17 +39,78 @@ class AssignSeat(generics.UpdateAPIView):
             )
 
         with transaction.atomic():
-            # Assign guest to seat
-            seat.guest = guest
-            seat.save()
+            # Local helpers to keep swap logic readable without changing behavior.
+            def unseat(seat_obj: Seat) -> None:
+                seat_obj.guest = None
+                seat_obj.save(update_fields=["guest"])
 
-            # Update guest's table and seat_number fields
-            guest.table = seat.table
-            guest.seat_number = seat.seat_number
-            guest.save()
+            def seat_guest(seat_obj: Seat, guest_obj: Guest) -> None:
+                seat_obj.guest = guest_obj
+                seat_obj.save(update_fields=["guest"])
+
+            def set_guest_location(
+                guest_obj: Guest,
+                table_obj: Table | None,
+                seat_number: int | None,
+            ) -> None:
+                guest_obj.table = table_obj
+                guest_obj.seat_number = seat_number
+                guest_obj.save(update_fields=["table", "seat_number"])
+
+            # Lock rows involved in the reassignment to keep swaps consistent.
+            target_seat = Seat.objects.select_for_update().get(pk=seat.pk)
+            moving_guest = Guest.objects.select_for_update().get(pk=guest.pk)
+
+            # Seat where the moving guest currently sits (if any).
+            source_seat = (
+                Seat.objects.select_for_update()
+                .filter(guest=moving_guest)
+                .exclude(pk=target_seat.pk)
+                .first()
+            )
+
+            target_guest = target_seat.guest
+            swapped_guest_id = None
+
+            # If dropping onto an occupied seat:
+            # - If moving_guest was already seated somewhere else, we do a swap.
+            # - If moving_guest was unseated, we displace (unseat) the target_guest.
+            if target_guest and target_guest.id != moving_guest.id:
+                target_guest = Guest.objects.select_for_update().get(pk=target_guest.id)
+                swapped_guest_id = target_guest.id
+
+                if source_seat:
+                    # Swap: temporarily unseat the moving guest to avoid violating
+                    # the Guest unique constraint on (table, seat_number).
+                    unseat(source_seat)
+                    set_guest_location(moving_guest, None, None)
+
+                    # Move the displaced guest into the now-empty source seat.
+                    seat_guest(source_seat, target_guest)
+                    set_guest_location(
+                        target_guest,
+                        source_seat.table,
+                        source_seat.seat_number,
+                    )
+                else:
+                    # Displace: unseat the target guest.
+                    unseat(target_seat)
+                    set_guest_location(target_guest, None, None)
+
+            # If the moving guest was seated elsewhere, clear that seat (after swap/displace).
+            if source_seat and source_seat.guest_id == moving_guest.id:
+                unseat(source_seat)
+
+            # Finally, seat the moving guest on the target seat.
+            seat_guest(target_seat, moving_guest)
+            set_guest_location(
+                moving_guest,
+                target_seat.table,
+                target_seat.seat_number,
+            )
 
         return Response(
-            {"seat_id": seat.id, "guest_id": guest.id},
+            {"seat_id": seat.id, "guest_id": guest.id, "swapped_guest_id": swapped_guest_id},
             status=status.HTTP_200_OK
         )
 

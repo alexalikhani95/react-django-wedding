@@ -143,20 +143,38 @@ export const useAssignSeat = () => {
       await queryClient.cancelQueries({ queryKey: guests })
 
       const previousTables = queryClient.getQueryData<Table[]>(["tables"])
+      let swappedGuestId: number | null = null
+      let sourceSeatId: number | null = null
+      let sourceTableId: number | null = null
+      let targetTableId: number | null = null
 
       if (previousTables) {
+        for (const table of previousTables) {
+          for (const seat of table.seats) {
+            if (seat.guest_id === guestId) {
+              sourceSeatId = seat.id
+              sourceTableId = table.id
+            }
+            if (seat.id === seatId) {
+              swappedGuestId = seat.guest_id
+              targetTableId = table.id
+            }
+          }
+        }
+
         const newTables = previousTables.map((table) => ({
           ...table,
           seats: table.seats.map((seat) => {
-            if (seat.guest_id === guestId) {
-              return { ...seat, guest_id: null }
-            }
             if (seat.id === seatId) {
               return { ...seat, guest_id: guestId }
+            }
+            if (sourceSeatId && seat.id === sourceSeatId) {
+              return { ...seat, guest_id: swappedGuestId }
             }
             return seat
           }),
         }))
+
         queryClient.setQueryData(["tables"], newTables)
       }
 
@@ -165,10 +183,10 @@ export const useAssignSeat = () => {
       if (previousGuests) {
         const newGuests = previousGuests.map((guest) => {
           if (guest.id === guestId) {
-            const targetTable = previousTables?.find((table) =>
-              table.seats.some((seat) => seat.id === seatId),
-            )
-            return { ...guest, table: targetTable ? targetTable.id : null }
+            return { ...guest, table: targetTableId }
+          }
+          if (guest.id === swappedGuestId) {
+            return { ...guest, table: sourceTableId }
           }
           return guest
         })
