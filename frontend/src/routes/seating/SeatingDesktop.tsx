@@ -316,7 +316,7 @@ export const SeatingDesktop = () => {
 
             {/* Tables */}
             <div className="flex-1 overflow-y-auto pr-2">
-              <div className="grid gap-10 auto-rows-min items-start pt-10 grid-cols-[repeat(auto-fit,minmax(500px,1fr))]">
+              <div className="grid gap-10 auto-rows-min items-start pt-10 grid-cols-[repeat(2,minmax(500px,1fr))]">
                 {tables?.map((table: Table) => {
                   const seats = table.seats
                   return (
