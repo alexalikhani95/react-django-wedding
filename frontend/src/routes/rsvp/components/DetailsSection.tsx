@@ -53,7 +53,7 @@ export const DetailsSection = ({ nightBeforeAccess, ref }: Props) => {
 
         <p className="max-w-[420px] text-xl font-evafiya mb-4">
           If you would like to book a room at Burley Manor please quote:
-          BMW140626 when making your reservation by calling the reservations
+          BMW140826 when making your reservation by calling the reservations
           team on: 0800444441, or click the link below
         </p>
 
