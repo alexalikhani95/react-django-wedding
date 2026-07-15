@@ -25,7 +25,7 @@ export const DetailsSection = ({ nightBeforeAccess, ref }: Props) => {
           appreciate a contribution to our honeymoon
         </p>
         <a
-          href="https://app.collectionpot.com/pot/3417854"
+          href="https://app.collectionpot.com/pot/thealikhaniwedding"
           target="_blank"
           className={`w-[200px] font-adega text-xl border-1 p-2 ${nightBeforeAccess ? "border-beige" : "border-forest-green"}`}
           rel="noopener"
