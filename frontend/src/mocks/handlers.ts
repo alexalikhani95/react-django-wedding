@@ -52,6 +52,25 @@ const mockTables = [
   },
 ]
 
+const mockCosts = [
+  {
+    id: 1,
+    name: "Venue",
+    total_amount: 5000,
+    paid_amount: 5000,
+    remaining_amount: 0,
+    is_fully_paid: true,
+  },
+  {
+    id: 2,
+    name: "Catering",
+    total_amount: 3000,
+    paid_amount: 1000,
+    remaining_amount: 2000,
+    is_fully_paid: false,
+  },
+]
+
 export const handlers = [
   http.get(`${API_URL}/api/guests/list/`, () => {
     return HttpResponse.json(mockGuests)
@@ -61,5 +80,8 @@ export const handlers = [
   }),
   http.get(`${API_URL}/api/tables/list/`, () => {
     return HttpResponse.json(mockTables)
+  }),
+  http.get(`${API_URL}/api/costs/list/`, () => {
+    return HttpResponse.json(mockCosts)
   }),
 ]
