@@ -35,6 +35,13 @@ type Props = {
   access: string
 }
 
+const STARTER_OPTIONS: Inputs["starter"][] = ["tomato", "antipasti"]
+const MAIN_OPTIONS: Inputs["main"][] = ["croute", "risotto"]
+const DESSERT_OPTIONS: Inputs["dessert"][] = ["tart", "jelly"]
+
+const pickRandom = <T,>(options: T[]): T =>
+  options[Math.floor(Math.random() * options.length)]
+
 const RsvpScreen = ({ access }: Props) => {
   const yourDetailsRef = useRef<HTMLDivElement | null>(null)
   const detailsRef = useRef<HTMLDivElement | null>(null)
@@ -65,6 +72,7 @@ const RsvpScreen = ({ access }: Props) => {
 
   const allergiesValue = watch("allergies")
   const weddingDayValue = watch("weddingDay")
+  const hideMealChoices = access === "weddingDayNoMeals"
 
   // Scroll to thank you section when it becomes visible
   useEffect(() => {
@@ -78,6 +86,8 @@ const RsvpScreen = ({ access }: Props) => {
 
   const mutation = useMutation({
     mutationFn: async (data: Inputs) => {
+      const randomizeMeal = hideMealChoices && data.weddingDay === "accept"
+
       const response = await fetch(`${API_URL}/api/rsvp/create/`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -87,9 +97,9 @@ const RsvpScreen = ({ access }: Props) => {
           night_before: data.nightBefore,
           wedding_day: data.weddingDay,
 
-          starter: data.starter,
-          main: data.main,
-          dessert: data.dessert,
+          starter: randomizeMeal ? pickRandom(STARTER_OPTIONS) : data.starter,
+          main: randomizeMeal ? pickRandom(MAIN_OPTIONS) : data.main,
+          dessert: randomizeMeal ? pickRandom(DESSERT_OPTIONS) : data.dessert,
 
           allergies: data.allergies,
           allergy_notes: data.allergyNotes,
@@ -190,6 +200,7 @@ const RsvpScreen = ({ access }: Props) => {
             register={register}
             allergiesValue={allergiesValue}
             weddingDayValue={weddingDayValue}
+            hideMealChoices={hideMealChoices}
           />
         )}
 
