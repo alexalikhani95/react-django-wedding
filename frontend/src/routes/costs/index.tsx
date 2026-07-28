@@ -1,9 +1,11 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query"
 import { useId, useState } from "react"
 import { type SubmitHandler, useForm } from "react-hook-form"
+import { useSearchParams } from "react-router"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Skeleton } from "@/components/ui/skeleton"
+import CostsTabs from "./components/CostsTabs"
 
 const API_URL = import.meta.env.VITE_API_URL
 
@@ -244,6 +246,7 @@ const CostCard = ({ cost }: { cost: Cost }) => {
 
 export const Costs = () => {
   const queryClient = useQueryClient()
+  const [searchParams] = useSearchParams()
   const addNameId = useId()
   const addTotalId = useId()
   const {
@@ -355,6 +358,11 @@ export const Costs = () => {
   const onSubmit: SubmitHandler<Inputs> = (data) => {
     addMutation.mutate(data)
   }
+
+  const view = searchParams.get("view") || "unpaid"
+  const visibleCosts = (costs ?? []).filter((cost: Cost) =>
+    view === "paid" ? cost.is_fully_paid : !cost.is_fully_paid,
+  )
 
   return (
     <div className="flex flex-col items-center text-foreground">
@@ -469,8 +477,16 @@ export const Costs = () => {
               </div>
             </div>
           </div>
-          <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3 w-full max-w-6xl">
-            {costs.map((cost: Cost) => (
+
+          <CostsTabs />
+
+          <div className="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-3 w-full max-w-6xl">
+            {visibleCosts.length === 0 && (
+              <p className="text-sm text-muted-foreground">
+                {view === "paid" ? "No paid costs yet." : "No unpaid costs."}
+              </p>
+            )}
+            {visibleCosts.map((cost: Cost) => (
               <CostCard key={cost.id} cost={cost} />
             ))}
           </div>
